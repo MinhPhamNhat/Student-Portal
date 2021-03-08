@@ -11,6 +11,7 @@ To use Git, you must have Git installation on your computer. If not, follow seve
 2. Install Git on your computer.
 
 ## Create Project and access to Student Portal project
+Create a directory on your computer. Then right click on it and select "Git Bash here".
 
 To get access to project, if you are not in project member, ask project administrator for more information.
 
