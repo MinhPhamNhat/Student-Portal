@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+        rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+    body, html {
+        height: 100%;
+        background-repeat: no-repeat;
+        background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    }
+    
+    .profile-header-container{
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .profile-header-img {
+        padding: 54px;
+    }
+
+    .profile-header-img > img.img-circle {
+        width: 120px;
+        height: 120px;
+        border: 2px solid #51D2B7;
+    }
+
+    .profile-header {
+        margin-top: 43px;
+    }
+
+
+    .type-label-container {
+        margin-top: -19px;
+        text-align: center;
+    }
+
+    .label.label-default.type-label {
+        background-color: rgb(81, 210, 183);
+        padding: 5px 10px 5px 10px;
+        border-radius: 27px;
+    }
+
+    .profile-name{
+        color: rgb(rgb(61, 1, 51), green, blue)
+    }
+
+    .profile-email{
+        color: rgb(rgb(61, 1, 51), green, blue)
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="profile-header-container">
+                <div class="profile-header-img">
+                    <img class="img-circle" src="<%=user.avatar%>" />
+                    <div class="type-label-container">
+                        <span class="label label-default type-label"><%=user.organization%></span>
+                    </div>
+                    <div class="profile-name">
+                        <h2><b><%=user.name%></b></h2>
+                    </div>
+                    <div class="profile-email">
+                        <b><%=user.email%></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
