@@ -20,7 +20,7 @@ To get access to project, if you are not in project member, ask project administ
 git config --global user.name "<Your name>"
 git config --global user.email "<Your email>"
 ```
-### Access to project
+### Access and clone project
 ```
 git clone https://gitlab.com/MinhPhamNhat/student-portal.git
 cd student-portal
