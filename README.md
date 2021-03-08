@@ -23,6 +23,7 @@ git config --global user.email "<Your email>"
 ```
 git clone https://gitlab.com/MinhPhamNhat/student-portal.git
 cd student-portal
+```
 
 ### Add new file
 ```
