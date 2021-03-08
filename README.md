@@ -12,4 +12,28 @@ To use Git, you must have Git installation on your computer. If not, follow seve
 
 ## Create Project and access to Student Portal project
 
-Create a dicretory on your computer name "student-portal". Then
+To get access to project, if you are not in project member, ask project administrator for more information.
+
+### Global setup
+```
+git config --global user.name "<Your name>"
+git config --global user.email "<Your email>"
+```
+### Create a new repository
+```
+git clone https://gitlab.com/MinhPhamNhat/student-portal.git
+cd student-portal
+
+### Add new file
+```
+touch README.md
+git add README.md
+```
+
+### Commit file and push to repository
+```
+git commit -m "<Your message>"
+git push -u origin master
+```
+
+
