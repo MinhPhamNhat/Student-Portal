@@ -1,62 +1,94 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="/stylesheets/style.css" rel="stylesheet">
 </head>
-<style>
-    
-    html, body {
-        height: 100%;
-    }
-    body{
-        margin: 0;
-        padding: 0;
-        background: url("https://thietbiketnoi.com/wp-content/uploads/2020/01/tong-hop-hinh-nen-background-vector-designer-dep-do-phan-giai-fhd-2k-4k-moi-nhat-2.jpg") no-repeat ;
-        background-attachment: fixed;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-    .box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        background-color: rgba(46, 8, 8, 0.342);
-        border-radius: 50px;
-        padding: 25px;
-
-    }
-    .title{
-        color: aliceblue;
-        font-size: 25px;
-    }
-    .signin-btn a{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: whitesmoke;
-        padding: 20px;
-        border-radius: 40px;
-        text-decoration: none;
-        color: black;
-    }
-    .signin-btn a img{
-        height: auto; 
-        width: auto; 
-        max-width: 50px; 
-        max-height: 50px;
-        margin-right: 10px;
-    }
-</style>
 <body>
-    <div class="box">
-        <div class="title"><h3>Sign in account</h3></div>
-        
-        <div class="signin-btn"><a href="/google"><img id="logo" src="google-logo.png"><p>Sign in with Google</p></a></div>
-    </div>
+        <section class="login-block">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-4 login-sec">
+                    <h2 class="text-center">Login Now</h2>
+                    <form class="login-form">
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="text-uppercase">Username</label>
+            <input type="text" class="form-control" placeholder="">
+            
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1" class="text-uppercase">Password</label>
+            <input type="password" class="form-control" placeholder="">
+          </div>
+          
+          
+            <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input">
+              <small>Remember Me</small>
+            </label>
+            <button type="submit" class="btn btn-login float-right">Submit</button>
+          </div>
+          
+        </form>
+        <div class="signin-btn"><a href="/account/google"><img src="images/google-logo.png"><p>Sign in with Google</p></a></div>
+        <% if(locals.message) { %>
+        <div style="display: none" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= message %>
+        </div>
+        <script>
+            $(".alert").fadeTo(5000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+        </script>
+        <% } %>
+        <div class="copy-text">Created with <i class="fa fa-heart"></i> by Grafreez</div>
+                </div>
+                <div class="col-md-8 banner-sec">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                         <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                          </ol>
+                    <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img class="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                    <h2>This is Heaven</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>	
+          </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="https://images.pexels.com/photos/7097/people-coffee-tea-meeting.jpg" alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                    <h2>This is Heaven</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>	
+            </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="https://images.pexels.com/photos/872957/pexels-photo-872957.jpeg" alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                    <h2>This is Heaven</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>	
+            </div>
+          </div>
+                    </div>	   
+                    
+                </div>
+            </div>
+        </div>
+        </section>
     
 </body>
 </html>

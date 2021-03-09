@@ -60,13 +60,16 @@
                 <div class="profile-header-img">
                     <img class="img-circle" src="<%=user.avatar%>" />
                     <div class="type-label-container">
-                        <span class="label label-default type-label"><%=user.organization%></span>
+                        <span class="label label-default type-label"><%=user.role%></span>
                     </div>
                     <div class="profile-name">
                         <h2><b><%=user.name%></b></h2>
                     </div>
                     <div class="profile-email">
                         <b><%=user.email%></b>
+                    </div>
+                    <div class="profile-email">
+                        Ngày tạo: <b><%=user.initialTime%></b>
                     </div>
                 </div>
             </div>
