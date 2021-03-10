@@ -4,11 +4,16 @@ const postSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     content: String,
     postTime: Date,
-    poster: String,
-    picture: String,
-    video: String,
-    likes: Number,
-    comments: Number
+    author: String,
+    attach: {    
+        picture: String,
+        video: String,
+    },
+    comments: [{ body: String, date: Date, author: String }],
+    meta: {
+        likes: Number,
+        comments: Number,
+    }
 });
 
 module.exports = mongoose.model('Post', postSchema)
