@@ -45,7 +45,6 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
         if (req.user._json.hd !== 'student.tdtu.edu.vn') {
             return res.status(200).render('index', { message: "You must use <strong>Student email</strong> to sign in." })
         }
-
         // Check if student already in database
         await Student.find({ email: req.user._json.email }, async(err, doc) => {
             if (err) {
@@ -76,7 +75,7 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
                 } else {
                     console.log("Already have " + req.user._json.name + " in MongoDB")
                     res.cookie('session_id', req.user._json.sub)
-                    res.render('newfeed')
+                    res.redirect('/newfeed')
                 }
                 CURRENT_USER = req.user._json.sub
             }
@@ -107,8 +106,14 @@ app.get('/user', validateCookies, (req, res, next) => {
 app.get('/newfeed', validateCookies, async(req, res, next) => {
     var posts = await Post.find()
         .exec()
-        .then(docs => {})
-        .catch()
+        .then(docs => {
+            if (!docs.length){
+                res.send({message: "No post"})
+            }else{
+                res.render('newfeed', {docs})
+            }
+        })
+        .catch(console.log)
 })
 
 // POST/ Post status to newfeed

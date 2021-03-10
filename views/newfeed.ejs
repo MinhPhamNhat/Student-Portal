@@ -710,7 +710,8 @@
                         <!-- share box end -->
 
                         <!-- post status start -->
-                        <div class="card">
+                        
+                            <div class="card">
                             <!-- post title start -->
                             <div class="post-title d-flex align-items-center">
                                 <!-- profile picture end -->
@@ -741,7 +742,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <!-- post title start -->
                             <div class="post-content">
                                 <p class="post-desc">
@@ -778,7 +778,8 @@
                             </div>
                         </div>
                         <!-- post status end -->
-
+                        <% docs.forEach((value, index)=>{%>
+                        
                         <!-- post status start -->
                         <div class="card">
                             <!-- post title start -->
@@ -795,7 +796,7 @@
 
                                 <div class="posted-author">
                                     <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Jon Wileyam</a></h6>
-                                    <span class="post-time">15 min ago</span>
+                                    <span class="post-time"><%= value.initialTime %></span>
                                 </div>
 
                                 <div class="post-settings-bar">
@@ -814,8 +815,7 @@
                             <!-- post title start -->
                             <div class="post-content">
                                 <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for
+                                    <%= value.content %>
                                 </p>
                                 <div class="post-meta">
                                     <button class="post-meta-like">
@@ -840,6 +840,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <%})%>
                         <!-- post status end -->
 
                         <!-- post status start -->
