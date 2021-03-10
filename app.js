@@ -103,21 +103,28 @@ app.get('/user', validateCookies, (req, res, next) => {
             })
     })
     // GET/ go to newfeed page
-app.get('/newfeed', validateCookies, async(req, res, next) => {
+app.get('/newfeed', async (req, res, next) => {
     var posts = await Post.find()
+        .sort({date: 'desc'})
         .exec()
-        .then(docs => {
+        .then(async docs => {
             if (!docs.length){
-                res.send({message: "No post"})
+                res.json({message: "No post"})
             }else{
-                res.render('newfeed', {docs})
+                var data = docs.map(async value => {
+                    return Student.find({_id: mongoose.Types.ObjectId(value.author)})
+                    .exec()
+                    .then(result => {return {post: value, author: result[0]}})
+                    .catch(console.log)
+                }); 
+                res.render('newfeed', {data: await Promise.all(data.reverse())})
             }
         })
         .catch(console.log)
 })
 
 // POST/ Post status to newfeed
-app.post('/status', validateCookies, async(req, res, next) => {
+app.post('/status', async(req, res, next) => {
         console.log("SUB:" + req.body.poster)
         await Student.find({ sub: req.body.poster }, (err, doc) => {
             console.log(doc)
@@ -130,13 +137,23 @@ app.post('/status', validateCookies, async(req, res, next) => {
                             _id: mongoose.Types.ObjectId(),
                             content: req.body.content,
                             postTime: new Date(),
-                            poster: doc[0]._id,
-                            likes: 0,
-                            comments: 0
+                            author: mongoose.Types.ObjectId(doc[0]._id),
+                            attach: {    
+                                picture: '',
+                                video: '',
+                            },
+                            comments: [],
+                            meta: {
+                                likes: 0,
+                                comments: 0,
+                            }
                         }).save()
                         .then((result) => {
-                            console.log(result)
-                            res.status(200).json(result)
+                            var author = Student.find({_id: mongoose.Types.ObjectId(result.author)})
+                            .exec()
+                            .then(std => {res.status(200).json({post: result, author: std[0]}) })
+                            .catch(console.log)
+                            
                         })
                         .catch(err => {
                             console.log(err)

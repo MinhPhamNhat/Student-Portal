@@ -208,15 +208,77 @@
 
 
 function postStatus (){
+	$("#textbox").modal("hide")
     var status = $("#share-your-mood").val();
     var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1]; 
-console.log(cookieValue)
 
     $.post("http://localhost:8080/status", 
     {
         poster: cookieValue,
         content: status
     }, function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
+		
+        if (status === 'success'){
+			data = JSON.parse(JSON.stringify(data))
+			console.log(data.author)
+			var tag = `
+			<!-- post status start -->
+                        <div class="card">
+                            <!-- post title start -->
+                            <div class="post-title d-flex align-items-center">
+                                <!-- profile picture end -->
+                                <div class="profile-thumb">
+                                    <a href="">
+                                        <figure class="profile-thumb-middle">
+                                            <img src="`+data.author.avatar+`" alt="profile picture">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <!-- profile picture end -->
+
+                                <div class="posted-author">
+                                    <h6 class="author"><a href="">` +  data.author.name+ `</a></h6>
+                                    <span class="post-time">` +  data.post.postTime.toLocaleString("en-US") + `</span>
+                                </div>
+
+                                <div class="post-settings-bar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <div class="post-settings arrow-shape">
+                                        <ul>
+                                            <li><button>copy link to adda</button></li>
+                                            <li><button>edit post</button></li>
+                                            <li><button>embed adda</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- post title start -->
+                            <div class="post-content">
+                                <p class="post-desc pb-0">
+                                    ` +  data.post.content + `
+                                </p>
+                                <div class="post-meta">
+                                    <button class="post-meta-like">
+                                        <i class="bi bi-heart-beat"></i>
+                                        <span></span>
+                                        
+                                    </button>
+                                    <ul class="comment-share-meta">
+                                        <li>
+                                            <button class="post-comment">
+                                                <i class="bi bi-chat-bubble"></i>
+                                                <span>` +  !data.post.meta.comments?0:data.post.meta.likes + `</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+						<!-- post status end -->`
+			console.log(tag)
+			$(".main-body").prepend()
+		}
     })
 }
