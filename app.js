@@ -12,7 +12,7 @@ mongoose.connect("mongodb+srv://admin:3rdgC9NLKTV1PYd3@node-rest-student-porta.0
 })
 const Student = require('./models/student')
 const Post = require('./models/post')
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
 const app = express();
 
