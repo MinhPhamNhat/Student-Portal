@@ -54,16 +54,18 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
             } else {
                 // Add new student if not
                 if (!doc.length) {
-                    await new Student({
-                            _id: mongoose.Types.ObjectId(),
-                            name: req.user._json.name,
-                            sub: req.user._json.sub,
-                            email: req.user._json.email,
-                            avatar: req.user._json.picture,
-                            initialTime: new Date()
-                        }).save()
+                    var student = {
+                        _id: mongoose.Types.ObjectId(),
+                        name: req.user._json.name,
+                        sub: req.user._json.sub,
+                        email: req.user._json.email,
+                        avatar: req.user._json.picture,
+                        initialTime: new Date()
+                    }
+                    await new Student(student).save()
                         .then(() => {
-                            res.render('profile', { user: doc[0] })
+
+                            res.render('profile', { user: student })
                         })
                         .catch(err => {
                             console.log(err)
