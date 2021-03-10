@@ -38,6 +38,10 @@ app.use(passport.initialize())
 // Put your code down below
 
 // google login
+
+app.get('/header', (req, res) => {
+    res.render('header')
+})
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // goole callback
@@ -107,6 +111,7 @@ app.get('/newfeed', async (req, res, next) => {
     var posts = await Post.find()
         .sort({date: 'desc'})
         .exec()
+<<<<<<< HEAD
         .then(async docs => {
             if (!docs.length){
                 res.json({message: "No post"})
@@ -118,6 +123,13 @@ app.get('/newfeed', async (req, res, next) => {
                     .catch(console.log)
                 }); 
                 res.render('newfeed', {data: await Promise.all(data.reverse())})
+=======
+        .then(docs => {
+            if (!docs.length) {
+                res.send({ message: "No post" })
+            } else {
+                res.render('newfeed', { docs })
+>>>>>>> bce3115984289ac95634ec3f74edef03e8d27283
             }
         })
         .catch(console.log)
