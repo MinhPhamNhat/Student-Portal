@@ -38,6 +38,10 @@ app.use(passport.initialize())
 // Put your code down below
 
 // google login
+
+app.get('/header', (req, res) => {
+    res.render('header')
+})
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // goole callback
@@ -107,10 +111,10 @@ app.get('/newfeed', validateCookies, async(req, res, next) => {
     var posts = await Post.find()
         .exec()
         .then(docs => {
-            if (!docs.length){
-                res.send({message: "No post"})
-            }else{
-                res.render('newfeed', {docs})
+            if (!docs.length) {
+                res.send({ message: "No post" })
+            } else {
+                res.render('newfeed', { docs })
             }
         })
         .catch(console.log)
