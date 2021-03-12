@@ -17,7 +17,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 var CURRENT_USER = '';
-
+var USER_OBJ = '';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -56,23 +56,22 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
                 res.status(500).json({ message: err })
             } else {
                 // Add new student if not
+                var student = {
+                    _id: mongoose.Types.ObjectId(),
+                    name: req.user._json.name,
+                    sub: req.user._json.sub,
+                    email: req.user._json.email,
+                    avatar: req.user._json.picture,
+                    initialTime: new Date()
+                }
                 if (!doc.length) {
-                    var student = {
-                        _id: mongoose.Types.ObjectId(),
-                        name: req.user._json.name,
-                        sub: req.user._json.sub,
-                        email: req.user._json.email,
-                        avatar: req.user._json.picture,
-                        initialTime: new Date()
-                    }
                     await new Student(student).save()
                         .then(() => {
-
+                            res.cookie('session_id', req.user._json.sub)
                             res.render('profile', { user: student })
                         })
                         .catch(err => {
                             console.log(err)
-                            res.cookie('session_id', req.user._json.sub)
                             res.status(500).json({ message: err })
                         })
                         // Go to newfeed page if yes
@@ -81,6 +80,7 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
                     res.cookie('session_id', req.user._json.sub)
                     res.redirect('/newfeed')
                 }
+                USER_OBJ = student
                 CURRENT_USER = req.user._json.sub
             }
         })
@@ -121,7 +121,8 @@ app.get('/newfeed', async (req, res, next) => {
                     .then(result => {return {post: value, author: result[0]}})
                     .catch(console.log)
                 }); 
-                res.render('newfeed', {data: await Promise.all(data.reverse())})
+                console.log(USER_OBJ)
+                res.render('newfeed', {data: await Promise.all(data.reverse()), user: USER_OBJ })
             }
         })
         .catch(console.log)

@@ -111,10 +111,12 @@
         $('.mobile-chat-box').toggleClass('show');
     })
     $(".request-trigger1").on('click', function() {
+        $('.portal-request-list').removeClass('show');
         $('.frnd-request-list').toggleClass('show');
     })
 
-    $(".request-trigger2").on('click', function() {
+    $(".request-trigger2").on('click', function(event) {
+        $('.frnd-request-list').removeClass('show');
         $('.portal-request-list').toggleClass('show');
     })
 
@@ -212,22 +214,14 @@
 })(jQuery);
 
 
-<<<<<<< HEAD
+
 function postStatus (){
 	$("#textbox").modal("hide")
     var status = $("#share-your-mood").val();
     var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1]; 
-=======
-function postStatus() {
-    var status = $("#share-your-mood").val();
-    var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
-    console.log(cookieValue)
->>>>>>> bce3115984289ac95634ec3f74edef03e8d27283
-
     $.post("http://localhost:8080/status", {
         poster: cookieValue,
         content: status
-<<<<<<< HEAD
     }, function(data, status){
 		
         if (status === 'success'){
@@ -242,15 +236,15 @@ function postStatus() {
                                 <div class="profile-thumb">
                                     <a href="">
                                         <figure class="profile-thumb-middle">
-                                            <img src="`+data.author.avatar+`" alt="profile picture">
+                                            <img src="${data.author.avatar}" alt="profile picture">
                                         </figure>
                                     </a>
                                 </div>
                                 <!-- profile picture end -->
 
                                 <div class="posted-author">
-                                    <h6 class="author"><a href="">` +  data.author.name+ `</a></h6>
-                                    <span class="post-time">` +  data.post.postTime.toLocaleString("en-US") + `</span>
+                                    <h6 class="author"><a href="">${data.author.name}</a></h6>
+                                    <span class="post-time"> ${data.post.postTime.toLocaleString("en-US")}</span>
                                 </div>
 
                                 <div class="post-settings-bar">
@@ -269,19 +263,19 @@ function postStatus() {
                             <!-- post title start -->
                             <div class="post-content">
                                 <p class="post-desc pb-0">
-                                    ` +  data.post.content + `
+                                    ${data.post.content}
                                 </p>
                                 <div class="post-meta">
                                     <button class="post-meta-like">
                                         <i class="bi bi-heart-beat"></i>
-                                        <span></span>
-                                        
+                                        <span>${data.post.meta.likes?'no one likes this post':(data.post.meta.likes+' people like this post')}</span>
+                                        <strong>${data.post.meta.likes}</strong>
                                     </button>
                                     <ul class="comment-share-meta">
                                         <li>
                                             <button class="post-comment">
                                                 <i class="bi bi-chat-bubble"></i>
-                                                <span>` +  !data.post.meta.comments?0:data.post.meta.likes + `</span>
+                                                <span>${!data.post.meta.comments?0:data.post.meta.likes}</span>
                                             </button>
                                         </li>
                                     </ul>
@@ -289,12 +283,7 @@ function postStatus() {
                             </div>
                         </div>
 						<!-- post status end -->`
-			console.log(tag)
-			$(".main-body").prepend()
+			$(".main-body").prepend(tag)
 		}
-=======
-    }, function(data, status) {
-        console.log("Data: " + data + "\nStatus: " + status);
->>>>>>> bce3115984289ac95634ec3f74edef03e8d27283
     })
 }
