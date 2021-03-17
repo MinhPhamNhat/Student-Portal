@@ -288,7 +288,7 @@
 
                                         <div class="posted-author">
                                             <h6 class="author">
-                                                <a href="/profile">
+                                                <a href="/profile/<%= value.author._id %>">
                                                     <%= value.author.name %>
                                                 </a>
                                             </h6>
@@ -314,7 +314,15 @@
                                             <%= value.post.content %>
                                         </p>
                                         <div class="post-meta">
-                                            <button class="post-meta-like">
+                                            <button class="post-meta-like " >
+
+                                            <div class="icon-box">
+                                                <div class="icon">
+                                                    <div class="pic icon9"></div>
+                                                </div>
+                                                
+                                            </div>
+                                                
                                             <i class="bi bi-heart-beat"></i>
                                             <span><%= value.post.meta.likes?'no one likes this post':(value.post.meta.likes+' people like this post') %></span>
                                             <strong><%= value.post.meta.likes %></strong>
@@ -322,6 +330,7 @@
                                             <ul class="comment-share-meta">
                                                 <li>
                                                     <button class="post-comment">
+                                                    <div class="pic icon10"></div>
                                                     <i class="bi bi-chat-bubble"></i>
                                                     <span><%= value.post.meta.comments%></span>
                                                 </button>
@@ -330,9 +339,8 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <!-- post status end -->
                                 <%})%>
-                                    <!-- post status end -->
                         </div>
 
 

@@ -11463,3 +11463,28 @@ ul#myTab {
 
 
 /* ------------- all notification END --------------*/
+
+
+/*-------icon setting-------*/
+
+.pic {
+    width: 2rem;
+    height: 2rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+.pic.icon9 {
+    background-image: url("/images/icons/icon9.png ");
+}
+
+.pic.icon10 {
+    background-image: url("/images/icons/icon10.png ");
+}
+
+
+/*-------end icon setting-------*/
+
+
+/*------- mobile footer area end -------*/

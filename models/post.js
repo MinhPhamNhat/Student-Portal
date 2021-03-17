@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
     content: String,
     postTime: Date,
     author: String,
-    attach: {    
+    attach: {
         picture: String,
         video: String,
     },
@@ -13,7 +13,8 @@ const postSchema = mongoose.Schema({
     meta: {
         likes: Number,
         comments: Number,
-    }
+    },
+    like:[{id:String}]
 });
 
 module.exports = mongoose.model('Post', postSchema)

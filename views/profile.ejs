@@ -20,7 +20,7 @@
                             <div class="profile-picture-box">
                                 <figure class="profile-picture">
                                     <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">
-                                        <img src="images/profile-1.jpg" alt="profile picture">
+                                        <img src="<%= userProfile.avatar %>" alt="profile picture">
                                     </a>
                                 </figure>
                             </div>
@@ -55,7 +55,9 @@
                         <aside class="widget-area profile-sidebar">
                             <!-- widget single item start -->
                             <div class="card widget-item">
-                                <h4 class="widget-title">kate palson</h4>
+                                <h4 class="widget-title">
+                                    <%= userProfile.name %>
+                                </h4>
                                 <div class="widget-body">
                                     <div class="about-author">
                                         <p>I Don’t know how? But i believe that it is possible one day if i stay with my dream all time</p>
@@ -269,581 +271,72 @@
                                 </div>
                                 <!-- profile picture end -->
 
-                                <!-- share content box start -->
-                                <div class="share-content-box w-100">
-                                    <form class="share-text-box">
-                                        <textarea name="share" class="share-text-field" aria-disabled="true" placeholder="Say Something" data-toggle="modal" data-target="#textbox" id="email"></textarea>
-                                        <button class="btn-share" type="submit">share</button>
-                                    </form>
-                                </div>
-                                <!-- share content box end -->
-                                <!-- Modal start -->
-                                <div class="modal fade" id="textbox" aria-labelledby="textbox">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Share Your Mood</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                            </div>
-                                            <div class="modal-body custom-scroll ps">
-                                                <textarea name="share" class="share-field-big custom-scroll ps" placeholder="Say Something"><div class="ps__rail-x" style="left: 0px; bottom: 3px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 2px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></textarea>
-                                                <div class="ps__rail-x" style="left: 0px; bottom: 3px;">
-                                                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                                                </div>
-                                                <div class="ps__rail-y" style="top: 0px; right: 2px;">
-                                                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="post-share-btn" data-dismiss="modal">cancel</button>
-                                                <button type="button" class="post-share-btn">post</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Modal end -->
                             </div>
                         </div>
                         <!-- share box end -->
 
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-5.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
+                        <% status.forEach((value, index)=>{%>
 
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Kate Palson</a></h6>
-                                    <span class="post-time">35 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
+                            <!-- post status start -->
+                            <div class="card">
+                                <!-- post title start -->
+                                <div class="post-title d-flex align-items-center">
+                                    <!-- profile picture end -->
+                                    <div class="profile-thumb">
+                                        <a href=`/profile/<%=u serProfile._id %>`>
+                                                <figure class="profile-thumb-middle">
+                                                    <img src="<%= userProfile.avatar %>" alt="profile picture">
+                                                </figure>
+                                            </a>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery img-gallery">
-                                    <div class="row no-gutters">
-                                        <div class="col-8">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-2.jpg">
-                                                    <img src="images/post-2.jpg" alt="post image">
+                                    <!-- profile picture end -->
+
+                                    <div class="posted-author">
+                                        <h6 class="author">
+                                            <a href=`/profile/<%=u serProfile._id %>`>
+                                                    <%= userProfile.name %>
                                                 </a>
-                                            </figure>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-3.jpg">
-                                                            <img src="images/post-3.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-4.jpg">
-                                                            <img src="images/post-4.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-5.jpg">
-                                                            <img src="images/post-5.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
+                                        </h6>
+                                        <span class="post-time"><%= statusTime.toLocaleString("en-US") %></span>
+                                    </div>
+
+                                    <div class="post-settings-bar">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <div class="post-settings arrow-shape">
+                                            <ul>
+                                                <li><button>copy link to adda</button></li>
+                                                <li><button>edit post</button></li>
+                                                <li><button>embed adda</button></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
+                                <!-- post title start -->
+                                <div class="post-content">
+                                    <p class="post-desc pb-0">
+                                        <%= status.content %>
+                                    </p>
+                                    <div class="post-meta">
+                                        <button class="post-meta-like">
                                             <i class="bi bi-heart-beat"></i>
-                                            <span>You and 207 people like this</span>
-                                            <strong>207</strong>
+                                            <span><%= status.meta.likes?'no one likes this post':(status.meta.likes+' people like this post') %></span>
+                                            <strong><%= status.meta.likes %></strong>
                                         </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
+                                        <ul class="comment-share-meta">
+                                            <li>
+                                                <button class="post-comment">
                                                     <i class="bi bi-chat-bubble"></i>
-                                                    <span>41</span>
+                                                    <span><%= status.meta.comments%></span>
                                                 </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>07</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-3.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Jon Wileyam</a></h6>
-                                    <span class="post-time">15 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 201 people like this</span>
-                                            <strong>201</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>41</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>07</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-4.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">william henry</a></h6>
-                                    <span class="post-time">35 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-                                </p>
-                                <div class="plyr plyr--full-ui plyr--video plyr--youtube plyr--fullscreen-enabled plyr--paused plyr--stopped plyr__poster-enabled">
-                                    <div class="plyr__controls"><button type="button" class="plyr__control" data-plyr="play" aria-label="Play"><svg class="icon--pressed" role="presentation" focusable="false"><use href="#plyr-pause"></use></svg><svg class="icon--not-pressed" role="presentation" focusable="false"><use href="#plyr-play"></use></svg><span class="label--pressed plyr__sr-only">Pause</span><span class="label--not-pressed plyr__sr-only">Play</span></button>
-                                        <div class="plyr__progress"><input data-plyr="seek" type="range" min="0" max="100" step="0.01" value="0" autocomplete="off" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="plyr-seek-2741" style="--value:0%;">
-                                            <progress class="plyr__progress__buffer" min="0" max="100" value="0" role="progressbar" aria-hidden="true">% buffered</progress><span class="plyr__tooltip">00:00</span></div>
-                                        <div class="plyr__time plyr__time--current" aria-label="Current time">-02:24</div>
-                                        <div class="plyr__volume"><button type="button" class="plyr__control" data-plyr="mute"><svg class="icon--pressed" role="presentation" focusable="false"><use href="#plyr-muted"></use></svg><svg class="icon--not-pressed" role="presentation" focusable="false"><use href="#plyr-volume"></use></svg><span class="label--pressed plyr__sr-only">Unmute</span><span class="label--not-pressed plyr__sr-only">Mute</span></button>
-                                            <input data-plyr="volume" type="range" min="0" max="1" step="0.05" value="1" autocomplete="off" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" id="plyr-volume-2741" aria-valuetext="100.0%" style="--value:100%;"></div>
-                                        <button type="button" class="plyr__control" data-plyr="captions"><svg class="icon--pressed" role="presentation" focusable="false"><use href="#plyr-captions-on"></use></svg><svg class="icon--not-pressed" role="presentation" focusable="false"><use href="#plyr-captions-off"></use></svg>
-                                            <span
-                                                class="label--pressed plyr__sr-only">Disable captions</span><span class="label--not-pressed plyr__sr-only">Enable captions</span></button>
-                                        <div class="plyr__menu"><button aria-haspopup="true" aria-controls="plyr-settings-2741" aria-expanded="false" type="button" class="plyr__control" data-plyr="settings"><svg role="presentation" focusable="false"><use href="#plyr-settings"></use></svg><span class="plyr__sr-only">Settings</span></button>
-                                            <div class="plyr__menu__container" id="plyr-settings-2741" hidden="">
-                                                <div>
-                                                    <div id="plyr-settings-2741-home">
-                                                        <div role="menu"><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Captions<span class="plyr__menu__value">Disabled</span></span></button>
-                                                            <button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Quality<span class="plyr__menu__value">undefined</span></span>
-                                                            </button><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true"><span>Speed<span class="plyr__menu__value">Normal</span></span></button></div>
-                                                    </div>
-                                                    <div id="plyr-settings-2741-captions" hidden=""><button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Captions</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-                                                        <div role="menu"></div>
-                                                    </div>
-                                                    <div id="plyr-settings-2741-quality" hidden=""><button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Quality</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-                                                        <div role="menu"></div>
-                                                    </div>
-                                                    <div id="plyr-settings-2741-speed" hidden=""><button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Speed</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-                                                        <div role="menu"><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="0.5"><span>0.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio"
-                                                                class="plyr__control" aria-checked="false" value="0.75"><span>0.75×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="true" value="1"><span>Normal</span></button>
-                                                            <button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.25"><span>1.25×</span></button><button data-plyr="speed" type="button" role="menuitemradio"
-                                                                class="plyr__control" aria-checked="false" value="1.5"><span>1.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.75"><span>1.75×</span></button>
-                                                            <button
-                                                                data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="2"><span>2×</span></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><button type="button" class="plyr__control" data-plyr="pip"><svg role="presentation" focusable="false"><use href="#plyr-pip"></use></svg><span class="plyr__sr-only">PIP</span></button><button type="button" class="plyr__control"
-                                            data-plyr="fullscreen"><svg class="icon--pressed" role="presentation" focusable="false"><use href="#plyr-exit-fullscreen"></use></svg><svg class="icon--not-pressed" role="presentation" focusable="false"><use href="#plyr-enter-fullscreen"></use></svg><span class="label--pressed plyr__sr-only">Exit fullscreen</span><span class="label--not-pressed plyr__sr-only">Enter fullscreen</span></button></div>
-                                    <div class="plyr__video-wrapper plyr__video-embed" style="padding-bottom: 56.25%;"><iframe id="youtube-6856" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="Player for " width="640" height="360" src="images/WeA7edXsU40.html"></iframe>
-                                        <div class="plyr__poster" style="background-image: url(&quot;https://img.youtube.com/vi/WeA7edXsU40/maxresdefault.jpg&quot;);"></div>
-                                    </div>
-                                    <button type="button" class="plyr__control plyr__control--overlaid" data-plyr="play" aria-label="Play"><svg role="presentation" focusable="false"><use href="#plyr-play"></use></svg><span class="plyr__sr-only">Play</span></button></div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 201 people like this</span>
-                                            <strong>201</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>41</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>07</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-8.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Mili Raoulin</a></h6>
-                                    <span class="post-time">50 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery img-gallery">
-                                    <div class="row no-gutters">
-                                        <div class="col-6">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-6.jpg">
-                                                    <img src="images/post-6.jpg" alt="post image">
-                                                </a>
-                                            </figure>
-                                        </div>
-                                        <div class="col-6">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-7.jpg">
-                                                    <img src="images/post-7.jpg" alt="post image">
-                                                </a>
-                                            </figure>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 230 people like this</span>
-                                            <strong>230</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>65</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>04</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-6.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Robart Faul</a></h6>
-                                    <span class="post-time">40 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for Many desktop
-                                    publishing duskam azer.
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 250 people like this</span>
-                                            <strong>250</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>80</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>10</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-2.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">merry watson</a></h6>
-                                    <span class="post-time">20 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery">
-                                    <figure class="post-thumb img-popup">
-                                        <a href="https://demo.hasthemes.com/adda-preview/adda/assets/images/post/post-large-1.jpg">
-                                            <img src="images/post-1.jpg" alt="post image">
-                                        </a>
-                                    </figure>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 201 people like this</span>
-                                            <strong>201</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>41</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>07</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-3.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="https://demo.hasthemes.com/adda-preview/adda/profile.html">Jon Wileyam</a></h6>
-                                    <span class="post-time">15 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                            <i class="bi bi-heart-beat"></i>
-                                            <span>You and 204 people like this</span>
-                                            <strong>204</strong>
-                                        </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                    <i class="bi bi-chat-bubble"></i>
-                                                    <span>41</span>
-                                                </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                    <i class="bi bi-share"></i>
-                                                    <span>07</span>
-                                                </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
+                            <!-- post status end -->
+                            <%})%>
                     </div>
 
                     <div class="col-lg-3 order-3">
