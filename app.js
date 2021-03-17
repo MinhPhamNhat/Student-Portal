@@ -47,6 +47,10 @@ app.get('/header', (req, res) => {
 app.get('/notification', (req, res) => {
     res.render('notification', { user: USER_OBJ })
 })
+
+app.get('/department', (req, res) => {
+    res.render('department', { user: USER_OBJ })
+})
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // goole callback
