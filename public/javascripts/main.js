@@ -215,19 +215,19 @@
 
 
 
-function postStatus (){
-	$("#textbox").modal("hide")
+function postStatus() {
+    $("#textbox").modal("hide")
     var status = $("#share-your-mood").val();
-    var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1]; 
+    var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
     $.post("http://localhost:8080/status", {
         poster: cookieValue,
         content: status
-    }, function(data, status){
-		
-        if (status === 'success'){
-			data = JSON.parse(JSON.stringify(data))
-			console.log(data.author)
-			var tag = `
+    }, function(data, status) {
+
+        if (status === 'success') {
+            data = JSON.parse(JSON.stringify(data))
+            console.log(data.author)
+            var tag = `
 			<!-- post status start -->
                         <div class="card">
                             <!-- post title start -->
@@ -283,7 +283,7 @@ function postStatus (){
                             </div>
                         </div>
 						<!-- post status end -->`
-			$(".main-body").prepend(tag)
-		}
+            $(".main-body").prepend(tag)
+        }
     })
 }

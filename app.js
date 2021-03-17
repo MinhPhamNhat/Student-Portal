@@ -107,25 +107,29 @@ app.get('/user', validateCookies, (req, res, next) => {
             })
     })
     // GET/ go to newfeed page
-app.get('/newfeed', async (req, res, next) => {
+app.get('/newfeed', async(req, res, next) => {
     var posts = await Post.find()
-        .sort({date: 'desc'})
+        .sort({ date: 'desc' })
         .exec()
         .then(async docs => {
-            if (!docs.length){
-                res.json({message: "No post"})
-            }else{
+            if (!docs.length) {
+                res.json({ message: "No post" })
+            } else {
                 var data = docs.map(async value => {
-                    return Student.find({_id: mongoose.Types.ObjectId(value.author)})
-                    .exec()
-                    .then(result => {return {post: value, author: result[0]}})
-                    .catch(console.log)
-                }); 
+                    return Student.find({ _id: mongoose.Types.ObjectId(value.author) })
+                        .exec()
+                        .then(result => { return { post: value, author: result[0] } })
+                        .catch(console.log)
+                });
                 console.log(USER_OBJ)
-                res.render('newfeed', {data: await Promise.all(data.reverse()), user: USER_OBJ })
+                res.render('newfeed', { data: await Promise.all(data.reverse()), user: USER_OBJ })
             }
         })
         .catch(console.log)
+})
+
+app.get('/profile', (req, res, next) => {
+    res.render('profile')
 })
 
 // POST/ Post status to newfeed
@@ -143,7 +147,7 @@ app.post('/status', async(req, res, next) => {
                             content: req.body.content,
                             postTime: new Date(),
                             author: mongoose.Types.ObjectId(doc[0]._id),
-                            attach: {    
+                            attach: {
                                 picture: '',
                                 video: '',
                             },
@@ -154,11 +158,11 @@ app.post('/status', async(req, res, next) => {
                             }
                         }).save()
                         .then((result) => {
-                            var author = Student.find({_id: mongoose.Types.ObjectId(result.author)})
-                            .exec()
-                            .then(std => {res.status(200).json({post: result, author: std[0]}) })
-                            .catch(console.log)
-                            
+                            var author = Student.find({ _id: mongoose.Types.ObjectId(result.author) })
+                                .exec()
+                                .then(std => { res.status(200).json({ post: result, author: std[0] }) })
+                                .catch(console.log)
+
                         })
                         .catch(err => {
                             console.log(err)
