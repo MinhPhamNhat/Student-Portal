@@ -132,7 +132,8 @@ app.get('/newfeed', async(req, res, next) => {
 })
 
 app.get('/profile', (req, res, next) => {
-    res.render('profile')
+
+    res.render('profile', { user: USER_OBJ })
 })
 
 // POST/ Post status to newfeed
