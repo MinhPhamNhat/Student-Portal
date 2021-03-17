@@ -42,6 +42,9 @@ app.use(passport.initialize())
 app.get('/header', (req, res) => {
     res.render('header')
 })
+app.get('/notification', (req, res) => {
+    res.render('notification')
+})
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // goole callback
@@ -129,7 +132,8 @@ app.get('/newfeed', async(req, res, next) => {
 })
 
 app.get('/profile', (req, res, next) => {
-    res.render('profile')
+
+    res.render('profile', { user: USER_OBJ })
 })
 
 // POST/ Post status to newfeed
