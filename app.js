@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken')
+
 const mongoose = require('mongoose')
 mongoose.connect("mongodb+srv://admin:3rdgC9NLKTV1PYd3@node-rest-student-porta.0bph9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
     useNewUrlParser: true,
@@ -72,7 +74,7 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
                         })
                         .catch(err => {
                             console.log(err)
-                            res.status(500).json({ message: err })
+                            res.status(500).json({ message: "asdsadasd" })
                         })
                         // Go to newfeed page if yes
                 } else {
@@ -80,13 +82,16 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
                     res.cookie('session_id', req.user._json.sub)
                     res.redirect('/newfeed')
                 }
+
+
                 USER_OBJ = student
+                console.log("Access Token:" + USER_OBJ)
                 CURRENT_USER = req.user._json.sub
             }
         })
     })
     // check if cookie is right
-const validateCookies = (req, res, next) => {
+const authenUser = (req, res, next) => {
         const { cookies } = req;
         if ('session_id' in cookies) {
             if (cookies.session_id === CURRENT_USER) next()
@@ -94,7 +99,7 @@ const validateCookies = (req, res, next) => {
         } else res.status(403).send({ message: "You are not Authenticated" })
     }
     // GET/ get all user
-app.get('/user', validateCookies, (req, res, next) => {
+app.get('/user', authenUser, (req, res, next) => {
         Student.find()
             .exec()
             .then(docs => {
@@ -128,9 +133,27 @@ app.get('/newfeed', async(req, res, next) => {
         .catch(console.log)
 })
 
-app.get('/profile', (req, res, next) => {
-
-    res.render('profile', { user: USER_OBJ })
+app.get('/profile/:id', async(req, res, next) => {
+    let id = req.params.id
+    if (id) {
+        await Student.find({ _id: mongoose.Types.ObjectId(id) }, async(err, doc) => {
+            if (err) {
+                console.log({ message: err })
+                return res.status(404).json({ type: "/profile/Student find", message: err })
+            } else {
+                await Post.find({ author: id }, (postErr, postResult) => {
+                    if (postErr) {
+                        console.log({ message: postErr })
+                        return res.status(404).json({ type: "/profile/Post find", message: postErr })
+                    } else {
+                        res.render('profile', { user: USER_OBJ, userProfile: doc[0], status: postResult })
+                    }
+                })
+            }
+        })
+    } else {
+        res.status(404).json({ message: "invalid id" })
+    }
 })
 
 // POST/ Post status to newfeed

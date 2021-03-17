@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
     content: String,
     postTime: Date,
     author: String,
-    attach: {    
+    attach: {
         picture: String,
         video: String,
     },
