@@ -44,6 +44,9 @@ app.use(passport.initialize())
 app.get('/header', (req, res) => {
     res.render('header')
 })
+app.get('/notification', (req, res) => {
+    res.render('notification')
+})
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // goole callback
