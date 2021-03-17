@@ -43,7 +43,7 @@ app.get('/header', (req, res) => {
     res.render('header')
 })
 app.get('/notification', (req, res) => {
-    res.render('notification')
+    res.render('notification', { user: USER_OBJ })
 })
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
