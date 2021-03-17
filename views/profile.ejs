@@ -258,22 +258,6 @@
                     </div>
 
                     <div class="col-lg-6 order-1 order-lg-2">
-                        <!-- share box start -->
-                        <div class="card card-small">
-                            <div class="share-box-inner">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="images/profile-small-37.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                            </div>
-                        </div>
-                        <!-- share box end -->
 
                         <% status.forEach((value, index)=>{%>
 
@@ -283,21 +267,21 @@
                                 <div class="post-title d-flex align-items-center">
                                     <!-- profile picture end -->
                                     <div class="profile-thumb">
-                                        <a href=`/profile/<%=u serProfile._id %>`>
-                                                <figure class="profile-thumb-middle">
-                                                    <img src="<%= userProfile.avatar %>" alt="profile picture">
-                                                </figure>
-                                            </a>
+                                        <a href="/profile/<%=userProfile._id %>">
+                                            <figure class="profile-thumb-middle">
+                                                <img src="<%= userProfile.avatar %>" alt="profile picture">
+                                            </figure>
+                                        </a>
                                     </div>
                                     <!-- profile picture end -->
 
                                     <div class="posted-author">
                                         <h6 class="author">
-                                            <a href=`/profile/<%=u serProfile._id %>`>
-                                                    <%= userProfile.name %>
-                                                </a>
+                                            <a href="/profile/<%= userProfile._id %>">
+                                                <%= userProfile.name %>
+                                            </a>
                                         </h6>
-                                        <span class="post-time"><%= statusTime.toLocaleString("en-US") %></span>
+                                        <span class="post-time"><%= value.postTime.toLocaleString("en-US") %></span>
                                     </div>
 
                                     <div class="post-settings-bar">
@@ -316,19 +300,19 @@
                                 <!-- post title start -->
                                 <div class="post-content">
                                     <p class="post-desc pb-0">
-                                        <%= status.content %>
+                                        <%= value.content %>
                                     </p>
                                     <div class="post-meta">
                                         <button class="post-meta-like">
                                             <i class="bi bi-heart-beat"></i>
-                                            <span><%= status.meta.likes?'no one likes this post':(status.meta.likes+' people like this post') %></span>
-                                            <strong><%= status.meta.likes %></strong>
+                                            <span><%= value.meta.likes?'no one likes this post':(value.meta.likes+' people like this post') %></span>
+                                            <strong><%= value.meta.likes %></strong>
                                         </button>
                                         <ul class="comment-share-meta">
                                             <li>
                                                 <button class="post-comment">
                                                     <i class="bi bi-chat-bubble"></i>
-                                                    <span><%= status.meta.comments%></span>
+                                                    <span><%= value.meta.comments%></span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -336,7 +320,7 @@
                                 </div>
                             </div>
                             <!-- post status end -->
-                            <%})%>
+                            <% }) %>
                     </div>
 
                     <div class="col-lg-3 order-3">

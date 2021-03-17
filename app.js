@@ -88,33 +88,20 @@ app.get('/account/google/callback', passport.authenticate('google', { failureRed
 
 
                 USER_OBJ = student
-                console.log("Access Token:" + USER_OBJ)
                 CURRENT_USER = req.user._json.sub
             }
         })
     })
     // check if cookie is right
 const authenUser = (req, res, next) => {
-        const { cookies } = req;
-        if ('session_id' in cookies) {
-            if (cookies.session_id === CURRENT_USER) next()
-            else res.status(403).send({ message: "You are not Authenticated" })
-        } else res.status(403).send({ message: "You are not Authenticated" })
-    }
-    // GET/ get all user
-app.get('/user', authenUser, (req, res, next) => {
-        Student.find()
-            .exec()
-            .then(docs => {
-                console.log(docs)
-                res.status(200).json(docs)
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({ message: err })
-            })
-    })
-    // GET/ go to newfeed page
+    const { cookies } = req;
+    if ('session_id' in cookies) {
+        if (cookies.session_id === CURRENT_USER) next()
+        else res.status(403).send({ message: "You are not Authenticated" })
+    } else res.status(403).send({ message: "You are not Authenticated" })
+}
+
+// GET/ go to newfeed page
 app.get('/newfeed', async(req, res, next) => {
     var posts = await Post.find()
         .sort({ date: 'desc' })
@@ -139,16 +126,17 @@ app.get('/newfeed', async(req, res, next) => {
 app.get('/profile/:id', async(req, res, next) => {
     let id = req.params.id
     if (id) {
-        await Student.find({ _id: mongoose.Types.ObjectId(id) }, async(err, doc) => {
+        await Student.find({ _id: mongoose.Types.ObjectId(id) }, (err, doc) => {
             if (err) {
                 console.log({ message: err })
                 return res.status(404).json({ type: "/profile/Student find", message: err })
             } else {
-                await Post.find({ author: id }, (postErr, postResult) => {
+                Post.find({ author: id }, (postErr, postResult) => {
                     if (postErr) {
                         console.log({ message: postErr })
                         return res.status(404).json({ type: "/profile/Post find", message: postErr })
                     } else {
+                        console.log(postResult)
                         res.render('profile', { user: USER_OBJ, userProfile: doc[0], status: postResult })
                     }
                 })
@@ -161,49 +149,76 @@ app.get('/profile/:id', async(req, res, next) => {
 
 // POST/ Post status to newfeed
 app.post('/status', async(req, res, next) => {
-        console.log("SUB:" + req.body.poster)
-        await Student.find({ sub: req.body.poster }, (err, doc) => {
-            console.log(doc)
-            if (err) {
-                console.log(err)
-                res.status(500).json({ message: err })
+    console.log("SUB:" + req.body.poster)
+    await Student.find({ sub: req.body.poster }, (err, doc) => {
+        console.log(doc)
+        if (err) {
+            console.log(err)
+            res.status(500).json({ message: err })
+        } else {
+            if (doc.length) {
+                new Post({
+                        _id: mongoose.Types.ObjectId(),
+                        content: req.body.content,
+                        postTime: new Date(),
+                        author: mongoose.Types.ObjectId(doc[0]._id),
+                        attach: {
+                            picture: '',
+                            video: '',
+                        },
+                        comments: [],
+                        meta: {
+                            likes: 0,
+                            comments: 0,
+                        }
+                    }).save()
+                    .then((result) => {
+                        var author = Student.find({ _id: mongoose.Types.ObjectId(result.author) })
+                            .exec()
+                            .then(std => { res.status(200).json({ post: result, author: std[0] }) })
+                            .catch(console.log)
+
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).json({ message: err })
+                    })
             } else {
-                if (doc.length) {
-                    new Post({
-                            _id: mongoose.Types.ObjectId(),
-                            content: req.body.content,
-                            postTime: new Date(),
-                            author: mongoose.Types.ObjectId(doc[0]._id),
-                            attach: {
-                                picture: '',
-                                video: '',
-                            },
-                            comments: [],
-                            meta: {
-                                likes: 0,
-                                comments: 0,
-                            }
-                        }).save()
-                        .then((result) => {
-                            var author = Student.find({ _id: mongoose.Types.ObjectId(result.author) })
-                                .exec()
-                                .then(std => { res.status(200).json({ post: result, author: std[0] }) })
-                                .catch(console.log)
-
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            res.status(500).json({ message: err })
-                        })
-                } else {
-                    res.status(412).json({ message: "No valid user id" })
-                }
+                res.status(412).json({ message: "No valid user id" })
             }
-        })
-
-
+        }
     })
-    // catch 404 and forward to error handler
+
+
+})
+
+// GET/ get all user
+app.get('/user', (req, res, next) => {
+    Student.find()
+        .exec()
+        .then(docs => {
+            console.log(docs)
+            res.status(200).json(docs)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: err })
+        })
+})
+
+app.get('/getAllStatus', (req, res, next) => {
+    Post.find()
+        .exec()
+        .then(docs => {
+            res.status(200).send(JSON.stringify(docs))
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: err })
+        })
+})
+
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
