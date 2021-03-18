@@ -112,32 +112,28 @@ app.get('/newfeed', async (req, res, next) => {
         .sort({ date: 'desc' })
         .exec()
         .then(async docs => {
-            if (!docs.length) {
-                res.json({ message: "No post" })
-            } else {
-                var data = docs.map(async value => {
-                    return Student.findOne({ _id: mongoose.Types.ObjectId(value.author) })
-                        .exec()
-                        .then(async result =>  {
-                            var post = {
-                                attach: value.attach,
-                                meta: value.meta,
-                                _id: value._id,
-                                content: value.content,
-                                postTime: getPassedTime(value.postTime, new Date()),
-                                author: value.author
-                            }
-                            let vote = false
-                            await Vote.exists({ userVote: CURRENT_USER, postVote: value._id })
-                            .then(result => vote = result?true:false )
-                            .catch()
-                            return { post, author: result, vote }
-                        })
-                        .catch(console.log)
+            var data = docs.map(async value => {
+                return Student.findOne({ _id: mongoose.Types.ObjectId(value.author) })
+                    .exec()
+                    .then(async result =>  {
+                        var post = {
+                            attach: value.attach,
+                            meta: value.meta,
+                            _id: value._id,
+                            content: value.content,
+                            postTime: getPassedTime(value.postTime, new Date()),
+                            author: value.author
+                        }
+                        let vote = false
+                        await Vote.exists({ userVote: CURRENT_USER, postVote: value._id })
+                        .then(result => vote = result?true:false )
+                        .catch()
+                        return { post, author: result, vote }
+                    })
+                    .catch(console.log)
                 });
                 data = await Promise.all(data.reverse())
                 res.render('newfeed', { data, user: USER_OBJ })
-            }
         })
         .catch(console.log)
 })
@@ -282,36 +278,34 @@ app.post('/vote', async (req, res, next) => {
     if (userVote && postVote) {
         Vote.findOneAndDelete({ userVote, postVote })
             .exec()
-            .then(result => {
+            .then(async alreadyVoted => {
                 Post.findOne({ _id: postVote })
                 .exec()
                 .then(async postFindResult => {
-                    if (result) {
-                        postResult.meta.likes = voteFindResult.length
-                        await postFindResult.save()
-                        .catch(err => res.json({code: -6, message: "Failed to save number of like", json: err}))
-                        res.status(200).json({ code: 0, message: "Successully unvote post", json: result })
-                    } else {
-                        new Vote({
+                    if (!alreadyVoted) {
+                        await new Vote({
                             _id: mongoose.Types.ObjectId(),
                             userVote,
                             postVote
                         })
                         .save()
-                        .then(voteSaveResult => {
-                            Vote.find({postVote}).exec()
-                            .then(async voteFindResult => {
-                                postResult.meta.likes = voteFindResult.length
-                                await postResult.save()
-                                .catch(err => res.json({code: -6, message: "Failed to save number of like", json: err}))
-                                res.status(200).json({ code: 0, message: "Successully vote post", json: result })
-                            })
-                            .catch(err => res.json({code: -5, message: "Failed to find vote", json: err}))
-                        })
                         .catch(err => {
                             res.json({ code: -4, message: "Failed to vote post", json: err })
                         })
                     }
+                    Vote.find({postVote})
+                    .exec()
+                    .then(async allVoteResult => {
+                        postFindResult.meta.likes = allVoteResult.length
+                        console.log(postVote+ " Vote after vote/unvote: "+ allVoteResult.length)
+                        await postFindResult.save()
+                        .catch(err => res.json({code: -6, message: "Failed to save number of like", json: err}))
+
+                        var message = alreadyVoted?"Successully unvote post":"Successully vote post"
+                        res.status(200).json({ code: 0, message, json: alreadyVoted , data:{no_vote: allVoteResult.length}})
+                    })
+                    .catch(err => res.json({code: -5, message: "Failed to find all vote", json: err}))
+                    
                 })
                 .catch(err => {
                     res.json({ code: -5, message: "No post valid", json: err })
@@ -320,7 +314,6 @@ app.post('/vote', async (req, res, next) => {
             .catch(err => {
                 res.json({ code: -5, message: "Failed to vote/unvote post", json: err })
             })
-
     } else
         res.json({ code: 1, message: "Invalid id" })
 })

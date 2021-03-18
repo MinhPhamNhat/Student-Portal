@@ -220,63 +220,62 @@ function postStatus() {
 
         if (status === 'success') {
             data = JSON.parse(JSON.stringify(data))
-            var tag = `
-			<!-- post status start -->
-                                <div class="card">
-                                    <!-- post title start -->
-                                    <div class="post-title d-flex align-items-center">
-                                        <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                                                <figure class="profile-thumb-middle">
-                                                    <img src="${ data.author.avatar }" alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
+            var tag = `<!-- post status start -->
+        <div class="card">
+            <!-- post title start -->
+            <div class="post-title d-flex align-items-center">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
+                        <figure class="profile-thumb-middle">
+                            <img src="${ data.author.avatar }" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
 
-                                        <div class="posted-author">
-                                            <h6 class="author">
-                                                <a href="/profile/${ data.author._id }">
-                                                    ${ data.author.name }
-                                                </a>
-                                            </h6>
-                                            <span class="post-time">${ data.post.postTime }</span>
-                                        </div>
+                <div class="posted-author">
+                    <h6 class="author">
+                        <a href="/profile/${ data.author._id }">
+                            ${ data.author.name }
+                        </a>
+                    </h6>
+                    <span class="post-time">${ data.post.postTime }</span>
+                </div>
 
-                                        <div class="post-settings-bar">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <div class="post-settings arrow-shape">
-                                                <ul>
-                                                    <li><button>copy link to adda</button></li>
-                                                    <li><button>edit post</button></li>
-                                                    <li><button>embed adda</button></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- post title start -->
-                                    <div class="post-content">
-                                        <p class="post-desc pb-0">
-                                            ${ data.post.content }
-                                        </p>
-                                        <div class="post-meta">
+                <div class="post-settings-bar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <div class="post-settings arrow-shape">
+                        <ul>
+                            <li><button>copy link to adda</button></li>
+                            <li><button>edit post</button></li>
+                            <li><button>embed adda</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- post title start -->
+            <div class="post-content">
+                <p class="post-desc pb-0">
+                    ${ data.post.content }
+                </p>
+                <div class="post-meta">
 
-                                            <button class="post-meta-like ">
-                                                <div class="pic icon-heart"></div>
-                                                <span>${ data.post.meta.likes }</span>
-                                            </button>
-                                            <button class="post-meta-comment">
-                                                <div class="pic icon-comment"></div>
-                                                <span>${ data.post.meta.comments}</span>
-                                            </button>
+                    <button data-id="${ data.post._id }" ${ data.vote?"voted":"" } onclick=vote("${ data.post._id }") class="post-meta-like">
+                        <div style="background-image: url('/images/icons/${ data.vote?"heart":"unheart" }.png')" class="pic icon-heart"></div>
+                        <span>${ data.post.meta.likes }</span>
+                    </button>
+                    <button onclick="location.href='/post/${ data.post._id }';" class="post-meta-comment">
+                        <div class="pic icon-comment"></div>
+                        <span>${ data.post.meta.comments}</span>
+                    </button>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- post status end -->`
+                </div>
+            </div>
+        </div>
+        <!-- post status end -->`
             $(".main-body").prepend(tag)
         }
     })
@@ -292,6 +291,7 @@ function vote(postid){
         postVote: postid
     },(data, status) => {
         data = JSON.parse(JSON.stringify(data))
+        console.log(data)
         if (status === 'success'){
             if (data.code === 0){
                 var likeElement = $("[data-id="+postid+"]")
@@ -302,6 +302,7 @@ function vote(postid){
                     likeElement.toggleClass("voted")
                     $("[data-id="+postid+"] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
                 }
+                likeElement.find($("span")).html(data.data.no_vote)
             }
         }else
         console.log(data)
