@@ -28,12 +28,6 @@
         element.css('background-image', 'url(' + bgSource + ')');
     });
 
-    // video player active js
-    var plyrVideo = new Plyr('.plyr-video'),
-        plyrAudio = new Plyr('.plyr-audio'),
-        plyrYoutube = new Plyr('.plyr-youtube'),
-        plyrVimeo = new Plyr('.plyr-vimeo');
-
     // active profile carousel js
     $('.active-profile-carousel').slick({
         speed: 800,
@@ -222,7 +216,7 @@ function postStatus() {
     $.post("http://localhost:8080/status", {
         poster: cookieValue,
         content: status
-    }, function(data, status) {
+    },(data, status) => {
 
         if (status === 'success') {
             data = JSON.parse(JSON.stringify(data))
@@ -289,5 +283,39 @@ function postStatus() {
 }
 
 $(".post-meta-comment").on('click', () => {
-    console.log(1)
 })
+
+function vote(postid){
+    var userVote = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
+    $.post("http://localhost:8080/vote", {
+        userVote: userVote,
+        postVote: postid
+    },(data, status) => {
+        data = JSON.parse(JSON.stringify(data))
+        if (status === 'success'){
+            if (data.code === 0){
+                var likeElement = $("[data-id="+postid+"]")
+                if (likeElement.hasClass("voted")){
+                    likeElement.removeClass("voted")
+                    $("[data-id="+postid+"] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+                } else{
+                    likeElement.toggleClass("voted")
+                    $("[data-id="+postid+"] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+                }
+            }
+        }else
+        console.log(data)
+    })
+}
+// $(".post-meta-like").hover(()=>{
+//     var likeElement = $(".post-meta-like")
+//     if (likeElement.hasClass("voted"))
+//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+//     else
+//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+// }, ()=>{
+//     if (likeElement.hasClass("voted"))
+//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+//     else
+//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+// })
