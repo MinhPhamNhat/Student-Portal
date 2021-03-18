@@ -33,9 +33,7 @@ a {
 }
 
 .container {
-    background: #fff;
     border-radius: 10px;
-    box-shadow: 15px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-inner {
@@ -274,12 +272,12 @@ textarea:focus {
 
 ::-moz-selection {
     color: #fff;
-    background: #dc4734;
+    background: #b415b9;
 }
 
 ::selection {
     color: #fff;
-    background: #dc4734;
+    background: #b415b9;
 }
 
 ::-webkit-input-placeholder {
@@ -375,7 +373,7 @@ textarea:focus {
 }
 
 .slick-arrow-style button.slick-arrow:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .slick-track {
@@ -542,7 +540,7 @@ textarea:focus {
     -o-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
-    background-color: #dc4734;
+    background-color: #b415b9;
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
@@ -943,7 +941,7 @@ textarea:focus {
 }
 
 .pt-80 {
-    padding-top: 80px;
+    padding-top: 25px;
 }
 
 .mb-20 {
@@ -1081,7 +1079,7 @@ only screen and (max-width: 767.98px) {
 
 .header-top-navigation ul li:hover a,
 .header-top-navigation ul li.active a {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .header-top-navigation ul li .message-dropdown {
@@ -1138,7 +1136,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .dropdown-title .message-btn-group button:hover {
-    color: #dc4734;
+    color: #b415b9;
     text-decoration: underline;
 }
 
@@ -1147,7 +1145,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .dropdown-title button:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .msg-dropdown-footer {
@@ -1169,7 +1167,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .msg-dropdown-footer button:hover {
-    color: #dc4734;
+    color: #b415b9;
     text-decoration: underline;
 }
 
@@ -1208,7 +1206,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .dropdown-msg-list li.classify-list-item .msg-content.notification-content a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .dropdown-msg-list li.classify-list-item .msg-content.notification-content p {
@@ -1228,7 +1226,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .dropdown-msg-list li.classify-list-item .author a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .header-top-search {
@@ -1258,7 +1256,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .top-search-btn:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 
@@ -1473,7 +1471,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .mobile-menu ul li:hover i {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .notification {
@@ -1492,7 +1490,7 @@ only screen and (max-width: 767.98px) {
     display: block;
     position: absolute;
     text-align: center;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .mob-search-box {
@@ -1539,7 +1537,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .mob-search-btn:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .search-trigger {
@@ -1625,7 +1623,7 @@ only screen and (max-width: 767.98px) {
 .card-small {
     padding: 16px;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: 0px 1px 15px 0px rgb(51 51 51 / 20%);
 }
 
 .card-profile {
@@ -1679,7 +1677,7 @@ only screen and (max-width: 767.98px) {
     padding: 11px 25px;
     margin-right: 2px;
     border-radius: 40px;
-    background-color: #dc4734;
+    background-color: #b415b9;
     position: absolute;
     text-transform: uppercase;
     -webkit-transform: translateY(-50%);
@@ -1697,7 +1695,7 @@ only screen and (max-width: 767.98px) {
     background-color: #333333;
 }
 
-.modal-dialog {
+.share-modal .modal-dialog {
     max-width: 600px;
 }
 
@@ -1709,7 +1707,7 @@ only screen and (max-width: 767.98px) {
     line-height: 1;
     padding: 14px 30px 12px;
     border-radius: 40px;
-    background-color: #dc4734;
+    background-color: #b415b9;
     text-transform: uppercase;
     cursor: pointer;
 }
@@ -1748,7 +1746,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .author a:hover {
-    color: #dc4734;
+    color: #b415b9;
     text-decoration: underline;
 }
 
@@ -1774,7 +1772,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .post-settings-bar:hover span {
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .post-settings-bar:hover .post-settings {
@@ -1823,7 +1821,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .post-settings li button:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .post-settings li button:last-child {
@@ -1870,14 +1868,8 @@ only screen and (max-width: 767.98px) {
 }
 
 .post-meta {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
+    justify-content: space-between;
     padding: 0 12px;
     margin-top: 20px;
 }
@@ -1888,36 +1880,31 @@ only screen and (max-width: 767.98px) {
     }
 }
 
-.post-meta .post-meta-like strong {
-    display: none;
-    font-size: 14px;
-    font-weight: 400;
-    padding-left: 8px;
-    color: #666666;
-}
-
 @media only screen and (max-width: 479.98px) {
     .post-meta .post-meta-like strong {
         display: inline-block;
     }
 }
 
-.post-meta .comment-share-meta {
-    margin-left: auto;
+.post-meta .post-meta-comment {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
-.post-meta .comment-share-meta li {
-    display: inline-block;
-    margin-left: 24px;
-}
-
-.post-meta .comment-share-meta li:first-child {
+.post-meta .post-meta-comment li:first-child {
     margin-left: 0;
 }
 
-.post-meta-like i,
-.post-comment i,
-.post-share i {
+.post-meta .post-meta-like {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.post-meta-like div,
+.post-comment div,
+.post-share div {
     font-size: 20px;
     color: #333333;
     vertical-align: middle;
@@ -1931,13 +1918,13 @@ only screen and (max-width: 767.98px) {
     padding-left: 8px;
 }
 
-.post-meta-like:hover i,
 .post-meta-like:hover span,
-.post-comment:hover i,
-.post-comment:hover span,
-.post-share:hover i,
-.post-share:hover span {
-    color: #dc4734;
+.post-meta-comment:hover span {
+    color: #b415b9;
+}
+
+.post-meta-like:hover div {
+    background-image: url("/images/icons/heart.png ");
 }
 
 .plyr--video {
@@ -1954,6 +1941,7 @@ only screen and (max-width: 767.98px) {
 
 .profile-menu-area {
     margin-bottom: 20px;
+    margin-top: 50px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991.98px) {
@@ -2013,7 +2001,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .profile-setting-box .profile-head .name a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .profile-setting-box .profile-head .mail {
@@ -2023,7 +2011,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .profile-setting-box .profile-head .mail:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .profile-setting-box .profile-body ul {
@@ -2051,7 +2039,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .profile-setting-box .profile-body ul li:hover a {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .profile-thumb {
@@ -2158,7 +2146,7 @@ only screen and (max-width: 767.98px) {
     display: inline-block;
     border-radius: 50px;
     text-transform: capitalize;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 @media only screen and (max-width: 767.98px) {
@@ -2254,11 +2242,11 @@ only screen and (max-width: 767.98px) {
 }
 
 .author-into-list li a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .author-into-list li a i {
-    color: #dc4734;
+    color: #b415b9;
     font-size: 20px;
     padding-right: 20px;
 }
@@ -2306,7 +2294,7 @@ only screen and (max-width: 767.98px) {
     height: 1px;
     content: "";
     position: absolute;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 
@@ -2346,7 +2334,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .list-title a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .list-subtitle {
@@ -2361,7 +2349,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .list-subtitle a:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .unorder-list {
@@ -2501,7 +2489,7 @@ only screen and (max-width: 767.98px) {
     padding: 8px 20px;
     display: inline-block;
     border: 1px solid transparent;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 @media only screen and (max-width: 575.98px) {
@@ -2609,7 +2597,7 @@ only screen and (max-width: 767.98px) {
     padding: 8px 20px;
     display: inline-block;
     border: 1px solid transparent;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 @media only screen and (max-width: 575.98px) {
@@ -2657,7 +2645,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .signup-form-wrapper .create-acc {
-    color: #dc4734;
+    color: #b415b9;
     font-size: 30px;
     font-weight: 800;
     padding-bottom: 47px;
@@ -2679,7 +2667,7 @@ only screen and (max-width: 767.98px) {
 .signup-inner .title {
     color: #fff;
     font-size: 18px;
-    background-color: #dc4734;
+    background-color: #b415b9;
     padding: 23px 0;
 }
 
@@ -2760,7 +2748,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .signup-inner .terms-condition a {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .submit-btn {
@@ -2771,7 +2759,7 @@ only screen and (max-width: 767.98px) {
     padding: 15px 20px;
     display: block;
     border: 1px solid transparent;
-    background-color: #dc4734;
+    background-color: #b415b9;
     width: 100%;
     margin-top: 23px;
 }
@@ -2840,7 +2828,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .login-area {
-    background-color: #dc4734;
+    background-color: #b415b9;
     padding: 15px 30px;
 }
 
@@ -2868,7 +2856,7 @@ only screen and (max-width: 767.98px) {
 .login-area .login-btn {
     font-size: 14px;
     font-weight: 500;
-    color: #dc4734;
+    color: #b415b9;
     line-height: 1;
     padding: 12px 32px;
     display: inline-block;
@@ -2991,15 +2979,15 @@ only screen and (max-width: 767.98px) {
 }
 
 .about-author-menu li a.active {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .about-author-menu li:hover {
-    border-color: #dc4734;
+    border-color: #b415b9;
 }
 
 .about-author-menu li:hover a {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .about-author-menu li:last-child {
@@ -3075,7 +3063,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .photo-group:hover .photos-caption {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .photo-group.active .view-icon {
@@ -3199,7 +3187,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .load-more-btn:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 
@@ -3224,7 +3212,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .friends-section .content-box.friends-zone .friend-list-view:hover {
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .friend-list-view {
@@ -3253,7 +3241,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .friend-list-view:hover {
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .friend-list-view:hover .author a {
@@ -3357,7 +3345,7 @@ only screen and (max-width: 767.98px) {
 
 .filter-menu button:hover,
 .filter-menu button.active {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .filter-menu button:last-child {
@@ -3500,7 +3488,7 @@ only screen and (max-width: 767.98px) {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .frnd-search-title .frnd-search-icon,
@@ -3543,7 +3531,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .search-btn:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .friend-search-list {
@@ -3590,7 +3578,7 @@ only screen and (max-width: 767.98px) {
 }
 
 .friend-search-list ul li .add-frnd:hover {
-    color: #dc4734;
+    color: #b415b9;
 }
 
 .frnd-search-inner {
@@ -3653,7 +3641,7 @@ only screen and (max-width: 767.98px) {
     -ms-flex-align: center;
     align-items: center;
     padding: 0 25px;
-    background-color: #dc4734;
+    background-color: #b415b9;
 }
 
 .live-chat-title .author a {
@@ -3791,7 +3779,7 @@ only screen and (max-width: 767.98px) {
     width: 60px;
     height: 69px;
     line-height: 69px;
-    background-color: #dc4734;
+    background-color: #b415b9;
     text-align: center;
 }
 
@@ -4576,7 +4564,6 @@ nav>ul>li>a:hover {
 main {
     float: left;
     width: 100%;
-    padding: 60px 0
 }
 
 .main-section {
@@ -5648,11 +5635,6 @@ main {
 .comment>a i {
     font-weight: 600;
     margin-right: 6px
-}
-
-.post-comment {
-    float: left;
-    width: 100%
 }
 
 .cm_img {
@@ -7210,9 +7192,7 @@ footer {
     object-fit: cover
 }
 
-.row {
-    margin: 0
-}
+.row {}
 
 .gallery_pt>a {
     position: absolute;
@@ -10346,9 +10326,10 @@ a:hover {
     padding-bottom: 10px
 }
 
-.modal-header h3 {
+
+/* .modal-header h3 {
     font-size: 18px
-}
+} */
 
 .search-container button {
     padding: 8px 10px;
@@ -10518,8 +10499,6 @@ a:hover {
     float: right;
     vertical-align: .255em
 }
-
-.checkbox {}
 
 .form-check {
     padding-left: 0
@@ -10892,14 +10871,16 @@ a:hover {
     padding-left: 12px
 }
 
-.modal-header {
+
+/* .modal-header {
     background-color: #e44d3a;
     display: block!important
-}
+} */
 
-.modal-body {
+
+/* .modal-body {
     padding: 0
-}
+} */
 
 .notice {
     background-color: #ddf3ff;
@@ -10993,7 +10974,8 @@ a:hover {
     padding: 15px
 }
 
-.modal-footer {
+
+/* .modal-footer {
     display: block!important;
     border-top: none;
     padding-bottom: 30px
@@ -11013,7 +10995,7 @@ a:hover {
     background-color: #e44d3a;
     color: #fff;
     border: 1px solid #e44d3a
-}
+} */
 
 .place-bid-btn {
     font-size: 15px;
@@ -11258,7 +11240,8 @@ ul#myTab {
     color: #fff
 }
 
-.close {
+
+/* .close {
     position: absolute;
     right: -25px;
     top: -25px;
@@ -11267,7 +11250,7 @@ ul#myTab {
     border-radius: 50%;
     height: 25px;
     width: 25px
-}
+} */
 
 .mapouter iframe {
     width: 100%;
@@ -11472,14 +11455,13 @@ ul#myTab {
     height: 2rem;
     background-size: cover;
     background-position: center;
-    border-radius: 50%;
 }
 
-.pic.icon9 {
-    background-image: url("/images/icons/icon9.png ");
+.icon-heart {
+    background-image: url("/images/icons/unheart.png ");
 }
 
-.pic.icon10 {
+.icon-comment {
     background-image: url("/images/icons/icon10.png ");
 }
 

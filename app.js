@@ -14,6 +14,8 @@ mongoose.connect("mongodb+srv://admin:3rdgC9NLKTV1PYd3@node-rest-student-porta.0
 })
 const Student = require('./models/student')
 const Post = require('./models/post')
+const getPassedTime = require('./models/time')
+
 const indexRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
 const app = express();
@@ -45,11 +47,7 @@ app.get('/header', (req, res) => {
     res.render('header')
 })
 app.get('/notification', (req, res) => {
-    res.render('notification', { user: USER_OBJ })
-})
-
-app.get('/department', (req, res) => {
-    res.render('department', { user: USER_OBJ })
+    res.render('notification')
 })
 app.get('/account/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
@@ -117,9 +115,20 @@ app.get('/newfeed', async(req, res, next) => {
                 var data = docs.map(async value => {
                     return Student.find({ _id: mongoose.Types.ObjectId(value.author) })
                         .exec()
-                        .then(result => { return { post: value, author: result[0] } })
+                        .then(result => {
+                            var post = {
+                                attach: value.attach,
+                                meta: value.meta,
+                                _id: value._id,
+                                content: value.content,
+                                postTime: getPassedTime(value.postTime, new Date()),
+                                author: value.author
+                            }
+                            return { post, author: result[0] }
+                        })
                         .catch(console.log)
                 });
+
                 console.log(USER_OBJ)
                 res.render('newfeed', { data: await Promise.all(data.reverse()), user: USER_OBJ })
             }
@@ -132,22 +141,32 @@ app.get('/profile/:id', async(req, res, next) => {
     if (id) {
         await Student.find({ _id: mongoose.Types.ObjectId(id) }, (err, doc) => {
             if (err) {
-                console.log({ message: err })
-                return res.status(404).json({ type: "/profile/Student find", message: err })
+                return res.json({ code: 4, message: "failed to find student", json: err })
             } else {
                 Post.find({ author: id }, (postErr, postResult) => {
                     if (postErr) {
-                        console.log({ message: postErr })
-                        return res.status(404).json({ type: "/profile/Post find", message: postErr })
+                        return res.json({ code: 4, message: "failed to find post", json: postErr })
                     } else {
-                        console.log(postResult)
-                        res.render('profile', { user: USER_OBJ, userProfile: doc[0], status: postResult })
+                        var data = []
+
+                        data = postResult.map(value => {
+                            var post = {
+                                attach: value.attach,
+                                meta: value.meta,
+                                _id: value._id,
+                                content: value.content,
+                                postTime: getPassedTime(value.postTime, new Date()),
+                                author: value.author
+                            }
+                            return { post, author: doc[0] }
+                        })
+                        res.render('profile', { user: USER_OBJ, userProfile: doc[0], data })
                     }
                 })
             }
         })
     } else {
-        res.status(404).json({ message: "invalid id" })
+        res.json({ code: 1, message: "Invalid user id" })
     }
 })
 
@@ -158,7 +177,7 @@ app.post('/status', async(req, res, next) => {
         console.log(doc)
         if (err) {
             console.log(err)
-            res.status(500).json({ message: err })
+            res.status(500).json({ code: 3, message: "Failed to find student", json: err })
         } else {
             if (doc.length) {
                 new Post({
@@ -179,7 +198,18 @@ app.post('/status', async(req, res, next) => {
                     .then((result) => {
                         var author = Student.find({ _id: mongoose.Types.ObjectId(result.author) })
                             .exec()
-                            .then(std => { res.status(200).json({ post: result, author: std[0] }) })
+                            .then(author => {
+
+                                var post = {
+                                    attach: result.attach,
+                                    meta: result.meta,
+                                    _id: result._id,
+                                    content: result.content,
+                                    postTime: getPassedTime(result.postTime, new Date()),
+                                    author: result.author
+                                }
+                                res.status(200).json({ post, author: author[0] })
+                            })
                             .catch(console.log)
 
                     })
@@ -188,12 +218,53 @@ app.post('/status', async(req, res, next) => {
                         res.status(500).json({ message: err })
                     })
             } else {
-                res.status(412).json({ message: "No valid user id" })
+                res.json({ code: 1, message: "Invalid user id" })
             }
         }
     })
 
 
+})
+
+// Get post page
+app.get('/post/:id', (req, res, next) => {
+    let id = req.params.id
+    if (id) {
+        Post.find({ _id: id })
+            .exec()
+            .then(result => {
+                console.log(result)
+                res.json({ code: 0, message: "Ok", json: result })
+            })
+            .catch(err => {
+                res.json({ code: -1, message: "Get post failed", json: err })
+            })
+    } else {
+        res.json({ code: 1, message: "Invalid id" })
+    }
+})
+
+
+// Upload comment
+app.post('/post', (req, res, next) => {
+    let id = req.body.id
+    let authorID = req.body.authorID
+    let content = req.body.content
+    console.log("id: " + id + " author: " + authorID + " content: " + content)
+    if (id) {
+        // $push: { comments: { body: content, date: new Date(), author: authorID } }
+        Post.findByIdAndUpdate({ _id: id }, { $push: { comments: { body: content, date: new Date(), author: authorID } } }, { new: true })
+            .exec()
+            .then(result => {
+                console.log(result)
+                res.json({ code: 0, message: "Successfully upload comment", json: result })
+            })
+            .catch(err => {
+                res.json({ code: 2, message: "Upload comment failed", json: err })
+            })
+    } else {
+        res.json({ code: 1, message: "Invalid id" })
+    }
 })
 
 // GET/ get all user

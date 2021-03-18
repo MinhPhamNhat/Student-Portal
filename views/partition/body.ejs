@@ -1,0 +1,61 @@
+<div class="main-body">
+    <% data.forEach((value, index)=>{%>
+
+        <!-- post status start -->
+        <div class="card">
+            <!-- post title start -->
+            <div class="post-title d-flex align-items-center">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
+                        <figure class="profile-thumb-middle">
+                            <img src="<%= value.author.avatar %>" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
+
+                <div class="posted-author">
+                    <h6 class="author">
+                        <a href="/profile/<%= value.author._id %>">
+                            <%= value.author.name %>
+                        </a>
+                    </h6>
+                    <span class="post-time"><%= value.post.postTime %></span>
+                </div>
+
+                <div class="post-settings-bar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <div class="post-settings arrow-shape">
+                        <ul>
+                            <li><button>copy link to adda</button></li>
+                            <li><button>edit post</button></li>
+                            <li><button>embed adda</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- post title start -->
+            <div class="post-content">
+                <p class="post-desc pb-0">
+                    <%= value.post.content %>
+                </p>
+                <div class="post-meta">
+
+                    <button class="post-meta-like ">
+                        <div class="pic icon-heart"></div>
+                        <span><%= value.post.meta.likes %></span>
+                    </button>
+                    <button onclick="location.href='/post/<%= value.post._id %>';" class="post-meta-comment">
+                        <div class="pic icon-comment"></div>
+                        <span><%= value.post.meta.comments%></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <!-- post status end -->
+        <%})%>
+</div>

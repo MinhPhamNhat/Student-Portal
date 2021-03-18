@@ -226,64 +226,68 @@ function postStatus() {
 
         if (status === 'success') {
             data = JSON.parse(JSON.stringify(data))
-            console.log(data.author)
             var tag = `
 			<!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="${data.author.avatar}" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
+                                <div class="card">
+                                    <!-- post title start -->
+                                    <div class="post-title d-flex align-items-center">
+                                        <!-- profile picture end -->
+                                        <div class="profile-thumb">
+                                            <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
+                                                <figure class="profile-thumb-middle">
+                                                    <img src="${ data.author.avatar }" alt="profile picture">
+                                                </figure>
+                                            </a>
+                                        </div>
+                                        <!-- profile picture end -->
 
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="">${data.author.name}</a></h6>
-                                    <span class="post-time"> ${data.post.postTime.toLocaleString("en-US")}</span>
-                                </div>
+                                        <div class="posted-author">
+                                            <h6 class="author">
+                                                <a href="/profile/${ data.author._id }">
+                                                    ${ data.author.name }
+                                                </a>
+                                            </h6>
+                                            <span class="post-time">${ data.post.postTime }</span>
+                                        </div>
 
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
+                                        <div class="post-settings-bar">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <div class="post-settings arrow-shape">
+                                                <ul>
+                                                    <li><button>copy link to adda</button></li>
+                                                    <li><button>edit post</button></li>
+                                                    <li><button>embed adda</button></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- post title start -->
+                                    <div class="post-content">
+                                        <p class="post-desc pb-0">
+                                            ${ data.post.content }
+                                        </p>
+                                        <div class="post-meta">
+
+                                            <button class="post-meta-like ">
+                                                <div class="pic icon-heart"></div>
+                                                <span>${ data.post.meta.likes }</span>
+                                            </button>
+                                            <button class="post-meta-comment">
+                                                <div class="pic icon-comment"></div>
+                                                <span>${ data.post.meta.comments}</span>
+                                            </button>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    ${data.post.content}
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>${data.post.meta.likes?'no one likes this post':(data.post.meta.likes+' people like this post')}</span>
-                                        <strong>${data.post.meta.likes}</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>${!data.post.meta.comments?0:data.post.meta.likes}</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-						<!-- post status end -->`
+                                <!-- post status end -->`
             $(".main-body").prepend(tag)
         }
     })
 }
+
+$(".post-meta-comment").on('click', () => {
+    console.log(1)
+})
