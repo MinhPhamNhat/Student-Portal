@@ -44,7 +44,7 @@
                 </p>
                 <div class="post-meta">
 
-                    <button data-id="<%= value.post._id %>" <%= value.vote?"voted":"" %> onclick=vote("<%= value.post._id %>") class="post-meta-like">
+                    <button onclick=vote("<%= value.post._id %>") data-id="<%= value.post._id %>" class="post-meta-like <%= value.vote?" voted ":" " %>">
                         <div style="background-image: url('/images/icons/<%= value.vote?"heart":"unheart" %>.png')" class="pic icon-heart"></div>
                         <span><%= value.post.meta.likes %></span>
                     </button>
