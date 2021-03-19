@@ -216,7 +216,7 @@ function postStatus() {
     $.post("http://localhost:8080/status", {
         poster: cookieValue,
         content: status
-    },(data, status) => {
+    }, (data, status) => {
 
         if (status === 'success') {
             data = JSON.parse(JSON.stringify(data))
@@ -281,42 +281,62 @@ function postStatus() {
     })
 }
 
-$(".post-meta-comment").on('click', () => {
-})
+$(".post-meta-comment").on('click', () => {})
 
-function vote(postid){
+function vote(postid) {
     var userVote = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
     $.post("http://localhost:8080/vote", {
         userVote: userVote,
         postVote: postid
-    },(data, status) => {
+    }, (data, status) => {
         data = JSON.parse(JSON.stringify(data))
         console.log(data)
-        if (status === 'success'){
-            if (data.code === 0){
-                var likeElement = $("[data-id="+postid+"]")
-                if (likeElement.hasClass("voted")){
+        if (status === 'success') {
+            if (data.code === 0) {
+                var likeElement = $("[data-id=" + postid + "]")
+                if (likeElement.hasClass("voted")) {
                     likeElement.removeClass("voted")
-                    $("[data-id="+postid+"] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-                } else{
+                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+                } else {
                     likeElement.toggleClass("voted")
-                    $("[data-id="+postid+"] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
                 }
                 likeElement.find($("span")).html(data.data.no_vote)
             }
-        }else
-        console.log(data)
+        } else
+            console.log(data)
     })
 }
-// $(".post-meta-like").hover(()=>{
-//     var likeElement = $(".post-meta-like")
-//     if (likeElement.hasClass("voted"))
-//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-//     else
-//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
-// }, ()=>{
-//     if (likeElement.hasClass("voted"))
-//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
-//     else
-//     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-// })
+
+$('[data-toggle="tooltip"]').tooltip()
+
+$(".attach .picture").on('click', () => {
+    $(".picture-attach-upload").trigger('click')
+})
+
+$(".picture-attach-upload").change((e) => {
+        var file = e.target.files[0]
+        var image = $('#output');
+        image.src = URL.createObjectURL(file);
+        console.log(image)
+
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+        $(".image-upload-preview").css("display", "block")
+    })
+    // $(".post-meta-like").hover(()=>{
+    //     var likeElement = $(".post-meta-like")
+    //     if (likeElement.hasClass("voted"))
+    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+    //     else
+    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+    // }, ()=>{
+    //     if (likeElement.hasClass("voted"))
+    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+    //     else
+    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+    // })

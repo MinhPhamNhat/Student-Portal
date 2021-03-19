@@ -1,0 +1,84 @@
+<div class="card card-small">
+    <div class="share-box-inner">
+        <!-- profile picture end -->
+        <div class="profile-thumb">
+            <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
+                <figure class="profile-thumb-middle">
+                    <img src="<%= user.avatar %>" alt="profile picture">
+                </figure>
+            </a>
+        </div>
+        <!-- profile picture end -->
+
+        <!-- share content box start -->
+        <div class="share-content-box w-100">
+            <form class="share-text-box">
+                <input name="share" class="share-text-field" aria-disabled="true" placeholder="Say Something" data-toggle="modal" data-target="#textbox" id="email">
+            </form>
+        </div>
+        <!-- share content box end -->
+
+        <!-- Modal start -->
+        <div class="modal hide fade share-modal" id="textbox" aria-labelledby="textbox" tabindex="-1" data-focus-on="input:first">
+            <div class="modal-dialog post-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share Your Mood</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body custom-scroll ps">
+                        <textarea id="share-your-mood" name="share" class="share-field-big custom-scroll ps" placeholder="Say Something"></textarea>
+                    </div>
+                    <div class="image-upload-preview" style="display: none"><img id="output" width="200px"></div>
+                    <div class="attach">
+                        <input type="file" class="picture-attach-upload" accept="image/gif, image/jpeg, image/png" name="file" style="display:none">
+                        <div class="picture"><img class="picture-attach" src="/images/icons/picture.png">Picture</div>
+                        <div class="video" data-toggle="modal" data-target="#youtube-url"><img class="video-attach" src="/images/icons/video.png">Video</div>
+                        <div class="file"><img class="file-attach" src="/images/icons/file.png">File</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel-share-btn" data-dismiss="modal">cancel</button>
+                        <button type="button" onclick="postStatus()" class="post-share-btn">post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal end -->
+
+        <!-- Another modal -->
+        <div id="youtube-url" class="modal hide fade youtube-url" tabindex="-1" data-focus-on="input:first">
+            <div class="modal-dialog post-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Youtube URL</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="url" class="youtube-url-txt">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="post-share-btn">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div id="youtube-url" class="modal hide fade youtube-url" tabindex="-1" data-focus-on="input:first">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>Input your video url</h3>
+            </div>
+            <div class="modal-body">
+                <input type="text">
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Close</button>
+                <button type="button" class="btn btn-primary">Ok</button>
+            </div>
+        </div> -->
+        <!-- Modal end -->
+    </div>
+</div>

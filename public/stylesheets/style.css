@@ -1927,15 +1927,6 @@ only screen and (max-width: 767.98px) {
     background-image: url("/images/icons/heart.png ");
 }
 
-.plyr--video {
-    border-radius: 5px;
-}
-
-.plyr__control--overlaid {
-    opacity: 0;
-    visibility: hidden;
-}
-
 
 /*------- profile picture style start -------*/
 
@@ -10052,10 +10043,6 @@ a:hover {
     padding-bottom: 80px
 }
 
-.video {
-    padding-bottom: 40px
-}
-
 .search-container {
     text-align: center
 }
@@ -11028,11 +11015,6 @@ ul#myTab {
     background: 0 0!important
 }
 
-.video-iframe {
-    width: 100%;
-    height: 400px
-}
-
 .custom-file-input {
     color: transparent;
     opacity: 1;
@@ -11216,6 +11198,7 @@ ul#myTab {
     background-position: center;
 }
 
+
 /* .icon-heart {
     background-image: url("/images/icons/unheart.png ");
 } */
@@ -11229,3 +11212,41 @@ ul#myTab {
 
 
 /*------- mobile footer area end -------*/
+
+
+/* ----- share status area ----- */
+
+.attach {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.attach .picture,
+.attach .video,
+.attach .file {
+    padding: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.picture-attach,
+.video-attach,
+.file-attach {
+    max-width: 30px;
+    max-height: 30px;
+    width: 30px;
+    height: auto;
+    margin: 5px;
+}
+
+.image-upload-preview {
+    margin: 0px 20px 0px 20px;
+    border: 1px solid gray;
+    width: fit-content;
+    padding: 5px;
+}
+
+
+/* ----- share status area ----- */

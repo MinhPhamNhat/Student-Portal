@@ -1,0 +1,103 @@
+
+hr {
+    color: #a09c9c;
+    margin-top: 4px;
+    margin-bottom: 8px
+}
+body {
+    background-color: #eee;
+    font-family: "Time New Roman", sans-serif;
+    font-weight: 300
+}
+.row{
+	margin-top: 15px
+}
+.card {
+    border: none
+}
+.time{
+	color: #a09c9c
+}
+.interactive_color{
+	color: #a09c9c;
+    font-size: 15px	
+}
+.icons .fa-thumbs-up{
+	color: darkblue;
+}
+.icons .fa-heart{
+	color: red;
+}
+.icons .fa-grin-squint, .fa-surprise, .fa-frown{
+	color: Gold;
+}
+.icons .fa-angry{
+	color: Coral;
+}
+.fa-comment-alt{
+	margin-right: 0; 
+}
+.round-img{
+	border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px
+}
+
+.nameOfUser {
+    font-weight: 600
+}
+.interactive_comment_color small {
+    margin-right: 10px;
+    color: blue
+}
+.form-control{
+	background: Lavender;
+    border-radius: 26px;
+}
+
+.form-control:focus{
+    color: #495057;
+    border-color: #8bbafe;
+}
+.comment-input {
+    position: relative
+}
+.fonts {
+    position: absolute;
+    right: 13px;
+    top: 8px;
+    color: #a09c9c
+}
+.icons_more_tool i{
+	font-size: 25px
+
+}
+.addImage{
+	color: Green
+}
+.addEmoji{
+	color: gold
+}
+.Tag{
+	color: Blue
+}
+.addImage:hover,.Tag:hover,.addEmoji:hover, .shr:hover,
+.cmts:hover, .like:hover{
+	font-weight: bold;
+	cursor: pointer;
+}
+.shares:hover,.cmt:hover,.emojiNum:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 16px
+}
+.commments small:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+.interactive_comment_color small:hover{
+	cursor: pointer;
+}
