@@ -1,3 +1,4 @@
+const socket = io.connect("http://localhost:8080");
 (function($) {
     "use strict";
 
@@ -308,17 +309,15 @@ function vote(postid) {
     })
 }
 
-$('[data-toggle="tooltip"]').tooltip()
-
 $(".attach .picture").on('click', () => {
     $(".picture-attach-upload").trigger('click')
 })
 
 $(".picture-attach-upload").change((e) => {
         var file = e.target.files[0]
+        console.log(file)
         var image = $('#output');
         image.src = URL.createObjectURL(file);
-        console.log(image)
 
         var reader = new FileReader();
         reader.onload = function() {
@@ -327,16 +326,9 @@ $(".picture-attach-upload").change((e) => {
         };
         reader.readAsDataURL(file);
         $(".image-upload-preview").css("display", "block")
-    })
-    // $(".post-meta-like").hover(()=>{
-    //     var likeElement = $(".post-meta-like")
-    //     if (likeElement.hasClass("voted"))
-    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-    //     else
-    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
-    // }, ()=>{
-    //     if (likeElement.hasClass("voted"))
-    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/heart.png)")
-    //     else
-    //     $(likeElement+" .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-    // })
+})
+
+$('.image-upload-preview .close-icon').on('click',function() {
+    $('.image-upload-preview').slideToggle(300,'swing');
+    $(".picture-attach-upload").val(null)
+})

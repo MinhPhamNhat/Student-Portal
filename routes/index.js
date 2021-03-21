@@ -5,7 +5,7 @@ const Student = require('../models/student')
 const Vote = require('../models/vote')
 const Post = require('../models/post')
 const getPassedTime = require('../models/time')
-const status = require('../controller/status')
+const status = require('../repository/status')
 
 // GET/ go to newfeed page
 router.get('/', async(req, res, next) => {

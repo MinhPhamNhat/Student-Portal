@@ -11248,5 +11248,7 @@ ul#myTab {
     padding: 5px;
 }
 
-
+.close-icon {
+    cursor: pointer;
+  }
 /* ----- share status area ----- */

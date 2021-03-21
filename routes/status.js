@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const status = require('../controller/status')
+const status = require('../repository/status')
     // POST/ Post status to newfeed
 router.post('/', async(req, res, next) => {
     status.postStatusToDB(req)

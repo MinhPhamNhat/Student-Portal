@@ -31,10 +31,16 @@
                     <div class="modal-body custom-scroll ps">
                         <textarea id="share-your-mood" name="share" class="share-field-big custom-scroll ps" placeholder="Say Something"></textarea>
                     </div>
-                    <div class="image-upload-preview" style="display: none"><img id="output" width="200px"></div>
+                    
+                    <div class="card card-outline-danger text-center image-upload-preview" style="display: none">
+                            <span class="pull-right clickable close-icon" data-effect="fadeOut"><i class="fa fa-times"></i></span>
+                            <div class="card-block">
+                                    <img id="output" width="200px">
+                            </div>
+                          </div>
                     <div class="attach">
                         <input type="file" class="picture-attach-upload" accept="image/gif, image/jpeg, image/png" name="file" style="display:none">
-                        <div class="picture"><img class="picture-attach" src="/images/icons/picture.png">Picture</div>
+                        <div class="picture"><img class="picture-attach" src="/images/icons/picture.png"></div>
                         <div class="video" data-toggle="modal" data-target="#youtube-url"><img class="video-attach" src="/images/icons/video.png">Video</div>
                         <div class="file"><img class="file-attach" src="/images/icons/file.png">File</div>
                     </div>

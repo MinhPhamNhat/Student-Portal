@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const vote = require('../controller/vote')
+const vote = require('../repository/vote')
 
 router.post('/', async(req, res, next) => {
     let userVote = req.body.userVote
