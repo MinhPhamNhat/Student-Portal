@@ -3,11 +3,7 @@ const router = express.Router()
 
 // GET/ go to newfeed page
 router.get('/', (req, res, next) => {
-    if (req.user) {
-        res.redirect('/')
-    } else {
-        res.render('login')
-    }
+    res.render('department', { user: req.user._json })
 
 })
 

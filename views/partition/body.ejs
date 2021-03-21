@@ -48,7 +48,7 @@
                         <div style="background-image: url('/images/icons/<%= value.vote?"heart":"unheart" %>.png')" class="pic icon-heart"></div>
                         <span><%= value.post.meta.likes %></span>
                     </button>
-                    <button onclick="location.href='/post/<%= value.post._id %>';" class="post-meta-comment">
+                    <button onclick="location.href='/status/<%= value.post._id %>';" class="post-meta-comment">
                         <div class="pic icon-comment"></div>
                         <span><%= value.post.meta.comments%></span>
                     </button>

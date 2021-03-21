@@ -217,7 +217,7 @@ function postStatus() {
         poster: cookieValue,
         content: status
     }, (data, status) => {
-
+        console.log(data)
         if (status === 'success') {
             data = JSON.parse(JSON.stringify(data))
             var tag = `<!-- post status start -->
