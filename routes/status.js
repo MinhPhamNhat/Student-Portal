@@ -2,7 +2,16 @@ const express = require('express')
 const router = express.Router()
 const status = require('../repository/status')
     // POST/ Post status to newfeed
+router.get('/', (req, res, next) => {
+    var skip = Number(req.query.skip)
+    console.log(skip)
+    status.findStatus(req,{skip,  limit:5})
+        .then(data => res.json(data))
+        .catch(err => res.json({ code: -1, message: "Failed", json: err }))
+})
+
 router.post('/', async(req, res, next) => {
+    console.log(req.body)
     status.postStatusToDB(req)
         .then(result => JSON.parse(result))
         .then(data => {
@@ -35,6 +44,7 @@ router.get('/:id', (req, res, next) => {
         return res.json({ code: 1, message: "Invalid id" })
     }
 })
+
 
 
 module.exports = router

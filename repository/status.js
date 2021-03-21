@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const Student = require('../models/student')
 const Post = require('../models/post')
-const Comment = require('../models/comment')
 const Vote = require('../models/vote')
 const getPassedTime = require('../models/time')
 module.exports = {
@@ -34,9 +33,10 @@ module.exports = {
             })
     },
 
-    findStatusWithVote: async(req) => {
-        return await Post.find()
-            .sort({ date: 'desc' })
+    findStatus: async(req, {skip, limit}, userid) => {
+        return await Post.find(userid?{author: userid}:undefined)
+        .sort({postTime: -1})
+            .skip(skip).limit(limit)
             .exec()
             .then(async docs => {
                 var data = docs.map(async value => {
@@ -60,10 +60,10 @@ module.exports = {
                             return { post, author: result, vote }
                         })
                 });
-                data = await Promise.all(data.reverse())
+                data = await Promise.all(data)
                 return JSON.stringify({ code: 0, message: "success", data })
             }).catch(err => {
-                return JSON.stringify({ code: 1, message: "faile", json: err })
+                return JSON.stringify({ code: 1, message: "fail", json: err })
             })
     },
 

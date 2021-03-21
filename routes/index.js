@@ -1,16 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose');
-const Student = require('../models/student')
-const Vote = require('../models/vote')
-const Post = require('../models/post')
-const getPassedTime = require('../models/time')
 const status = require('../repository/status')
 
 // GET/ go to newfeed page
 router.get('/', async(req, res, next) => {
     if (req.user) {
-        status.findStatusWithVote(req)
+        status.findStatus(req,{skip: 0,  limit:5})
             .then(result => JSON.parse(result))
             .then(data => {
                 if (data.code === 0) {

@@ -12,6 +12,7 @@ const authen = require('./repository/authenticateUser')
 const mongoose = require('mongoose')
 const socketio = require("socket.io")
 const http = require('http')
+const fs = require('fs')
 
 require('./authenticate')
 require('dotenv').config()
