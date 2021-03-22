@@ -6,12 +6,12 @@ router.get('/', (req, res, next) => {
     var skip = Number(req.query.skip)
     console.log(skip)
     status.findStatus(req,{skip,  limit:5})
+        .then(result => JSON.parse(result))
         .then(data => res.json(data))
         .catch(err => res.json({ code: -1, message: "Failed", json: err }))
 })
 
 router.post('/', async(req, res, next) => {
-    console.log(req.body)
     status.postStatusToDB(req)
         .then(result => JSON.parse(result))
         .then(data => {
@@ -38,13 +38,27 @@ router.get('/:id', (req, res, next) => {
                     res.json(data)
                 }
             }).catch(err => {
-                res.json({ code: -1, message: "Failed to get status", json: err })
+                res.json({ code: -2, message: "Failed to get status", json: err })
             })
     } else {
-        return res.json({ code: 1, message: "Invalid id" })
+        return res.json({ code: -1, message: "Invalid id" })
     }
 })
 
-
+// Get post page
+router.put('/vote', (req, res, next) => {
+    var body = JSON.parse(JSON.stringify(req.body))
+    var postid = body.postid
+    var userVote = body.userVote
+    if (postid && userVote) {
+        status.voteStatus(postid, userVote)
+            .then(result => JSON.parse(result))
+            .then(data => res.json(data)).catch(err => {
+                res.json({ code: -1, message: "Failed to get status", json: err })
+            })
+    } else {
+        return res.json({ code: -1, message: "Invalid id" })
+    }
+})
 
 module.exports = router

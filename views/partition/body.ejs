@@ -1,65 +1,73 @@
 <div class="main-body">
-    <% data.forEach((value, index)=>{%>
+    <% data.forEach((value)=>{%>
 
         <!-- post status start -->
-        <div class="card post-card">
-            <!-- post title start -->
-            <div class="post-title d-flex align-items-center">
-                <!-- profile picture end -->
-                <div class="profile-thumb">
-                        <a href="/profile/<%= value.author._id %>">
-                        <figure class="profile-thumb-middle">
-                            <img src="<%= value.author.avatar %>" alt="profile picture">
-                        </figure>
-                    </a>
-                </div>
-                <!-- profile picture end -->
 
-                <div class="posted-author">
-                    <h6 class="author">
-                        <a href="/profile/<%= value.author._id %>">
-                            <%= value.author.name %>
-                        </a>
-                    </h6>
-                    <span class="post-time"><%= value.post.postTime %></span>
-                </div>
 
-                <div class="post-settings-bar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <div class="post-settings arrow-shape">
-                        <ul>
-                            <li><button>Delete</button></li>
-                            <li><button>Edit</button></li>
-                        </ul>
+        <!-- <div class="post-card card">
+            <div class="card-header">
+                    <div class="picture" ><img src="<%= value.author.picture %>" class="rounded-circle"></div>
+                    <div class="info-block">
+                            <div class="name"><%= value.author.name %></div>
+                            <div class="role">Student</div>
+
                     </div>
+                    <div class="time"><%= value.date %></div>
+                    <div class="option"></div>
+            </div>
+                <img class="card-img-top" src="/images/gallery-1.jpg" alt="Card image cap">
+                
+        </div> -->
+
+        <div class="post-card">
+                <div class="row d-flex align-items-center justify-content-center">
+                        <div class="card">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center"> <img src="<%= value.author.picture %>" width="50" class="rounded-circle">
+                                    <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"><%= value.author.name %></span> <small class="text-primary">Collegues</small> </div>
+                                </div>
+                                <div class="ellipsis"> <small class="time"><%= value.date %></small> <i class="fa fa-ellipsis-h"></i> </div>
+                            </div> 
+                        </br>
+                                <p class="text-justify"><%= value.content %></p>
+                        </br>
+                                <img src="/images/gallery-1.jpg" class="img-fluid">
+                            <div class="p-2">
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-row icons d-flex align-items-center">
+                                        <button onclick=vote(this) data-id="<%= value._id %>" class="post-meta-like <%= value.vote?"voted":"" %>">
+                                        <div style="background-image: url('/images/icons/<%= value.vote?"heart":"unheart" %>.png')" class="pic icon-heart"></div>
+                                        <span><%= value.meta.votes.length %></span>
+                                    </button></div>
+                                    <div class="d-flex flex-row muted-color"> <span><%= value.meta.comments.length%> comments</span> <span class="ml-2">Share</span> </div>
+                                </div>
+                                <hr>
+                                <div class="comments">
+                                    <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-image">
+                                        <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
+                                            <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>18 mins</small> </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/1YrCKa1.jpg" width="40" class="rounded-image">
+                                        <div class="d-flex flex-column ml-2"> <span class="name">Elizabeth goodmen</span> <small class="comment-text">Thanks for sharing!</small>
+                                            <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>8 mins</small> </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-input"> <input type="text" class="form-control">
+                                        <div class="fonts"> <i class="fa fa-camera"></i> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
-            <!-- post title start -->
-            <div class="post-content">
-                <p class="post-desc pb-0">
-                    <%= value.post.content %>
-                </p>
-            </br>
-                <img src="/images/gallery-1.jpg">
-                <div class="post-meta">
-
-                    <button onclick=vote("<%= value.post._id %>") data-id="<%= value.post._id %>" class="post-meta-like <%= value.vote?" voted ":" " %>">
-                        <div style="background-image: url('/images/icons/<%= value.vote?"heart":"unheart" %>.png')" class="pic icon-heart"></div>
-                        <span><%= value.post.meta.likes %></span>
-                    </button>
-                    <button onclick="location.href='/status/<%= value.post._id %>';" class="post-meta-comment">
-                        <div class="pic icon-comment"></div>
-                        <span><%= value.post.meta.comments%></span>
-                    </button>
-
-                </div>
-            </div>
-        </div>
         <!-- post status end -->
+
+        
         <%})%>
     <div class="body-loading" style="display:none">
             <img src="/images/icons/loading.svg">
     </div>
+    
 </div>

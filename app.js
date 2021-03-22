@@ -28,7 +28,6 @@ const loginRouter = require('./routes/login')
 const accountRouter = require('./routes/account')
 const profileRouter = require('./routes/profile')
 const statusRouter = require('./routes/status')
-const voteRouter = require('./routes/vote');
 const notiRouter = require('./routes/notificator')
 const departmentRouter = require('./routes/department')
 
@@ -57,7 +56,6 @@ app.use('/account', accountRouter)
 app.use('/', indexRouter);
 app.use('/profile', authen.authen, profileRouter)
 app.use('/status', authen.authen, statusRouter);
-app.use('/vote', voteRouter)
 app.use('/notification', authen.authen, notiRouter)
 app.use('/department', authen.authen, departmentRouter)
 

@@ -3,15 +3,15 @@ const mongoose = require('mongoose')
 const postSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     content: String,
-    postTime: Date,
-    author: String,
+    date: Date,
+    author: {name: String, picture: String, authorId: String},
     attach: {
         picture: String,
         video: String,
     },
     meta: {
-        likes: Number,
-        comments: Number,
+        votes: Array,
+        comments: Array,
     }
 });
 

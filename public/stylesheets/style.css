@@ -1605,7 +1605,7 @@ only screen and (max-width: 767.98px) {
     }
 }
 
-.post-card, .widget-item, .card-small {
+.widget-item, .card-small {
     border: none;
     border-radius: 0;
     padding: 30px;
@@ -1615,7 +1615,7 @@ only screen and (max-width: 767.98px) {
 }
 
 @media only screen and (max-width: 767.98px) {
-    .post-card, .widget-item, .card-small {
+    .widget-item, .card-small {
         margin-bottom: 10px;
     }
 }
@@ -1630,11 +1630,11 @@ only screen and (max-width: 767.98px) {
     padding: 0;
 }
 
-.post-card:last-child, .widget-item:last-child, .card-small:last-child {
+.widget-item:last-child, .card-small:last-child {
     margin-bottom: 0;
 }
 
-.post-card.widget-item {
+.widget-item {
     padding: 25px;
 }
 
@@ -11301,10 +11301,109 @@ ul#myTab {
     cursor: pointer;
   }
 /* ----- end department area ----- */
-    .bs-example{
-    	margin: 20px;
-        position: relative;
-    }
-    .OKOK{
-        margin-top: 100px;
-    }
+  
+/* ----- status area ----- */
+  
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+
+.post-card .card {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 30px;
+    padding:20px;
+    border: none;
+    box-shadow: 0px 1px 20px 0px rgba(85, 85, 85, 0.25);
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+
+.post-card .ellipsis {
+    padding:10px;
+    color: #a09c9c
+}
+.post-card .ellipsis i, .post-card .ellipsis .time{
+    margin: 5px;
+}
+
+
+.post-card hr {
+    color: #a09c9c;
+    margin-top: 4px;
+    margin-bottom: 8px
+}
+
+.post-card .muted-color {
+    color: #a09c9c;
+    font-size: 13px
+}
+
+.post-card .ellipsis i {
+    margin-top: 3px;
+    cursor: pointer
+}
+
+.post-card .icons i {
+    font-size: 25px
+}
+
+.post-card .icons .fa-heart {
+    color: red
+}
+
+.post-card .icons .fa-smile-o {
+    color: yellow;
+    font-size: 29px
+}
+
+.post-card .rounded-image {
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px
+}
+
+.post-card .name {
+    font-weight: 600
+}
+
+.post-card .comment-text {
+    font-size: 12px
+}
+
+.post-card .status small {
+    margin-right: 10px;
+    color: blue
+}
+
+.post-card .form-control {
+    border-radius: 26px
+}
+
+.post-card .comment-input {
+    position: relative
+}
+
+.post-card .fonts {
+    position: absolute;
+    right: 13px;
+    top: 8px;
+    color: #a09c9c
+}
+
+.post-card .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none
+}
+
+.post-card .post-meta-like{
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}

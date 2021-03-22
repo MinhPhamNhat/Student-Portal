@@ -209,69 +209,57 @@ const socket = io.connect("http://localhost:8080");
 })(jQuery);
 
 
-const newPost = (data) => `<!-- post status start -->
-    <div class="card post-card">
-        <!-- post title start -->
-        <div class="post-title d-flex align-items-center">
-            <!-- profile picture end -->
-            <div class="profile-thumb">
-                <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                    <figure class="profile-thumb-middle">
-                        <img src="${ data.author.avatar}" alt="profile picture">
-                    </figure>
-                </a>
-            </div>
-            <!-- profile picture end -->
-
-            <div class="posted-author">
-                <h6 class="author">
-                    <a href="/profile/${ data.author._id}">
-                        ${ data.author.name}
-                    </a>
-                </h6>
-                <span class="post-time">${ data.post.postTime}</span>
-            </div>
-
-            <div class="post-settings-bar">
-                <span></span>
-                <span></span>
-                <span></span>
-                <div class="post-settings arrow-shape">
-                    <ul>
-                        <li><button>copy link to adda</button></li>
-                        <li><button>edit post</button></li>
-                        <li><button>embed adda</button></li>
-                    </ul>
+const newPost = (value) => `
+<!-- post status start -->
+<div class="post-card">
+                <div class="row d-flex align-items-center justify-content-center">
+                        <div class="card">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center"> <img src="${ value.author.picture }" width="50" class="rounded-circle">
+                                    <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">${ value.author.name }</span> <small class="text-primary">Collegues</small> </div>
+                                </div>
+                                <div class="ellipsis"> <small class="time">${ value.date }</small> <i class="fa fa-ellipsis-h"></i> </div>
+                            </div> 
+                        </br>
+                                <p class="text-justify">${ value.content }</p>
+                        </br>
+                                <img src="/images/gallery-1.jpg" class="img-fluid">
+                            <div class="p-2">
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-row icons d-flex align-items-center">
+                                        <button onclick=vote(this) data-id="${ value._id }" class="post-meta-like ${ value.vote?"voted":"" }">
+                                        <div style="background-image: url('/images/icons/${ value.vote?"heart":"unheart" }.png')" class="pic icon-heart"></div>
+                                        <span>${ value.meta.votes.length }</span>
+                                    </button></div>
+                                    <div class="d-flex flex-row muted-color"> <span>${ value.meta.comments.length} comments</span> <span class="ml-2">Share</span> </div>
+                                </div>
+                                <hr>
+                                <div class="comments">
+                                    <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-image">
+                                        <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
+                                            <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>18 mins</small> </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/1YrCKa1.jpg" width="40" class="rounded-image">
+                                        <div class="d-flex flex-column ml-2"> <span class="name">Elizabeth goodmen</span> <small class="comment-text">Thanks for sharing!</small>
+                                            <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>8 mins</small> </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-input"> <input type="text" class="form-control">
+                                        <div class="fonts"> <i class="fa fa-camera"></i> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
-        </div>
-        <!-- post title start -->
-        <div class="post-content">
-            <p class="post-desc pb-0">
-                ${ data.post.content}
-            </p>
-            <div class="post-meta">
-
-                <button data-id="${ data.post._id}" ${data.vote ? "voted" : ""} onclick=vote("${data.post._id}") class="post-meta-like">
-                    <div style="background-image: url('/images/icons/${ data.vote ? "heart" : "unheart"}.png')" class="pic icon-heart"></div>
-                    <span>${ data.post.meta.likes}</span>
-                </button>
-                <button onclick="location.href='/post/${ data.post._id}';" class="post-meta-comment">
-                    <div class="pic icon-comment"></div>
-                    <span>${ data.post.meta.comments}</span>
-                </button>
-
-            </div>
-        </div>
-    </div>
-    <!-- post status end -->`
+<!-- post status end -->`
 
 const postStatus = () => {
     $("#textbox").modal("hide")
     var status = $("#share-your-mood").val();
-    var cookieValue = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
     $.post("http://localhost:8080/status", {
-        poster: cookieValue,
         content: status
     }, (data, status) => {
         console.log(data)
@@ -282,43 +270,51 @@ const postStatus = () => {
         }
     })
 }
+const tongleVote = (isVoted) => {
+    
+}
+const vote = (target) => {
+    var postid = target.dataset.id
+    var userVote = document.cookie.split('; ').find(row => row.startsWith('userID=')).split('=')[1].replace("j%3A%22","").replace("%22","");
+    var data = { postid, userVote }
+    console.log(userVote)
+    fetch("http://localhost:8080/status/vote", {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
 
-const vote = (postid) => {
-    var userVote = document.cookie.split('; ').find(row => row.startsWith('session_id=')).split('=')[1];
-    $.post("http://localhost:8080/vote", {
-        userVote: userVote,
-        postVote: postid
-    }, (data, status) => {
-        data = JSON.parse(JSON.stringify(data))
-        console.log(data)
-        if (status === 'success') {
+    })
+        .then(result => result.json())
+        .then(data => {
+            console.log(data)
             if (data.code === 0) {
                 var likeElement = $("[data-id=" + postid + "]")
-                if (likeElement.hasClass("voted")) {
-                    likeElement.removeClass("voted")
-                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
-                } else {
+                likeElement.find($("span")).html(data.data.no_vote)
+                if (data.data.actionVote) {
                     likeElement.toggleClass("voted")
                     $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+                } else {
+                    likeElement.removeClass("voted")
+                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")  
                 }
-                likeElement.find($("span")).html(data.data.no_vote)
             }
-        } else
-            console.log(data)
-    })
+        })
+        .catch()
+
 }
 
 const loadMorePost = (skip) => {
     return fetch(`http://localhost:8080/status?skip=${skip}`)
         .then(result => result.json())
         .then(data => {
-            console.log(data.code)
+            console.log(data)
             if (data.code === 0) {
                 return data.data
             } else {
-
             }
-        }).catch(err => cosnoel.log(err))
+        })
 }
 
 $(".attach .picture").on('click', () => {
@@ -366,43 +362,41 @@ window.onscroll = async (e) => {
                 })
                 $('.body-loading').css("display", "none")
             }
-        }).catch(err => {
-            console.log(err)
         })
 
     }
 };
-$(document).ready(function(){
-    var tag, x, y, timeOut;
-    for (var i = 0; i < 50; i++) {
-        x = Math.floor(Math.random() * 1920);
-        y = Math.floor(Math.random() * 1080);
-        timeOut = Math.floor(Math.random() * 2000) + 1000;
-        tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
-        right: ${x}; z-index: 100;">
-        <div class="toast-header">
-            <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
-            <small>0 sec ago</small>
-            <button type="button" class="ml-2 mb-1 close"
-                data-dismiss="toast">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            <div>Chúc bạn trải nghiệm vui vẻ</div>
-        </div>
-    </div>`
-        $("body").append(tag)
-        
-        $(`.toast-${i}`).toast({ delay: timeOut });
-        $(`.toast-${i}`).toast("show")
-    }
-    setTimeout(function () {
-        for (var i = 0; i < 50; i++){
-            $(`.toast-${i}`).remove()
-        }
-    }, 2500)
-  });
+// $(document).ready(function () {
+//     var tag, x, y, timeOut;
+//     for (var i = 0; i < 50; i++) {
+//         x = Math.floor(Math.random() * 1920);
+//         y = Math.floor(Math.random() * 1080);
+//         timeOut = Math.floor(Math.random() * 2000) + 1000;
+//         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
+//         right: ${x}; z-index: 100;">
+//         <div class="toast-header">
+//             <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
+//             <small>0 sec ago</small>
+//             <button type="button" class="ml-2 mb-1 close"
+//                 data-dismiss="toast">
+//                 <span aria-hidden="true">&times;</span>
+//             </button>
+//         </div>
+//         <div class="toast-body">
+//             <div>Chúc bạn trải nghiệm vui vẻ</div>
+//         </div>
+//     </div>`
+//         $("body").append(tag)
+
+//         $(`.toast-${i}`).toast({ delay: timeOut });
+//         $(`.toast-${i}`).toast("show")
+//     }
+//     setTimeout(function () {
+//         for (var i = 0; i < 50; i++) {
+//             $(`.toast-${i}`).remove()
+//         }
+//     }, 2500)
+// });
 // $(".show-toast").click(function () {
 //     for (var i = 0; i < 100; i++) {
 //         var x = Math.floor(Math.random() * 1920);
@@ -424,7 +418,7 @@ $(document).ready(function(){
 //         </div>
 //     </div>`
 //         $("body").append(tag)
-        
+
 //         $(`.toast-${i}`).toast("show")
 //     }
 //     setTimeout(function () {
@@ -432,7 +426,7 @@ $(document).ready(function(){
 //             $(`.toast-${i}`).remove()
 //         }
 //     }, 1000)
-    
-    
+
+
 
 // })
