@@ -1,8 +1,8 @@
 const socket = io.connect("http://localhost:8080");
-(function ($) {
+(function($) {
     "use strict";
 
-    $(".msg-trigger-btn").on("click", function (event) {
+    $(".msg-trigger-btn").on("click", function(event) {
         event.stopPropagation();
         event.preventDefault();
         var $this = $(this);
@@ -14,7 +14,7 @@ const socket = io.connect("http://localhost:8080");
     });
 
     //Close When Click Outside
-    $('body').on('click', function (e) {
+    $('body').on('click', function(e) {
         var $target = e.target;
         if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
             $(".message-dropdown").slideUp("slow");
@@ -23,7 +23,7 @@ const socket = io.connect("http://localhost:8080");
 
     //Background Image JS start
     var bgSelector = $(".bg-img");
-    bgSelector.each(function (index, elem) {
+    bgSelector.each(function(index, elem) {
         var element = $(elem),
             bgSource = element.data('bg');
         element.css('background-image', 'url(' + bgSource + ')');
@@ -36,17 +36,17 @@ const socket = io.connect("http://localhost:8080");
         prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
         nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
         responsive: [{
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 5,
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 8,
+                }
             }
-        },
-        {
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 8,
-            }
-        }
         ]
     });
 
@@ -70,64 +70,64 @@ const socket = io.connect("http://localhost:8080");
         slidesToShow: 5,
         arrows: false,
         responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 3,
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 2,
+                }
             }
-        },
-        {
-            breakpoint: 576,
-            settings: {
-                slidesToShow: 2,
-            }
-        }
         ]
     });
 
     // live chat box and friend search box active js
-    $(".profile-active").on('click', function () {
+    $(".profile-active").on('click', function() {
         $(".chat-output-box").addClass('show');
     })
-    $(".search-field").on('click', function () {
+    $(".search-field").on('click', function() {
         $(".friend-search-list").addClass('show');
     })
-    $(".close-btn").on('click', function () {
+    $(".close-btn").on('click', function() {
         var $this = $(this),
             $target = $this.data('close');
         $('.' + $target).removeClass('show');
     })
 
     // mobile header seach box active
-    $(".search-trigger").on('click', function () {
+    $(".search-trigger").on('click', function() {
         $('.search-trigger, .mob-search-box').toggleClass('show');
     })
 
-    $(".chat-trigger, .close-btn").on('click', function () {
+    $(".chat-trigger, .close-btn").on('click', function() {
         $('.mobile-chat-box').toggleClass('show');
     })
-    $(".request-trigger1").on('click', function () {
+    $(".request-trigger1").on('click', function() {
         $('.portal-request-list').removeClass('show');
         $('.frnd-request-list').toggleClass('show');
     })
 
-    $(".request-trigger2").on('click', function (event) {
+    $(".request-trigger2").on('click', function(event) {
         $('.frnd-request-list').removeClass('show');
         $('.portal-request-list').toggleClass('show');
     })
 
     // mobile friend search active js
-    $(".search-toggle-btn").on('click', function () {
+    $(".search-toggle-btn").on('click', function() {
         $('.mob-frnd-search-inner').toggleClass('show');
     })
 
     // profile dropdown triger js
-    $('.profile-triger').on('click', function (event) {
+    $('.profile-triger').on('click', function(event) {
         event.stopPropagation();
         $(".profile-dropdown").slideToggle();
     })
 
     //Close When Click Outside
-    $('body').on('click', function (e) {
+    $('body').on('click', function(e) {
         var $target = e.target;
         if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
             $(".profile-dropdown").slideUp("slow");
@@ -135,13 +135,13 @@ const socket = io.connect("http://localhost:8080");
     });
 
     // perfect scroll bar js
-    $('.custom-scroll').each(function () {
+    $('.custom-scroll').each(function() {
         var ps = new PerfectScrollbar($(this)[0]);
     });
 
 
     // light gallery active js
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".img-popup").lightGallery();
 
         // light gallery images
@@ -151,7 +151,7 @@ const socket = io.connect("http://localhost:8080");
         });
     });
 
-    $('.gallery-toggle').on('click', function () {
+    $('.gallery-toggle').on('click', function() {
 
         var productThumb = $(this).find(".product-thumb-large-view img"),
             imageSrcLength = productThumb.length,
@@ -171,10 +171,10 @@ const socket = io.connect("http://localhost:8080");
     });
 
     // photo filter active js
-    $('.photo-filter').imagesLoaded(function () {
+    $('.photo-filter').imagesLoaded(function() {
         var $grid = $('.photo-filter, .friends-list').isotope({});
         // filter items on button click
-        $('.filter-menu').on('click', 'button', function () {
+        $('.filter-menu').on('click', 'button', function() {
             var filterValue = $(this).attr('data-filter');
             $grid.isotope({ filter: filterValue });
             $(this).siblings('.active').removeClass('active');
@@ -187,21 +187,21 @@ const socket = io.connect("http://localhost:8080");
     $('select').niceSelect();
 
     // Scroll to top active js
-    $(window).on('scroll', function () {
+    $(window).on('scroll', function() {
         if ($(this).scrollTop() > 600) {
             $('.scroll-top').removeClass('not-visible');
         } else {
             $('.scroll-top').addClass('not-visible');
         }
     });
-    $('.scroll-top').on('click', function (event) {
+    $('.scroll-top').on('click', function(event) {
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
     });
 
 
-    $('#email').bind("cut copy paste", function (e) {
+    $('#email').bind("cut copy paste", function(e) {
         e.preventDefault();
     });
 
@@ -271,21 +271,21 @@ const postStatus = () => {
     })
 }
 const tongleVote = (isVoted) => {
-    
+
 }
 const vote = (target) => {
     var postid = target.dataset.id
-    var userVote = document.cookie.split('; ').find(row => row.startsWith('userID=')).split('=')[1].replace("j%3A%22","").replace("%22","");
+    var userVote = document.cookie.split('; ').find(row => row.startsWith('userID=')).split('=')[1].replace("j%3A%22", "").replace("%22", "");
     var data = { postid, userVote }
     console.log(userVote)
     fetch("http://localhost:8080/status/vote", {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
 
-    })
+        })
         .then(result => result.json())
         .then(data => {
             console.log(data)
@@ -297,7 +297,7 @@ const vote = (target) => {
                     $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
                 } else {
                     likeElement.removeClass("voted")
-                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")  
+                    $("[data-id=" + postid + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
                 }
             }
         })
@@ -312,8 +312,7 @@ const loadMorePost = (skip) => {
             console.log(data)
             if (data.code === 0) {
                 return data.data
-            } else {
-            }
+            } else {}
         })
 }
 
@@ -334,7 +333,7 @@ $(".picture-attach-upload").change((e) => {
     image.src = URL.createObjectURL(file);
 
     var reader = new FileReader();
-    reader.onload = function () {
+    reader.onload = function() {
         var output = document.getElementById('output');
         output.src = reader.result;
     };
@@ -342,12 +341,12 @@ $(".picture-attach-upload").change((e) => {
     $(".image-upload-preview").css("display", "block")
 })
 
-$('.image-upload-preview .close-icon').on('click', function () {
+$('.image-upload-preview .close-icon').on('click', function() {
     $('.image-upload-preview').slideToggle(300, 'swing');
     $(".picture-attach-upload").val(null)
 })
 
-window.onscroll = async (e) => {
+window.onscroll = async(e) => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         console.log(1)
         const countPost = $(".post-card").length
@@ -366,27 +365,43 @@ window.onscroll = async (e) => {
 
     }
 };
-// $(document).ready(function () {
-//     var tag, x, y, timeOut;
-//     for (var i = 0; i < 50; i++) {
-//         x = Math.floor(Math.random() * 1920);
-//         y = Math.floor(Math.random() * 1080);
-//         timeOut = Math.floor(Math.random() * 2000) + 1000;
-//         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
-//         right: ${x}; z-index: 100;">
-//         <div class="toast-header">
-//             <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
-//             <small>0 sec ago</small>
-//             <button type="button" class="ml-2 mb-1 close"
-//                 data-dismiss="toast">
-//                 <span aria-hidden="true">&times;</span>
-//             </button>
-//         </div>
-//         <div class="toast-body">
-//             <div>Chúc bạn trải nghiệm vui vẻ</div>
-//         </div>
-//     </div>`
-//         $("body").append(tag)
+
+$(".hide-comment-section").on('click', (e) => {
+    var id = e.target.dataset.id
+    var commentSection = $(`.post-${id} .comments`)
+    commentSection.slideUp(300, 'swing')
+})
+
+$('.comment-input-section').on('click', (e) => {
+    var id = e.target.dataset.id
+    var commentSection = $(`.post-${id} .comments`)
+    commentSection.slideDown(300, 'swing')
+})
+
+$('.post-card .fonts').on('click', () => {
+        console.log($('.comments-input').val())
+    })
+    // $(document).ready(function () {
+    //     var tag, x, y, timeOut;
+    //     for (var i = 0; i < 50; i++) {
+    //         x = Math.floor(Math.random() * 1920);
+    //         y = Math.floor(Math.random() * 1080);
+    //         timeOut = Math.floor(Math.random() * 2000) + 1000;
+    //         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
+    //         right: ${x}; z-index: 100;">
+    //         <div class="toast-header">
+    //             <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
+    //             <small>0 sec ago</small>
+    //             <button type="button" class="ml-2 mb-1 close"
+    //                 data-dismiss="toast">
+    //                 <span aria-hidden="true">&times;</span>
+    //             </button>
+    //         </div>
+    //         <div class="toast-body">
+    //             <div>Chúc bạn trải nghiệm vui vẻ</div>
+    //         </div>
+    //     </div>`
+    //         $("body").append(tag)
 
 //         $(`.toast-${i}`).toast({ delay: timeOut });
 //         $(`.toast-${i}`).toast("show")

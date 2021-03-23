@@ -49,8 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: "MeoMeo" }))
 app.use(passport.initialize())
 app.use(passport.session())
-
-// route
+    // route
 app.use('/login', loginRouter)
 app.use('/account', accountRouter)
 app.use('/', indexRouter);
@@ -82,7 +81,7 @@ io.on('connection', socket => {
 
     console.log(socket.id + " Just join server")
 
-    socket.on('disconnect', ()=>{
+    socket.on('disconnect', () => {
         console.log(socket.id + " Just disconnect from server")
     })
 
