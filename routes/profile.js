@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 const status = require('../repository/status')
-const user = require('../repository/user')
 // GET profile page
 router.get('/:id', async(req, res, next) => {
     let id = req.params.id

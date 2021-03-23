@@ -5,10 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
 const passport = require('passport');
-const { start } = require('repl');
 const jwt = require('jsonwebtoken')
 const session = require('express-session')
-const authen = require('./repository/authenticateUser')
+const authen = require('./middleware/authenticateUser')
 const mongoose = require('mongoose')
 const socketio = require("socket.io")
 const http = require('http')
@@ -58,7 +57,12 @@ app.use('/status', authen.authen, statusRouter);
 app.use('/notification', authen.authen, notiRouter)
 app.use('/department', authen.authen, departmentRouter)
 
-
+app.locals.toBase64 = (arr)=> {
+    //arr = new Uint8Array(arr) if it's an ArrayBuffer
+    return btoa(
+       arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+ }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

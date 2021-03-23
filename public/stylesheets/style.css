@@ -1606,7 +1606,8 @@ only screen and (max-width: 767.98px) {
 }
 
 .widget-item,
-.card-small {
+.card-small,
+.post-card {
     border: none;
     border-radius: 0;
     padding: 30px;
@@ -1622,11 +1623,6 @@ only screen and (max-width: 767.98px) {
     }
 }
 
-.card-small {
-    padding: 16px;
-    -webkit-box-shadow: none;
-    box-shadow: 0px 1px 15px 0px rgb(51 51 51 / 20%);
-}
 
 .card-profile {
     padding: 0;
@@ -11317,13 +11313,7 @@ ul#myTab {
 /* ----- status area ----- */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
-.post-card .card {
-    border: none;
-    border-radius: 0;
-    margin-bottom: 30px;
-    padding: 20px;
-    border: none;
-    box-shadow: 0px 1px 20px 0px rgba(85, 85, 85, 0.25);
+.post-card {
     font-family: "Poppins", sans-serif;
     font-weight: 300;
 }
@@ -11449,4 +11439,23 @@ ul#myTab {
     bottom: 20px;
     color: #a09c9c;
     cursor: pointer;
+}
+hr{
+    display: block;
+}
+
+.comment-loading{
+    flex: 1;
+    justify-self: center;
+    display: none;
+}
+
+.post-card .main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.post-card .text-justify{
+    margin: 10px 20px 20px 20px;
 }
