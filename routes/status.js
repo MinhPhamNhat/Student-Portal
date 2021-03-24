@@ -3,19 +3,19 @@ const router = express.Router()
 const status = require('../repository/status')
 const upload = require('../middleware/file')
 const fs = require('fs')
-// Get status
+    // Get status
 router.get('/', (req, res, next) => {
     var skip = Number(req.query.skip)
     console.log(skip)
     status.findStatus(req, { skip, limit: 5 })
         .then(result => JSON.parse(result))
         .then(data => res.json(data))
-        .catch(err => res.json({ code: -1, message: "Failed", json: err }))
 })
 
 // Post status
 router.post('/', upload.single('file'), (req, res, next) => {
-    if (req.file){
+    console.log("CONTENT : " + req)
+    if (req.file) {
         var img = fs.readFileSync(req.file.path);
         var encode_image = img.toString('base64');
         var asdasdafas = {
@@ -23,13 +23,12 @@ router.post('/', upload.single('file'), (req, res, next) => {
             contentType: req.file.mimetype,
             image: new Buffer(encode_image, 'base64')
         };
-    }else{
+    } else {
         var asdasdafas = {
             content: req.body.content,
         };
     }
-    console.log(asdasdafas)
-    var userID = req.cookies.userID 
+    var userID = req.user._id
     status.postStatusToDB(asdasdafas, userID)
         .then(result => JSON.parse(result))
         .then(data => {
@@ -43,24 +42,24 @@ router.post('/', upload.single('file'), (req, res, next) => {
 
 // Vote status
 router.put('/vote', (req, res, next) => {
-    var body = JSON.parse(JSON.stringify(req.body))
-    var statusid = body.statusid
-    var userID = req.cookies.userID
-    if (statusid) {
-        status.voteStatus(statusid, userID)
-            .then(result => JSON.parse(result))
-            .then(data => res.json(data)).catch(err => {
-                res.json({ code: -1, message: "Failed to vote status", json: err })
-            })
-    } else {
-        return res.json({ code: -1, message: "Invalid id" })
-    }
-})
-// Comment status
+        var body = JSON.parse(JSON.stringify(req.body))
+        var statusid = body.statusid
+        var userID = req.user._id
+        if (statusid) {
+            status.voteStatus(statusid, userID)
+                .then(result => JSON.parse(result))
+                .then(data => res.json(data)).catch(err => {
+                    res.json({ code: -1, message: "Failed to vote status", json: err })
+                })
+        } else {
+            return res.json({ code: -1, message: "Invalid id" })
+        }
+    })
+    // Comment status
 router.put('/comment', (req, res, next) => {
     var body = JSON.parse(JSON.stringify(req.body))
     var { statusid, content } = body
-    var userID = req.cookies.userID
+    var userID = req.user._id
     if (statusid) {
         status.insertComment(statusid, userID, content)
             .then(result => {

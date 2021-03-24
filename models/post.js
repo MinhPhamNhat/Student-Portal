@@ -4,7 +4,7 @@ const postSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     content: String,
     date: Date,
-    author: { name: String, picture: String, authorId: String },
+    author: { name: String, picture: String, authorId: String, role: String },
     attach: {
         picture: Buffer,
         video: String,

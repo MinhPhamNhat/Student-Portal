@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const status = require('../repository/status')
 
 // GET/ go to newfeed page
-router.get('/', async (req, res, next) => {
+router.get('/', async(req, res, next) => {
+    console.log(req.user)
     if (req.user) {
-        res.render('index', { user: req.user._json })
+        res.render('index', { user: req.user })
     } else {
         res.redirect('/login')
     }

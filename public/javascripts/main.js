@@ -1,8 +1,8 @@
 const socket = io.connect("http://localhost:8080");
-(function ($) {
+(function($) {
     "use strict";
 
-    $(".msg-trigger-btn").on("click", function (event) {
+    $(".msg-trigger-btn").on("click", function(event) {
         event.stopPropagation();
         event.preventDefault();
         var $this = $(this);
@@ -14,7 +14,7 @@ const socket = io.connect("http://localhost:8080");
     });
 
     //Close When Click Outside
-    $('body').on('click', function (e) {
+    $('body').on('click', function(e) {
         var $target = e.target;
         if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
             $(".message-dropdown").slideUp("slow");
@@ -23,7 +23,7 @@ const socket = io.connect("http://localhost:8080");
 
     //Background Image JS start
     var bgSelector = $(".bg-img");
-    bgSelector.each(function (index, elem) {
+    bgSelector.each(function(index, elem) {
         var element = $(elem),
             bgSource = element.data('bg');
         element.css('background-image', 'url(' + bgSource + ')');
@@ -36,17 +36,17 @@ const socket = io.connect("http://localhost:8080");
         prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
         nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
         responsive: [{
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 5,
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 8,
+                }
             }
-        },
-        {
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 8,
-            }
-        }
         ]
     });
 
@@ -70,64 +70,64 @@ const socket = io.connect("http://localhost:8080");
         slidesToShow: 5,
         arrows: false,
         responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 3,
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 2,
+                }
             }
-        },
-        {
-            breakpoint: 576,
-            settings: {
-                slidesToShow: 2,
-            }
-        }
         ]
     });
 
     // live chat box and friend search box active js
-    $(".profile-active").on('click', function () {
+    $(".profile-active").on('click', function() {
         $(".chat-output-box").addClass('show');
     })
-    $(".search-field").on('click', function () {
+    $(".search-field").on('click', function() {
         $(".friend-search-list").addClass('show');
     })
-    $(".close-btn").on('click', function () {
+    $(".close-btn").on('click', function() {
         var $this = $(this),
             $target = $this.data('close');
         $('.' + $target).removeClass('show');
     })
 
     // mobile header seach box active
-    $(".search-trigger").on('click', function () {
+    $(".search-trigger").on('click', function() {
         $('.search-trigger, .mob-search-box').toggleClass('show');
     })
 
-    $(".chat-trigger, .close-btn").on('click', function () {
+    $(".chat-trigger, .close-btn").on('click', function() {
         $('.mobile-chat-box').toggleClass('show');
     })
-    $(".request-trigger1").on('click', function () {
+    $(".request-trigger1").on('click', function() {
         $('.portal-request-list').removeClass('show');
         $('.frnd-request-list').toggleClass('show');
     })
 
-    $(".request-trigger2").on('click', function (event) {
+    $(".request-trigger2").on('click', function(event) {
         $('.frnd-request-list').removeClass('show');
         $('.portal-request-list').toggleClass('show');
     })
 
     // mobile friend search active js
-    $(".search-toggle-btn").on('click', function () {
+    $(".search-toggle-btn").on('click', function() {
         $('.mob-frnd-search-inner').toggleClass('show');
     })
 
     // profile dropdown triger js
-    $('.profile-triger').on('click', function (event) {
+    $('.profile-triger').on('click', function(event) {
         event.stopPropagation();
         $(".profile-dropdown").slideToggle();
     })
 
     //Close When Click Outside
-    $('body').on('click', function (e) {
+    $('body').on('click', function(e) {
         var $target = e.target;
         if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
             $(".profile-dropdown").slideUp("slow");
@@ -135,13 +135,13 @@ const socket = io.connect("http://localhost:8080");
     });
 
     // perfect scroll bar js
-    $('.custom-scroll').each(function () {
+    $('.custom-scroll').each(function() {
         var ps = new PerfectScrollbar($(this)[0]);
     });
 
 
     // light gallery active js
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".img-popup").lightGallery();
 
         // light gallery images
@@ -151,7 +151,7 @@ const socket = io.connect("http://localhost:8080");
         });
     });
 
-    $('.gallery-toggle').on('click', function () {
+    $('.gallery-toggle').on('click', function() {
 
         var productThumb = $(this).find(".product-thumb-large-view img"),
             imageSrcLength = productThumb.length,
@@ -171,10 +171,10 @@ const socket = io.connect("http://localhost:8080");
     });
 
     // photo filter active js
-    $('.photo-filter').imagesLoaded(function () {
+    $('.photo-filter').imagesLoaded(function() {
         var $grid = $('.photo-filter, .friends-list').isotope({});
         // filter items on button click
-        $('.filter-menu').on('click', 'button', function () {
+        $('.filter-menu').on('click', 'button', function() {
             var filterValue = $(this).attr('data-filter');
             $grid.isotope({ filter: filterValue });
             $(this).siblings('.active').removeClass('active');
@@ -187,21 +187,21 @@ const socket = io.connect("http://localhost:8080");
     $('select').niceSelect();
 
     // Scroll to top active js
-    $(window).on('scroll', function () {
+    $(window).on('scroll', function() {
         if ($(this).scrollTop() > 600) {
             $('.scroll-top').removeClass('not-visible');
         } else {
             $('.scroll-top').addClass('not-visible');
         }
     });
-    $('.scroll-top').on('click', function (event) {
+    $('.scroll-top').on('click', function(event) {
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
     });
 
 
-    $('#email').bind("cut copy paste", function (e) {
+    $('#email').bind("cut copy paste", function(e) {
         e.preventDefault();
     });
 
@@ -223,16 +223,17 @@ const newComment = (value) => {
     <!-- end user comment -->
     `
 }
+
 function toBase64(arr) {
     return btoa(
-       arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+        arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
     );
- }
+}
 
 const newPost = (value) => {
-    var tag=''
-    if (value.attach.picture.data.length){
-        tag = `<img class="post-picture" src="data:image/png;base64,${toBase64( value.attach.picture.data)}">`
+    var tag = ''
+    if (value.attach.picture) {
+        tag = `<img class="post-picture" src="data:image/png;base64,${ value.attach.picture}">`
     }
     return `
     <!-- post status start -->
@@ -241,9 +242,16 @@ const newPost = (value) => {
                 <div class="main">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-row align-items-center"> <img src="${ value.author.picture}" width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">${ value.author.name}</span> <small class="text-primary">Collegues</small> </div>
+                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">${ value.author.name}</span> <small class="text-primary">${ value.author.role}</small> </div>
                         </div>
-                        <div class="ellipsis"> <small class="time">${ value.date}</small> <i class="fa fa-ellipsis-h"></i> </div>
+                        <div class="ellipsis"> <small class="time">${ value.date}</small> <i class="fa fa-ellipsis-h option dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="option-dropdown dropdown">
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Ddelete</a>
+                            </div>
+                            </div>
+                        </i> </div>
                     </div>
                     </br>
                     <p class="text-justify">
@@ -275,7 +283,7 @@ const newPost = (value) => {
             </div>
         </div>
         <!-- post status end -->`
-    }
+}
 
 const postStatus = () => {
     $("#textbox").modal("hide")
@@ -292,7 +300,7 @@ const postStatus = () => {
             contentType: false,
             processData: false,
             method: 'POST',
-            success: function (data, status) {
+            success: function(data, status) {
                 if (status === 'success') {
                     data = JSON.parse(JSON.stringify(data))
                     var tag = newPost(data)
@@ -310,13 +318,13 @@ const vote = (target) => {
     var statusid = target.dataset.id
     var data = { statusid }
     fetch("http://localhost:8080/status/vote", {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
 
-    })
+        })
         .then(result => result.json())
         .then(data => {
             console.log(data)
@@ -343,12 +351,12 @@ const comment = (target) => {
     var data = { statusid, content }
     if (content) {
         fetch("http://localhost:8080/status/comment", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
             .then(result => result.json())
             .then(data => {
                 console.log(data)
@@ -371,15 +379,15 @@ const loadMorePost = (skip) => {
             console.log(data)
             if (data.code === 0) {
                 return data.data
-            } else { }
+            } else {}
         })
 }
 
-$(document).delegate(".attach .picture",'click', () => {
+$(document).delegate(".attach .picture", 'click', () => {
     $(".picture-attach-upload").trigger('click')
 })
 
-$(document).delegate(".cancel-share-btn, .close-share",'click', () => {
+$(document).delegate(".cancel-share-btn, .close-share", 'click', () => {
     $("#share-your-mood").val('');
     $(".picture-attach-upload").val(null)
     $('.image-upload-preview').hide();
@@ -392,7 +400,7 @@ $(".picture-attach-upload").change((e) => {
     image.src = URL.createObjectURL(file);
 
     var reader = new FileReader();
-    reader.onload = function () {
+    reader.onload = function() {
         var output = document.getElementById('output');
         output.src = reader.result;
     };
@@ -400,33 +408,42 @@ $(".picture-attach-upload").change((e) => {
     $(".image-upload-preview").css("display", "block")
 })
 
-$(document).delegate('.image-upload-preview .close-icon','click', function () {
+$(document).delegate('.image-upload-preview .close-icon', 'click', function() {
     $('.image-upload-preview').slideToggle(300, 'swing');
     $(".picture-attach-upload").val(null)
 })
 
-window.onscroll = async (e) => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        console.log(1)
-        const countPost = $(".post-card").length
-        $('.body-loading').css("display", "block")
-        loadMorePost(countPost).then(data => {
-            var tag;
-            if (data) {
-                data.forEach(value => {
-                    console.log(value)
-                    tag = newPost(value)
-                    $(".post-section").append(tag)
-                })
-                $('.body-loading').css("display", "none")
-            }
-        })
+// $(window).scroll(function() {
+//     console.log("current offset: " + ($(window).scrollTop() + $(window).height()) + " / " + $(document).height())
+//     if ($(window).scrollTop() + $(window).height() >= $(".post-section").height()) {
+//         alert("bottom!");
+//     }
+// });
+if ($(".post-section")[0]) {
+    window.onscroll = async(e) => {
+        if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
+            console.log(1)
 
-    }
-};
+            const countPost = $(".post-card").length
+            $('.body-loading').css("display", "block")
+            loadMorePost(countPost).then(data => {
+                var tag;
+                if (data) {
+                    data.forEach(value => {
+                        console.log(value)
+                        tag = newPost(value)
+                        $(".post-section").append(tag)
+                    })
+                    $('.body-loading').css("display", "none")
+                }
+            })
+
+        }
+    };
+}
 
 // Hide comment
-$(document).delegate('.hide-comment-section','click', (e) => {
+$(document).delegate('.hide-comment-section', 'click', (e) => {
     var statusid = e.target.dataset.id
     var commentSection = $(`.post-${statusid} .comments`)
 
@@ -440,7 +457,7 @@ $(document).delegate('.hide-comment-section','click', (e) => {
 })
 
 // Show comment
-$(document).delegate('.comments-input','click', (e) => {
+$(document).delegate('.comments-input', 'click', (e) => {
     var statusid = e.target.dataset.id
     var commentSection = $(`.post-${statusid} .comments`)
     if (!commentSection.hasClass("showed")) {
@@ -469,7 +486,6 @@ $(document).delegate('.comments-input','click', (e) => {
     }
 })
 if ($(".post-section")[0]) {
-    console.log(1)
     const countPost = $(".post-card").length
     $('.body-loading').css("display", "block")
     loadMorePost(countPost).then(data => {
@@ -483,29 +499,124 @@ if ($(".post-section")[0]) {
         }
     })
 }
+$(".confirm").click(() => {
+    console.log(1)
+})
+$(".department-thumbnail-upload").change((e) => {
+
+    var file = e.target.files[0]
+    var image = $('.department-thumbnail');
+    var reader = new FileReader();
+    reader.onload = function(e) {
+
+        image.attr('src', e.target.result);
+    };
+    reader.readAsDataURL(file);
+})
+
+$(".department-insert-container .remove").on('click', (e) => {
+    e.preventDefault()
+    $('.department-thumbnail').attr("src", "/images/no-image.png")
+    $(".department-thumbnail-upload").val(null)
+})
 
 
-    // $(document).ready(function () {
-    //     var tag, x, y, timeOut;
-    //     for (var i = 0; i < 50; i++) {
-    //         x = Math.floor(Math.random() * 1920);
-    //         y = Math.floor(Math.random() * 1080);
-    //         timeOut = Math.floor(Math.random() * 2000) + 1000;
-    //         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
-    //         right: ${x}; z-index: 100;">
-    //         <div class="toast-header">
-    //             <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
-    //             <small>0 sec ago</small>
-    //             <button type="button" class="ml-2 mb-1 close"
-    //                 data-dismiss="toast">
-    //                 <span aria-hidden="true">&times;</span>
-    //             </button>
-    //         </div>
-    //         <div class="toast-body">
-    //             <div>Chúc bạn trải nghiệm vui vẻ</div>
-    //         </div>
-    //     </div>`
-    //         $("body").append(tag)
+$(document).ready(function() {
+
+    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+        removeItemButton: true,
+        maxItemCount: null,
+        // searchResultLimit: 5,
+        // renderChoiceLimit: 5
+    });
+});
+
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(".department-insert-container .submit").click((e) => {
+    var permission = []
+    $.each($(".department-insert-container select option:selected"), function() {
+        permission.push($(this).val());
+    });
+    var name = $("#department-name").val()
+    var username = $("#department-username").val()
+    var password = $("#department-password").val()
+    var passwordConfirm = $("#department-password-confirm").val()
+    var id = $("#department-id").val()[0].files[0]
+    var file = $("#department-thumbnail")
+
+    var form = new FormData()
+    form.append('name', name)
+    form.append('username', username)
+    form.append('password', password)
+    form.append('passwordConfirm', passwordConfirm)
+    form.append('passwordConfirm', passwordConfirm)
+    form.append('id', id)
+    form.append('file', file)
+
+    $.ajax({
+        url: 'http://localhost:8080/department/insert',
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        success: function(data, status) {
+
+        }
+    })
+})
+
+
+
+// $(".department-insert-container .ok").on('click', () => {
+//     var file = $(".picture-attach-upload")[0].files[0]
+//     var data = new FormData()
+//     data.append('file', file)
+//     if (content) {
+//         $.ajax({
+//             url: 'http://localhost:8080/departmen',
+//             data,
+//             cache: false,
+//             contentType: false,
+//             processData: false,
+//             method: 'POST',
+//             success: function(data, status) {
+//                 if (status === 'success') {
+//                     data = JSON.parse(JSON.stringify(data))
+//                     var tag = newPost(data)
+//                     $(".post-section").prepend(tag)
+//                     $("#share-your-mood").val('');
+//                     $(".picture-attach-upload").val(null)
+//                     $('.image-upload-preview').hide();
+//                 }
+//             }
+//         })
+//     };
+// })
+// $(document).ready(function () {
+//     var tag, x, y, timeOut;
+//     for (var i = 0; i < 50; i++) {
+//         x = Math.floor(Math.random() * 1920);
+//         y = Math.floor(Math.random() * 1080);
+//         timeOut = Math.floor(Math.random() * 2000) + 1000;
+//         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
+//         right: ${x}; z-index: 100;">
+//         <div class="toast-header">
+//             <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
+//             <small>0 sec ago</small>
+//             <button type="button" class="ml-2 mb-1 close"
+//                 data-dismiss="toast">
+//                 <span aria-hidden="true">&times;</span>
+//             </button>
+//         </div>
+//         <div class="toast-body">
+//             <div>Chúc bạn trải nghiệm vui vẻ</div>
+//         </div>
+//     </div>`
+//         $("body").append(tag)
 
 //         $(`.toast-${i}`).toast({ delay: timeOut });
 //         $(`.toast-${i}`).toast("show")

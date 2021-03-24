@@ -4,7 +4,7 @@ const router = express.Router()
 
 // GET/ go to newfeed page
 router.get('/', (req, res, next) => {
-    res.render('notification', { user: req.user._json })
+    res.render('notification', { user: req.user })
 
 })
 

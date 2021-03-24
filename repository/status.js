@@ -1,27 +1,51 @@
 const mongoose = require('mongoose')
-const Student = require('../models/student')
+const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const getPassedTime = require('../models/time')
 const fs = require('fs')
+const convertBinaryToBase64 = (value) => {
+    return Buffer.from(value.reduce((data, byte) => data + String.fromCharCode(byte), ''), 'binary').toString('base64')
+}
+const parsePost = (value, userid) => {
+    var vote = value.meta.votes.find(userId => userId === userid) ? true : false
+    var picture = value.attach.picture ? convertBinaryToBase64(value.attach.picture.toJSON().data) : ''
+    var post = {
+        attach: {
+            picture,
+            video: value.attach.video
+        },
+        meta: value.meta,
+        _id: value._id,
+        content: value.content,
+        date: getPassedTime(value.date, new Date()),
+        author: value.author,
+        vote
+
+    }
+    return post
+}
+
+const parseComment = (value) => {
+    return comments = {
+        _id: value._id,
+        statusId: value.statusId,
+        content: value.content,
+        author: value.author,
+        date: getPassedTime(value.date, new Date()),
+    }
+}
+
 module.exports = {
-    findAllStatus: async () => {
+    findAllStatus: async() => {
         return Post.find()
             .sort({ date: 'desc' })
             .exec()
             .then(async docs => {
                 var data = docs.map(async value => {
-                    return Student.findOne({ _id: mongoose.Types.ObjectId(value.author) })
+                    return User.findOne({ _id: mongoose.Types.ObjectId(value.author) })
                         .exec()
                         .then(async result => {
-                            var post = {
-                                attach: value.attach,
-                                meta: value.meta,
-                                _id: value._id,
-                                content: value.content,
-                                postTime: getPassedTime(value.date, new Date()),
-                                author: value.author
-                            }
                             return JSON.stringify({ code: 0, message: "success", data: { post, author: result } })
                         })
                         .catch(console.log)
@@ -34,65 +58,50 @@ module.exports = {
             })
     },
 
-    findStatus: async (req, { skip, limit }, userid) => {
+    findStatus: async(req, { skip, limit }, userid) => {
         return Post.find(userid ? { "author.authorId": userid } : undefined)
             .sort({ date: -1 })
             .skip(skip).limit(limit)
             .exec()
             .then(async result => {
                 data = result.map(value => {
-                    var vote = value.meta.votes.find(userId => userId === req.cookies.userID) ? true : false
-                    return post = {
-                        attach: value.attach,
-                        meta: value.meta,
-                        _id: value._id,
-                        content: value.content,
-                        date: getPassedTime(value.date, new Date()),
-                        author: value.author,
-                        vote
-                    }
+                    return parsePost(value, req.user._id);
                 })
                 data = await Promise.all(data)
                 return JSON.stringify({ code: 0, message: "success", data })
             })
     },
 
-    postStatusToDB: async (content, userID) => {
-        console.log(content)
-
-        return Student.findOne({ _id: userID })
+    postStatusToDB: async(content, userID) => {
+        console.log("userID : " + userID)
+        return User.findOne({ _id: userID })
             .exec()
             .then(async result => {
                 if (result) {
+                    console.log("RESULT " + result)
                     return new Post({
-                        _id: mongoose.Types.ObjectId(),
-                        content: content.content,
-                        date: new Date(),
-                        author: {
-                            name: result.name,
-                            picture: result.avatar,
-                            auhtorId: userID,
-                        },
-                        attach: {
-                            picture: content.image?content.image:'',
-                            video: '',
-                        },
-                        meta: {
-                            votes: [],
-                            comments: [],
-                        }
-                    })
+                            _id: mongoose.Types.ObjectId(),
+                            content: content.content,
+                            date: new Date(),
+                            author: {
+                                name: result.name,
+                                picture: result.avatar,
+                                authorId: result._id,
+                                role: result.role.admin ? 'Admin' : (result.role.student ? "Student" : "Deparment")
+                            },
+                            attach: {
+                                picture: content.image ? content.image : '',
+                                video: '',
+                            },
+                            meta: {
+                                votes: [],
+                                comments: [],
+                            }
+                        })
                         .save()
                         .then((result) => {
-                            var post = {
-                                attach: result.attach,
-                                meta: result.meta,
-                                _id: result._id,
-                                content: result.content,
-                                date: getPassedTime(result.date, new Date()),
-                                author: result.author
-                            }
-                            return JSON.stringify({ code: 0, message: "success", data: post })
+                            var data = parsePost(result, userID)
+                            return JSON.stringify({ code: 0, message: "success", data })
                         })
                 } else {
                     return JSON.stringify({ code: -2, message: "Cannot find user" })
@@ -100,7 +109,7 @@ module.exports = {
             })
     },
 
-    voteStatus: async (_id, userVoteId) => {
+    voteStatus: async(_id, userVoteId) => {
         return Post.findOne({ _id })
             .exec()
             .then(async result => {
@@ -130,40 +139,34 @@ module.exports = {
             })
     },
 
-    insertComment: async (_id, userid, content) => {
+    insertComment: async(_id, userid, content) => {
         return Post.findOne({ _id })
             .exec()
             .then(result => {
                 if (result) {
-                    return Student.findOne({ _id: userid })
+                    return User.findOne({ _id: userid })
                         .exec()
                         .then(stdResult => {
                             if (stdResult) {
                                 return new Comment({
-                                    _id: mongoose.Types.ObjectId(),
-                                    statusId: _id,
-                                    content,
-                                    author: {
-                                        name: stdResult.name,
-                                        picture: stdResult.avatar,
-                                        authorId: stdResult._id
-                                    },
-                                    date: new Date()
-                                }).save()
+                                        _id: mongoose.Types.ObjectId(),
+                                        statusId: _id,
+                                        content,
+                                        author: {
+                                            name: stdResult.name,
+                                            picture: stdResult.avatar,
+                                            authorId: stdResult._id
+                                        },
+                                        date: new Date()
+                                    }).save()
                                     .then(saveRes => {
-                                        var comments = {
-                                            _id: saveRes._id,
-                                            statusId: saveRes.statusId,
-                                            content: saveRes.content,
-                                            author: saveRes.author,
-                                            date: getPassedTime(saveRes.date, new Date()),
-                                        }
+                                        var comments = parseComment(saveRes)
                                         result.meta.comments.splice(0, 0, userid)
                                         result.save()
                                         return JSON.stringify({ code: 0, message: "Success to post Comment", data: { comments, no_comment: (result.meta.comments.length) } })
                                     })
                             } else {
-                                return JSON.stringify({ code: -3, message: "No student founded", data: saveRes })
+                                return JSON.stringify({ code: -3, message: "No user founded", data: saveRes })
                             }
                         })
                 } else
@@ -174,7 +177,7 @@ module.exports = {
             })
     },
 
-    findComment: async (statusId, { skip, limit }) => {
+    findComment: async(statusId, { skip, limit }) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(async result => {
@@ -185,13 +188,7 @@ module.exports = {
                         .exec()
                         .then(async commentRes => {
                             var data = commentRes.map(value => {
-                                return {
-                                    _id: value._id,
-                                    statusId: value.statusId,
-                                    content: value.content,
-                                    author: value.author,
-                                    date: getPassedTime(value.date, new Date()),
-                                }
+                                return parseComment(value)
                             })
                             data = await Promise.all(data)
                             return JSON.stringify({ code: 0, message: "Success", data })

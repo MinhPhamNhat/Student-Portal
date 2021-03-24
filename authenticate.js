@@ -1,6 +1,7 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
-
+const LocalStrategy = require('passport-local').Strategy
+const account = require('./repository/account')
 passport.serializeUser((user, done) => {
     done(null, user)
 })
@@ -12,7 +13,27 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
     clientID: "1084168771108-g34ei1gr4cbpnmjplmv9e3e442hg9t5n.apps.googleusercontent.com",
     clientSecret: "74JjkldA-dOSXlsaURDUgIim",
-    callbackURL: "http://localhost:8080/account/google/callback"
-}, function(accessToken, refreshToken, profile, cb) {
-    cb(null, profile)
+    callbackURL: "http://localhost:8080/login/google/callback",
+}, async(accessToken, refreshToken, profile, done) => {
+    var user = JSON.parse(await account.saveNewStudent(profile._json))
+    done(null, user.data)
+
 }))
+
+passport.use(new LocalStrategy({
+    usernameField: "username",
+    passwordField: "password",
+    passReqToCallback: true
+}, async(req, username, password, done) => {
+    if (username && password) {
+        var check = await account.checkAccount(username, password)
+        var data = JSON.parse(check)
+        if (data.code === 0) {
+            done(null, data.data)
+        } else {
+            done(null, false, { message: data.message })
+        }
+    } else {
+        done(null, false, { message: "Please enter username or password" })
+    }
+}));

@@ -2,7 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const bodyParser = require('body-parser')
 const passport = require('passport');
 const jwt = require('jsonwebtoken')
@@ -24,7 +23,7 @@ mongoose.connect(process.env.MONGODB_CONFIG, {
 
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login')
-const accountRouter = require('./routes/account')
+const signoutRouter = require('./routes/signout')
 const profileRouter = require('./routes/profile')
 const statusRouter = require('./routes/status')
 const notiRouter = require('./routes/notificator')
@@ -40,7 +39,6 @@ const PORT = process.env.PORT || 8080
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -50,19 +48,13 @@ app.use(passport.initialize())
 app.use(passport.session())
     // route
 app.use('/login', loginRouter)
-app.use('/account', accountRouter)
+app.use('/signout', authen.authen, signoutRouter)
 app.use('/', indexRouter);
 app.use('/profile', authen.authen, profileRouter)
 app.use('/status', authen.authen, statusRouter);
 app.use('/notification', authen.authen, notiRouter)
 app.use('/department', authen.authen, departmentRouter)
 
-app.locals.toBase64 = (arr)=> {
-    //arr = new Uint8Array(arr) if it's an ArrayBuffer
-    return btoa(
-       arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-    );
- }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

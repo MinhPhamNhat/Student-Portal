@@ -248,7 +248,6 @@ button {
     -webkit-transition: 0.4s;
     -o-transition: 0.4s;
     transition: 0.4s;
-    background-color: transparent;
 }
 
 .btn:active,
@@ -1622,7 +1621,6 @@ only screen and (max-width: 767.98px) {
         margin-bottom: 10px;
     }
 }
-
 
 .card-profile {
     padding: 0;
@@ -11306,6 +11304,45 @@ ul#myTab {
     cursor: pointer;
 }
 
+.deparment-container .add-department {
+    cursor: pointer;
+}
+
+.department-insert-container .rounded-lg {
+    border-radius: 1rem;
+}
+
+.department-insert-container .nav-pills .nav-link {
+    color: #555;
+}
+
+.department-insert-container .nav-pills .nav-link.active {
+    color: #fff;
+}
+
+.department-insert-container .remove,
+.department-insert-container .ok {
+    margin: 5px;
+    padding: 5px;
+}
+
+.department-insert-container .nice-select {
+    display: none;
+    ;
+}
+
+.department-insert-container .tab3 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.department-insert-container .submit {
+    align-self: center;
+    width: fit-content;
+    padding: 10px 20px 10px 20px;
+}
+
 
 /* ----- end department area ----- */
 
@@ -11335,6 +11372,12 @@ ul#myTab {
 }
 
 .post-card .muted-color {
+    color: #a09c9c;
+    font-size: 13px
+}
+
+.post-card button {
+    background-color: transparent;
     color: #a09c9c;
     font-size: 13px
 }
@@ -11440,22 +11483,44 @@ ul#myTab {
     color: #a09c9c;
     cursor: pointer;
 }
-hr{
+
+hr {
     display: block;
 }
 
-.comment-loading{
+.comment-loading {
     flex: 1;
     justify-self: center;
     display: none;
 }
 
-.post-card .main{
+.post-card .main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 100%;
 }
-.post-card .text-justify{
+
+.post-card .text-justify {
     margin: 10px 20px 20px 20px;
 }
+
+.option-dropdown {
+    position: absolute;
+    right: -20px;
+    background-color: #f3f3f3;
+}
+
+.option-dropdown .dropdown-item {
+    background-color: #f3f3f3;
+}
+
+
+/* department insert area */
+
+.insert-container {
+    margin: 20px;
+}
+
+
+/* end department insert area */

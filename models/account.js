@@ -4,8 +4,9 @@ const accountSchema = mongoose.Schema({
     username: String,
     password: String,
     role: {
-        admin: Boolean,
         // unit : [phong, khoa]
+        admin: Boolean,
+        student: Boolean,
         unit: Boolean
     }
 })
