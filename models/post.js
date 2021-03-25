@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema({
     date: Date,
     author: { name: String, picture: String, authorId: String, role: String },
     attach: {
-        picture: Buffer,
+        picture: String,
         video: String,
     },
     meta: {

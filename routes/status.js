@@ -2,11 +2,10 @@ const express = require('express')
 const router = express.Router()
 const status = require('../repository/status')
 const upload = require('../middleware/file')
-const fs = require('fs')
+const func = require('../function/function')
     // Get status
 router.get('/', (req, res, next) => {
     var skip = Number(req.query.skip)
-    console.log(skip)
     status.findStatus(req, { skip, limit: 5 })
         .then(result => JSON.parse(result))
         .then(data => res.json(data))
@@ -14,14 +13,10 @@ router.get('/', (req, res, next) => {
 
 // Post status
 router.post('/', upload.single('file'), (req, res, next) => {
-    console.log("CONTENT : " + req)
     if (req.file) {
-        var img = fs.readFileSync(req.file.path);
-        var encode_image = img.toString('base64');
         var asdasdafas = {
             content: req.body.content,
-            contentType: req.file.mimetype,
-            image: new Buffer(encode_image, 'base64')
+            image: func.convertImageToURL(req.file)
         };
     } else {
         var asdasdafas = {
@@ -75,9 +70,10 @@ router.put('/comment', (req, res, next) => {
 
 // Get comment
 router.get('/comment', (req, res, next) => {
+    var skip = Number(req.query.skip)
     var statusid = req.query.statusid
     if (statusid) {
-        status.findComment(statusid, { skip: 0, limit: 10 })
+        status.findComment(statusid, { skip, limit: 5 })
             .then(result => {
                 return JSON.parse(result)
             })

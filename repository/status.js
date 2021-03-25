@@ -2,23 +2,15 @@ const mongoose = require('mongoose')
 const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
-const getPassedTime = require('../models/time')
-const fs = require('fs')
-const convertBinaryToBase64 = (value) => {
-    return Buffer.from(value.reduce((data, byte) => data + String.fromCharCode(byte), ''), 'binary').toString('base64')
-}
+const func = require('../function/function')
 const parsePost = (value, userid) => {
     var vote = value.meta.votes.find(userId => userId === userid) ? true : false
-    var picture = value.attach.picture ? convertBinaryToBase64(value.attach.picture.toJSON().data) : ''
     var post = {
-        attach: {
-            picture,
-            video: value.attach.video
-        },
+        attach: value.attach,
         meta: value.meta,
         _id: value._id,
         content: value.content,
-        date: getPassedTime(value.date, new Date()),
+        date: func.getPassedTime(value.date, new Date()),
         author: value.author,
         vote
 
@@ -32,7 +24,7 @@ const parseComment = (value) => {
         statusId: value.statusId,
         content: value.content,
         author: value.author,
-        date: getPassedTime(value.date, new Date()),
+        date: func.getPassedTime(value.date, new Date()),
     }
 }
 
@@ -73,12 +65,10 @@ module.exports = {
     },
 
     postStatusToDB: async(content, userID) => {
-        console.log("userID : " + userID)
         return User.findOne({ _id: userID })
             .exec()
             .then(async result => {
                 if (result) {
-                    console.log("RESULT " + result)
                     return new Post({
                             _id: mongoose.Types.ObjectId(),
                             content: content.content,
@@ -183,7 +173,7 @@ module.exports = {
             .then(async result => {
                 if (result) {
                     return Comment.find({ statusId })
-                        .sort({ date: -1 })
+                        .sort({ date: 'asc' })
                         .skip(skip).limit(limit)
                         .exec()
                         .then(async commentRes => {

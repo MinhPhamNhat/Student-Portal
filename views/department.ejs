@@ -4,8 +4,8 @@
 
 <body data-new-gr-c-s-check-loaded="14.980.0" data-gr-ext-installed="">
     <div class="container">
-        <div class="row deparment-container">
-            <div class="card deparment-card-container">
+        <div class="row department-container">
+            <div class="card department-card-container">
                 <div class="card-header">
                     <div><i class="fa fa-home" aria-hidden="true"></i>
                         <a href="#"><strong> Trang chủ</strong> </a>
@@ -13,48 +13,22 @@
                         <strong> Danh sách phòng ban</strong>
                         <% if (user.role.admin){ %>
                             <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                            <i class="fa fa-plus add-department" aria-hidden="true"></i>
+                            <i class="fa fa-plus add-department" onclick="window.location.href='/department/insert'" aria-hidden="true"></i>
                             <%}%>
                     </div>
                 </div>
 
-                <div class="deparment-item">
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
+                <div class="department-item">
+                    <% data.forEach(value => {%>
+                    <div class="card" data-id="<%=value._id%>" style="width: 18rem;">
+                            <% if(value.avatar) {%>
+                                <img src="<%=value.avatar%>" class="card-img-top">
+                            <% }%>
                         <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
+                            <h5><strong class="card-title"><%=value.name%></strong></h5>
                         </div>
                     </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/images/banner-small.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5><strong class="card-title">Phòng đại học</strong></h5>
-                        </div>
-                    </div>
+                    <%})%>
                 </div>
             </div>
 

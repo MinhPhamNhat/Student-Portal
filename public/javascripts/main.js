@@ -208,32 +208,35 @@ const socket = io.connect("http://localhost:8080");
 
 })(jQuery);
 
-const newComment = (value) => {
-    return `
+const newComment = (value) =>  `
     <!-- user comment -->
     <div class="user-comment">
-        <hr>
-        <div class="d-flex flex-row mb-2 user-comment">
-        <img src="${value.author.picture}" width="40" class="rounded-image">
-            <div class="d-flex flex-column ml-2"> <span class="name">${value.author.name}</span> <small class="comment-text">${value.content}</small>
-                <div class="d-flex flex-row align-items-center status"><small>${value.date}</small> </div>
-            </div>
+        <div class="user-img-comment">	
+            <a href="/profile/${value.author.authorId}">
+                <img src="${value.author.picture}" alt="" class="user-ava-comment">
+            </a>
+        </div>
+        <div class="user-comment-content">
+            
+                <span class="user-comment-name">
+                    <a href="/profile/${value.author.authorId}"><strong>${value.author.name}</strong></a>
+                    </span>
+                <span class="user-comment-time">
+                    <i class="fa fa-clock-o"></i>
+                    ${value.date}
+                </span>
+
+            <p class="user-comment-text"> ${value.content} </p>
         </div>
     </div>
     <!-- end user comment -->
     `
-}
 
-function toBase64(arr) {
-    return btoa(
-        arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-    );
-}
 
 const newPost = (value) => {
     var tag = ''
     if (value.attach.picture) {
-        tag = `<img class="post-picture" src="data:image/png;base64,${ value.attach.picture}">`
+        tag = `<img class="post-picture" src="${ value.attach.picture}">`
     }
     return `
     <!-- post status start -->
@@ -241,10 +244,10 @@ const newPost = (value) => {
             <div class="row d-flex align-items-center justify-content-center">
                 <div class="main">
                     <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row align-items-center"> <img src="${ value.author.picture}" width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">${ value.author.name}</span> <small class="text-primary">${ value.author.role}</small> </div>
+                        <div class="d-flex flex-row align-items-center"> <a href="/profile/${value.author.authorId}"><img src="${ value.author.picture}" width="50" class="rounded-circle"></a>
+                            <div class="d-flex flex-column ml-2"><a href="/profile/${value.author.authorId}"> <span class="font-weight-bold">${ value.author.name}</span></a><small class="text-primary">${ value.author.role}</small> </div>
                         </div>
-                        <div class="ellipsis"> <small class="time">${ value.date}</small> <i class="fa fa-ellipsis-h option dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="ellipsis"> <small class="time">${ value.date}</small> <i class="fa fa-ellipsis-h option" data-toggle="dropdown" >
                         <div class="option-dropdown dropdown">
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">Edit</a>
@@ -273,7 +276,10 @@ const newPost = (value) => {
                             <div class="fonts" onclick=comment(this) data-id="${ value._id}"><i class="fa fa-paper-plane" aria-hidden="true"></i> </div>
                         </div>
                         <img class="comment-loading" src="/images/icons/comment_loading.gif">
-                        <div class="comments">
+                        <div class="comments-container">
+                            <div class="comments">
+                            </div>
+                            <div data-id="${ value._id}" class="load-more">Xem thêm ...</div>
                             <div class="hide-comment-section">
                                 <i data-id="${ value._id}" class="fa fa-chevron-up" aria-hidden="true"></i>
                             </div>
@@ -292,7 +298,8 @@ const postStatus = () => {
     var data = new FormData()
     data.append('file', file)
     data.append('content', content)
-    if (content) {
+    if (content || file) {
+        console.log(1)
         $.ajax({
             url: 'http://localhost:8080/status',
             data,
@@ -363,7 +370,6 @@ const comment = (target) => {
                 if (data.code === 0) {
                     var tag = newComment(data.data.comments)
                     commentSection.prepend(tag)
-                    console.log(data.data.no_comment)
                     $(`.post-${statusid} .no-comment`).text(`${data.data.no_comment} comments`)
                     $(`.post-${statusid} .comments-input`).val('')
                     commentSection.find(".none-comment").remove()
@@ -381,6 +387,18 @@ const loadMorePost = (skip) => {
                 return data.data
             } else {}
         })
+}
+
+const loadMoreComment = (skip, statusid) => {
+    console.log(`http://localhost:8080/status/comment?skip=${skip}&statusid=${statusid}`)
+    return fetch(`http://localhost:8080/status/comment?skip=${skip}&statusid=${statusid}`)
+    .then(result => result.json())
+    .then(data => {
+        console.log(data)
+        if (data.code === 0) {
+            return data.data
+        } else {}
+    })
 }
 
 $(document).delegate(".attach .picture", 'click', () => {
@@ -445,7 +463,7 @@ if ($(".post-section")[0]) {
 // Hide comment
 $(document).delegate('.hide-comment-section', 'click', (e) => {
     var statusid = e.target.dataset.id
-    var commentSection = $(`.post-${statusid} .comments`)
+    var commentSection = $(`.post-${statusid} .comments-container`)
 
     commentSection.slideUp(300, 'swing')
     setTimeout(() => {
@@ -459,7 +477,7 @@ $(document).delegate('.hide-comment-section', 'click', (e) => {
 // Show comment
 $(document).delegate('.comments-input', 'click', (e) => {
     var statusid = e.target.dataset.id
-    var commentSection = $(`.post-${statusid} .comments`)
+    var commentSection = $(`.post-${statusid} .comments-container`)
     if (!commentSection.hasClass("showed")) {
         $(`.post-${statusid} .comment-loading`).show()
         fetch(`http://localhost:8080/status/comment?statusid=${statusid}`)
@@ -471,12 +489,12 @@ $(document).delegate('.comments-input', 'click', (e) => {
                     if (data.data.length) {
                         data.data.forEach(value => {
                             tag = newComment(value)
-                            commentSection.append(tag)
+                            commentSection.find(".comments").append(tag)
                         })
                     } else {
                         console.log(1)
                         tag = `<p class="none-comment">Không có ai bình luận cả</p>`
-                        commentSection.prepend(tag)
+                        commentSection.find(".comments").prepend(tag)
                     }
                     $(`.post-${statusid} .comment-loading`).hide()
                     commentSection.slideDown(300, 'swing')
@@ -485,6 +503,27 @@ $(document).delegate('.comments-input', 'click', (e) => {
             })
     }
 })
+
+// LOAD MORE COMMENT
+$(document).delegate(".comments-container .load-more",'click', (e) => {
+    
+    var statusid = e.target.dataset.id
+    var commentSection = $(`.post-${statusid} .comments-container`)
+    const countComment = commentSection.find(".user-comment").length
+    $(`.post-${statusid} .comment-loading`).show()
+    loadMoreComment(countComment, statusid).then(data => {
+        var tag;
+        if (data) {
+            data.forEach(value => {
+                tag = newComment(value)
+                commentSection.find(".comments").append(tag)
+            })
+            $(`.post-${statusid} .comment-loading`).hide()
+        }
+    })
+})
+
+// SHOW INDEX PAGE POST WHEN LOAD PAGE
 if ($(".post-section")[0]) {
     const countPost = $(".post-card").length
     $('.body-loading').css("display", "block")
@@ -499,13 +538,10 @@ if ($(".post-section")[0]) {
         }
     })
 }
-$(".confirm").click(() => {
-    console.log(1)
-})
 $(".department-thumbnail-upload").change((e) => {
 
     var file = e.target.files[0]
-    var image = $('.department-thumbnail');
+    var image = $('.department-thumbnail-preview');
     var reader = new FileReader();
     reader.onload = function(e) {
 
@@ -516,10 +552,9 @@ $(".department-thumbnail-upload").change((e) => {
 
 $(".department-insert-container .remove").on('click', (e) => {
     e.preventDefault()
-    $('.department-thumbnail').attr("src", "/images/no-image.png")
+    $('.department-thumbnail-preview').attr("src", "/images/tdt_logo.png")
     $(".department-thumbnail-upload").val(null)
 })
-
 
 $(document).ready(function() {
 
@@ -536,22 +571,23 @@ $(function() {
 })
 
 $(".department-insert-container .submit").click((e) => {
-    var permission = []
-    $.each($(".department-insert-container select option:selected"), function() {
-        permission.push($(this).val());
-    });
     var name = $("#department-name").val()
+    var email = $("#department-email").val()
     var username = $("#department-username").val()
     var password = $("#department-password").val()
     var passwordConfirm = $("#department-password-confirm").val()
-    var id = $("#department-id").val()[0].files[0]
-    var file = $("#department-thumbnail")
+    var id = $("#department-id").val()
+    var file = $("#department-thumbnail")[0].files[0]
 
     var form = new FormData()
+    
+    $.each($(".department-insert-container select option:selected"), function() {
+        form.append('permission[]', $(this).val());
+    });
     form.append('name', name)
+    form.append('email', email)
     form.append('username', username)
     form.append('password', password)
-    form.append('passwordConfirm', passwordConfirm)
     form.append('passwordConfirm', passwordConfirm)
     form.append('id', id)
     form.append('file', file)
@@ -564,7 +600,28 @@ $(".department-insert-container .submit").click((e) => {
         processData: false,
         method: 'POST',
         success: function(data, status) {
-
+            console.log(data)
+            if (data.code===-1){
+                var field = ["name", "username", "password", "passwordConfirm", "email", "id"]
+                $('.nav a[href="#nav-tab-info"]').tab('show');
+                field.forEach(value=>{
+                    var inputField = $(`.department-insert-container .input-field-${value}`)
+                    if (data.errors[value]){
+                        inputField.find("small").remove()
+                        inputField.find("label").removeClass("text-success")
+                        inputField.find("input").removeClass("is-valid")
+                        inputField.find("label").addClass("text-danger")
+                        inputField.find("input").addClass("is-invalid")
+                        inputField.append(`<small class='text-danger'>${data.errors[value].msg}</>`)
+                    }else{
+                        inputField.find("small").remove()
+                        inputField.find("label").removeClass("text-danger")
+                        inputField.find("input").removeClass("is-invalid")
+                        inputField.find("label").addClass("text-success")
+                        inputField.find("input").addClass("is-valid")
+                    }
+                })
+            }
         }
     })
 })

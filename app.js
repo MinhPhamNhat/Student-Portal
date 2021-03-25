@@ -73,18 +73,18 @@ app.use(function(err, req, res, next) {
 });
 
 
-io.on('connection', socket => {
+// io.on('connection', socket => {
 
-    console.log(socket.id + " Just join server")
+//     console.log(socket.id + " Just join server")
 
-    socket.on('disconnect', () => {
-        console.log(socket.id + " Just disconnect from server")
-    })
+//     socket.on('disconnect', () => {
+//         console.log(socket.id + " Just disconnect from server")
+//     })
 
-    socket.on("send-data", (data) => {
-        console.log(data)
-    })
-})
+//     socket.on("send-data", (data) => {
+//         console.log(data)
+//     })
+// })
 
 server.listen(PORT, () => console.log(`Listen on: http://localhost:${PORT}`))
 

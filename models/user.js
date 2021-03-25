@@ -4,10 +4,12 @@ const userSchema = mongoose.Schema({
     name: String,
     email: String,
     avatar: String,
-    role: { admin: Boolean, unit: Boolean, student: Boolean },
+    role: { admin: Boolean, department: Boolean, student: Boolean },
     sub: String,
     birthDay: Date,
     initialTime: Date,
+    departmentID: String,
+    permission: Array,
 })
 
 module.exports = mongoose.model('User', userSchema)

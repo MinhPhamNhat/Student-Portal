@@ -7,7 +7,7 @@ const accountSchema = mongoose.Schema({
         // unit : [phong, khoa]
         admin: Boolean,
         student: Boolean,
-        unit: Boolean
+        department: Boolean
     }
 })
 

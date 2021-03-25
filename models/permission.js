@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const permissionSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    objectId: String,
+    departmentID: string,
     permission: Array,
 })
 
