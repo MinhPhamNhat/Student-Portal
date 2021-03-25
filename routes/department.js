@@ -43,8 +43,8 @@ router.post('/insert', upload.single('file'), validator.insertDepartmentValidato
         if (Object.keys(result).length){
             res.json({code: -1, errors: result})
         }else{
-            var newDeparment = JSON.parse(await account.saveNewDepartment(data))
-            res.json(newDeparment)
+            var newDepartment = JSON.parse(await account.saveNewDepartment(data))
+            res.json(newDepartment)
         }
     }
 

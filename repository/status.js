@@ -3,29 +3,41 @@ const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const func = require('../function/function')
-const parsePost = (value, userid) => {
-    var vote = value.meta.votes.find(userId => userId === userid) ? true : false
-    var post = {
-        attach: value.attach,
-        meta: value.meta,
-        _id: value._id,
-        content: value.content,
-        date: func.getPassedTime(value.date, new Date()),
-        author: value.author,
+const parsePost = async (postVal, userid) => {
+    var user = await User.findOne({_id: postVal.authorId}).exec()
+                    .then(userRes => userRes)
+    var vote = postVal.meta.votes.find(id => id === userid) ? true : false
+    return user?{
+        attach: postVal.attach,
+        meta: postVal.meta,
+        _id: postVal._id,
+        content: postVal.content,
+        date: func.getPassedTime(postVal.date, new Date()),
+        author: {
+            name: user.name,
+            picture: user.avatar,
+            authorId: user._id,
+            role: user.role.admin?"ADMIN":(user.role.department?"Department":"Student")
+        },
         vote
-
-    }
-    return post
+    }:{}
 }
 
-const parseComment = (value) => {
-    return comments = {
-        _id: value._id,
-        statusId: value.statusId,
-        content: value.content,
-        author: value.author,
-        date: func.getPassedTime(value.date, new Date()),
-    }
+const parseComment = async (commentVal) => {
+    var user = await User.findOne({_id: commentVal.authorId}).exec()
+                    .then(userRes => userRes)
+    return  user?{
+        _id: commentVal._id,
+        statusId: commentVal.statusId,
+        content: commentVal.content,
+        author:{
+            name: user.name,
+            picture: user.avatar,
+            authorId: user._id,
+            role: user.role.admin?"ADMIN":(user.role.department?"Department":"Student")
+        },
+        date: func.getPassedTime(commentVal.date, new Date()),
+    }:{}
 }
 
 module.exports = {
@@ -40,13 +52,9 @@ module.exports = {
                         .then(async result => {
                             return JSON.stringify({ code: 0, message: "success", data: { post, author: result } })
                         })
-                        .catch(console.log)
                 });
                 data = await Promise.all(data.reverse())
                 return JSON.stringify({ code: 0, message: "success", data })
-            })
-            .catch(err => {
-                return JSON.stringify({ code: -1, message: "Failed to get all status", json: err })
             })
     },
 
@@ -55,8 +63,8 @@ module.exports = {
             .sort({ date: -1 })
             .skip(skip).limit(limit)
             .exec()
-            .then(async result => {
-                data = result.map(value => {
+            .then(async postRes => {
+                var data = postRes.map(async value => {
                     return parsePost(value, req.user._id);
                 })
                 data = await Promise.all(data)
@@ -67,18 +75,13 @@ module.exports = {
     postStatusToDB: async(content, userID) => {
         return User.findOne({ _id: userID })
             .exec()
-            .then(async result => {
-                if (result) {
+            .then(async userRes => {
+                if (userRes) {
                     return new Post({
                             _id: mongoose.Types.ObjectId(),
                             content: content.content,
                             date: new Date(),
-                            author: {
-                                name: result.name,
-                                picture: result.avatar,
-                                authorId: result._id,
-                                role: result.role.admin ? 'Admin' : (result.role.student ? "Student" : "Deparment")
-                            },
+                            authorId: userRes._id,
                             attach: {
                                 picture: content.image ? content.image : '',
                                 video: '',
@@ -89,8 +92,8 @@ module.exports = {
                             }
                         })
                         .save()
-                        .then((result) => {
-                            var data = parsePost(result, userID)
+                        .then(async (postRes) => {
+                            var data = await parsePost(postRes, userID)
                             return JSON.stringify({ code: 0, message: "success", data })
                         })
                 } else {
@@ -132,8 +135,8 @@ module.exports = {
     insertComment: async(_id, userid, content) => {
         return Post.findOne({ _id })
             .exec()
-            .then(result => {
-                if (result) {
+            .then(postRes => {
+                if (postRes) {
                     return User.findOne({ _id: userid })
                         .exec()
                         .then(stdResult => {
@@ -142,25 +145,21 @@ module.exports = {
                                         _id: mongoose.Types.ObjectId(),
                                         statusId: _id,
                                         content,
-                                        author: {
-                                            name: stdResult.name,
-                                            picture: stdResult.avatar,
-                                            authorId: stdResult._id
-                                        },
+                                        authorId: stdResult._id,
                                         date: new Date()
                                     }).save()
-                                    .then(saveRes => {
-                                        var comments = parseComment(saveRes)
-                                        result.meta.comments.splice(0, 0, userid)
-                                        result.save()
-                                        return JSON.stringify({ code: 0, message: "Success to post Comment", data: { comments, no_comment: (result.meta.comments.length) } })
+                                    .then(async commentRes => {
+                                        var comments = await parseComment(commentRes)
+                                        postRes.meta.comments.splice(0, 0, commentRes._id)
+                                        postRes.save()
+                                        return JSON.stringify({ code: 0, message: "Success to post Comment", data: { comments, no_comment: (postRes.meta.comments.length) } })
                                     })
                             } else {
-                                return JSON.stringify({ code: -3, message: "No user founded", data: saveRes })
+                                return JSON.stringify({ code: -3, message: "No user founded"})
                             }
                         })
                 } else
-                    return JSON.stringify({ code: -2, message: "No post founded", data: result })
+                    return JSON.stringify({ code: -2, message: "No post founded", data: postRes })
             })
             .catch(err => {
                 return JSON.stringify({ code: -1, message: "Get post failed", json: err })

@@ -11278,3 +11278,22 @@ hr {
     border:1px green solid;
 }
 /* end department insert area */
+
+.post-card .option-menu {
+    background-color: #fff;
+    position: absolute;
+    box-shadow: 1px 0 4px rgba(0, 0, 0, .24);
+    text-align: center;
+}
+.post-card .option-menu .dropdown-item{
+    width: 100%;
+    background-color:  transparent;
+    text-align: center;
+}
+.post-card .option-menu div{
+    font-size: 13px;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    
+}

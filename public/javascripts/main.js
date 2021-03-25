@@ -1,4 +1,22 @@
 const socket = io.connect("http://localhost:8080");
+tinymce.init({
+    selector: 'textarea',
+    plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen paste powerpaste table advtable tinycomments tinymcespellchecker',
+    toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+    toolbar_mode: 'floating',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+ });
+
+ $(document).on('focusin', function(e) {
+    if ($(e.target).closest(".tox-dialog").length) {
+        e.stopImmediatePropagation();
+    }
+});
+
+$('.menu').on('click', function () {
+    $('.list').toggleClass('hidden');
+  });
 (function($) {
     "use strict";
 
@@ -247,19 +265,22 @@ const newPost = (value) => {
                         <div class="d-flex flex-row align-items-center"> <a href="/profile/${value.author.authorId}"><img src="${ value.author.picture}" width="50" class="rounded-circle"></a>
                             <div class="d-flex flex-column ml-2"><a href="/profile/${value.author.authorId}"> <span class="font-weight-bold">${ value.author.name}</span></a><small class="text-primary">${ value.author.role}</small> </div>
                         </div>
-                        <div class="ellipsis"> <small class="time">${ value.date}</small> <i class="fa fa-ellipsis-h option" data-toggle="dropdown" >
-                        <div class="option-dropdown dropdown">
+                        <div class="ellipsis"> <small class="time">${ value.date}</small> 
+                        <i class="fa fa-ellipsis-h" id="option" data-toggle="dropdown" > </i>
+                        <div class="option-menu"> 
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Edit</a>
-                                <a class="dropdown-item" href="#">Ddelete</a>
-                            </div>
-                            </div>
-                        </i> </div>
+                                <div class="dropdown-item edit-post" data-id="${ value._id}">Edit</div>
+                                <hr>
+                                <div class="dropdown-item remove-post" data-id="${ value._id}">Delete</div>
+                            </div> 
+                        </div>
+                        </div>
                     </div>
                     </br>
-                    <p class="text-justify">
-                        ${ value.content}
-                    </p>
+                    <div class="text-justify">
+                    
+                        ${ value.content }
+                    </div>
                     ${ tag }
                     <div class="p-2 bottom-section">
                         <hr>
@@ -291,10 +312,12 @@ const newPost = (value) => {
         <!-- post status end -->`
 }
 
+// POST STATUS 
 const postStatus = () => {
     $("#textbox").modal("hide")
-    var content = $("#share-your-mood").val();
+    var content = tinyMCE.activeEditor.getContent();
     var file = $(".picture-attach-upload")[0].files[0]
+    
     var data = new FormData()
     data.append('file', file)
     data.append('content', content)
@@ -308,11 +331,12 @@ const postStatus = () => {
             processData: false,
             method: 'POST',
             success: function(data, status) {
+                console.log(data)
                 if (status === 'success') {
                     data = JSON.parse(JSON.stringify(data))
                     var tag = newPost(data)
                     $(".post-section").prepend(tag)
-                    $("#share-your-mood").val('');
+                    tinymce.get("richtexteditor").setContent("");
                     $(".picture-attach-upload").val(null)
                     $('.image-upload-preview').hide();
                 }
@@ -390,7 +414,6 @@ const loadMorePost = (skip) => {
 }
 
 const loadMoreComment = (skip, statusid) => {
-    console.log(`http://localhost:8080/status/comment?skip=${skip}&statusid=${statusid}`)
     return fetch(`http://localhost:8080/status/comment?skip=${skip}&statusid=${statusid}`)
     .then(result => result.json())
     .then(data => {
@@ -406,7 +429,7 @@ $(document).delegate(".attach .picture", 'click', () => {
 })
 
 $(document).delegate(".cancel-share-btn, .close-share", 'click', () => {
-    $("#share-your-mood").val('');
+    tinymce.get("richtexteditor").setContent("");
     $(".picture-attach-upload").val(null)
     $('.image-upload-preview').hide();
 })
@@ -437,12 +460,14 @@ $(document).delegate('.image-upload-preview .close-icon', 'click', function() {
 //         alert("bottom!");
 //     }
 // });
+
+// LOAD STATUS WHEN SCROLL BOTTOM
 if ($(".post-section")[0]) {
     window.onscroll = async(e) => {
         if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
-            console.log(1)
-
             const countPost = $(".post-card").length
+            console.log(countPost)
+
             $('.body-loading').css("display", "block")
             loadMorePost(countPost).then(data => {
                 var tag;
@@ -626,7 +651,11 @@ $(".department-insert-container .submit").click((e) => {
     })
 })
 
-
+// REMOVE STATUS 
+$(document).delegate('.remove-post', 'click', (e) => {
+    var statusid = e.target.dataset.id
+    console.log(statusid)
+})
 
 // $(".department-insert-container .ok").on('click', () => {
 //     var file = $(".picture-attach-upload")[0].files[0]
@@ -645,7 +674,7 @@ $(".department-insert-container .submit").click((e) => {
 //                     data = JSON.parse(JSON.stringify(data))
 //                     var tag = newPost(data)
 //                     $(".post-section").prepend(tag)
-//                     $("#share-your-mood").val('');
+//                     $(".share-your-mood").val('');
 //                     $(".picture-attach-upload").val(null)
 //                     $('.image-upload-preview').hide();
 //                 }
