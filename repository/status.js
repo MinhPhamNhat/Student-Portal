@@ -3,11 +3,13 @@ const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const func = require('../function/function')
-const parsePost = async (postVal, userid) => {
-    var user = await User.findOne({_id: postVal.authorId}).exec()
-                    .then(userRes => userRes)
+const post = require('../models/post')
+const parsePost = async(postVal, userid) => {
+    var user = await User.findOne({ _id: postVal.authorId }).exec()
+        .then(userRes => userRes)
     var vote = postVal.meta.votes.find(id => id === userid) ? true : false
-    return user?{
+    var isDelete = user._id == userid ? true : false
+    return user ? {
         attach: postVal.attach,
         meta: postVal.meta,
         _id: postVal._id,
@@ -17,27 +19,28 @@ const parsePost = async (postVal, userid) => {
             name: user.name,
             picture: user.avatar,
             authorId: user._id,
-            role: user.role.admin?"ADMIN":(user.role.department?"Department":"Student")
+            role: user.role.admin ? "ADMIN" : (user.role.department ? "Department" : "Student")
         },
-        vote
-    }:{}
+        vote,
+        isDelete
+    } : {}
 }
 
-const parseComment = async (commentVal) => {
-    var user = await User.findOne({_id: commentVal.authorId}).exec()
-                    .then(userRes => userRes)
-    return  user?{
+const parseComment = async(commentVal) => {
+    var user = await User.findOne({ _id: commentVal.authorId }).exec()
+        .then(userRes => userRes)
+    return user ? {
         _id: commentVal._id,
         statusId: commentVal.statusId,
         content: commentVal.content,
-        author:{
+        author: {
             name: user.name,
             picture: user.avatar,
             authorId: user._id,
-            role: user.role.admin?"ADMIN":(user.role.department?"Department":"Student")
+            role: user.role.admin ? "ADMIN" : (user.role.department ? "Department" : "Student")
         },
         date: func.getPassedTime(commentVal.date, new Date()),
-    }:{}
+    } : {}
 }
 
 module.exports = {
@@ -92,7 +95,7 @@ module.exports = {
                             }
                         })
                         .save()
-                        .then(async (postRes) => {
+                        .then(async(postRes) => {
                             var data = await parsePost(postRes, userID)
                             return JSON.stringify({ code: 0, message: "success", data })
                         })
@@ -102,8 +105,27 @@ module.exports = {
             })
     },
 
-    voteStatus: async(_id, userVoteId) => {
-        return Post.findOne({ _id })
+    removeStatus: async(statusIId, userId) => {
+        return User.findOne({ _id: userId })
+            .exec()
+            .then(async userRes => {
+                if (userRes) {
+                    return Post.findOneAndDelete({ _id: statusIId, authorId: userId }).exec()
+                        .then(postRes => {
+                            if (postRes) {
+                                return JSON.stringify({ code: 0, message: "Success remove status" })
+                            } else {
+                                return JSON.stringify({ code: -2, message: "Access denined" })
+                            }
+                        })
+                } else {
+                    return JSON.stringify({ code: -1, message: "Access denined" })
+                }
+            })
+    },
+
+    voteStatus: async(statusId, userVoteId) => {
+        return Post.findOne({ _id: statusId })
             .exec()
             .then(async result => {
                 if (result) {
@@ -132,8 +154,8 @@ module.exports = {
             })
     },
 
-    insertComment: async(_id, userid, content) => {
-        return Post.findOne({ _id })
+    insertComment: async(statusId, userid, content) => {
+        return Post.findOne({ _id: statusId })
             .exec()
             .then(postRes => {
                 if (postRes) {
@@ -143,7 +165,7 @@ module.exports = {
                             if (stdResult) {
                                 return new Comment({
                                         _id: mongoose.Types.ObjectId(),
-                                        statusId: _id,
+                                        statusId,
                                         content,
                                         authorId: stdResult._id,
                                         date: new Date()
@@ -152,17 +174,38 @@ module.exports = {
                                         var comments = await parseComment(commentRes)
                                         postRes.meta.comments.splice(0, 0, commentRes._id)
                                         postRes.save()
-                                        return JSON.stringify({ code: 0, message: "Success to post Comment", data: { comments, no_comment: (postRes.meta.comments.length) } })
+                                        return JSON.stringify({ code: 0, message: "Successfully posting Comment", data: { comments, no_comment: (postRes.meta.comments.length) } })
                                     })
                             } else {
-                                return JSON.stringify({ code: -3, message: "No user founded"})
+                                return JSON.stringify({ code: -3, message: "User not found" })
                             }
                         })
                 } else
-                    return JSON.stringify({ code: -2, message: "No post founded", data: postRes })
+                    return JSON.stringify({ code: -2, message: "Post not found", data: postRes })
             })
             .catch(err => {
                 return JSON.stringify({ code: -1, message: "Get post failed", json: err })
+            })
+    },
+
+    removeComment: async(statusId, commentId, userId) => {
+        return Post.findOne({ _id: statusId }).exec()
+            .then(postRes => {
+                if (postRes) {
+                    return Comment.findOneAndDelete({ _id: commentId, authorId: userId }).exec()
+                        .then(commentRes => {
+                            if (commentRes) {
+                                var indexOfUser = postRes.meta.comments.indexOf(commentId)
+                                postRes.meta.comments.splice(indexOfUser, 1)
+                                postRes.save()
+                                return JSON.stringify({ code: 0, message: "Success remove comment", data: { no_comment: (postRes.meta.comments.length) } })
+                            } else {
+                                return JSON.stringify({ code: -2, message: "Comment not found" })
+                            }
+                        })
+                } else {
+                    return JSON.stringify({ code: -1, message: "Post not found" })
+                }
             })
     },
 
