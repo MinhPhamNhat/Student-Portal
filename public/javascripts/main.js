@@ -8,15 +8,15 @@ tinymce.init({
     tinycomments_author: 'Author name',
 });
 
-$(document).on('focusin', function(e) {
+$(document).on('focusin', function (e) {
     if ($(e.target).closest(".tox-dialog").length) {
         e.stopImmediatePropagation();
     }
 });
-(function($) {
+(function ($) {
     "use strict";
 
-    $(".msg-trigger-btn").on("click", function(event) {
+    $(".msg-trigger-btn").on("click", function (event) {
         event.stopPropagation();
         event.preventDefault();
         var $this = $(this);
@@ -28,7 +28,7 @@ $(document).on('focusin', function(e) {
     });
 
     //Close When Click Outside
-    $('body').on('click', function(e) {
+    $('body').on('click', function (e) {
         var $target = e.target;
         if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
             $(".message-dropdown").slideUp("slow");
@@ -37,7 +37,7 @@ $(document).on('focusin', function(e) {
 
     //Background Image JS start
     var bgSelector = $(".bg-img");
-    bgSelector.each(function(index, elem) {
+    bgSelector.each(function (index, elem) {
         var element = $(elem),
             bgSource = element.data('bg');
         element.css('background-image', 'url(' + bgSource + ')');
@@ -50,17 +50,17 @@ $(document).on('focusin', function(e) {
         prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
         nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
         responsive: [{
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 5,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 8,
-                }
+            breakpoint: 1200,
+            settings: {
+                slidesToShow: 5,
             }
+        },
+        {
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 8,
+            }
+        }
         ]
     });
 
@@ -84,64 +84,64 @@ $(document).on('focusin', function(e) {
         slidesToShow: 5,
         arrows: false,
         responsive: [{
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 2,
-                }
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 3,
             }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 2,
+            }
+        }
         ]
     });
 
     // live chat box and friend search box active js
-    $(".profile-active").on('click', function() {
+    $(".profile-active").on('click', function () {
         $(".chat-output-box").addClass('show');
     })
-    $(".search-field").on('click', function() {
+    $(".search-field").on('click', function () {
         $(".friend-search-list").addClass('show');
     })
-    $(".close-btn").on('click', function() {
+    $(".close-btn").on('click', function () {
         var $this = $(this),
             $target = $this.data('close');
         $('.' + $target).removeClass('show');
     })
 
     // mobile header seach box active
-    $(".search-trigger").on('click', function() {
+    $(".search-trigger").on('click', function () {
         $('.search-trigger, .mob-search-box').toggleClass('show');
     })
 
-    $(".chat-trigger, .close-btn").on('click', function() {
+    $(".chat-trigger, .close-btn").on('click', function () {
         $('.mobile-chat-box').toggleClass('show');
     })
-    $(".request-trigger1").on('click', function() {
+    $(".request-trigger1").on('click', function () {
         $('.portal-request-list').removeClass('show');
         $('.frnd-request-list').toggleClass('show');
     })
 
-    $(".request-trigger2").on('click', function(event) {
+    $(".request-trigger2").on('click', function (event) {
         $('.frnd-request-list').removeClass('show');
         $('.portal-request-list').toggleClass('show');
     })
 
     // mobile friend search active js
-    $(".search-toggle-btn").on('click', function() {
+    $(".search-toggle-btn").on('click', function () {
         $('.mob-frnd-search-inner').toggleClass('show');
     })
 
     // profile dropdown triger js
-    $('.profile-triger').on('click', function(event) {
+    $('.profile-triger').on('click', function (event) {
         event.stopPropagation();
         $(".profile-dropdown").slideToggle();
     })
 
     //Close When Click Outside
-    $('body').on('click', function(e) {
+    $('body').on('click', function (e) {
         var $target = e.target;
         if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
             $(".profile-dropdown").slideUp("slow");
@@ -149,13 +149,13 @@ $(document).on('focusin', function(e) {
     });
 
     // perfect scroll bar js
-    $('.custom-scroll').each(function() {
+    $('.custom-scroll').each(function () {
         var ps = new PerfectScrollbar($(this)[0]);
     });
 
 
     // light gallery active js
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".img-popup").lightGallery();
 
         // light gallery images
@@ -165,7 +165,7 @@ $(document).on('focusin', function(e) {
         });
     });
 
-    $('.gallery-toggle').on('click', function() {
+    $('.gallery-toggle').on('click', function () {
 
         var productThumb = $(this).find(".product-thumb-large-view img"),
             imageSrcLength = productThumb.length,
@@ -185,10 +185,10 @@ $(document).on('focusin', function(e) {
     });
 
     // photo filter active js
-    $('.photo-filter').imagesLoaded(function() {
+    $('.photo-filter').imagesLoaded(function () {
         var $grid = $('.photo-filter, .friends-list').isotope({});
         // filter items on button click
-        $('.filter-menu').on('click', 'button', function() {
+        $('.filter-menu').on('click', 'button', function () {
             var filterValue = $(this).attr('data-filter');
             $grid.isotope({ filter: filterValue });
             $(this).siblings('.active').removeClass('active');
@@ -201,21 +201,21 @@ $(document).on('focusin', function(e) {
     $('select').niceSelect();
 
     // Scroll to top active js
-    $(window).on('scroll', function() {
+    $(window).on('scroll', function () {
         if ($(this).scrollTop() > 600) {
             $('.scroll-top').removeClass('not-visible');
         } else {
             $('.scroll-top').addClass('not-visible');
         }
     });
-    $('.scroll-top').on('click', function(event) {
+    $('.scroll-top').on('click', function (event) {
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
     });
 
 
-    $('#email').bind("cut copy paste", function(e) {
+    $('#email').bind("cut copy paste", function (e) {
         e.preventDefault();
     });
 
@@ -248,28 +248,28 @@ const newComment = (value) => `
 
 
 const newPost = (value) => {
-        var tag = ''
-        if (value.attach.picture) {
-            tag = `<img class="post-picture" src="${ value.attach.picture}">`
-        }
-        return `
+    var tag = ''
+    if (value.attach.picture) {
+        tag = `<img class="post-picture" src="${value.attach.picture}">`
+    }
+    return `
     <!-- post status start -->
         <div class="post-card card post-${ value._id}">
             <div class="row d-flex align-items-center justify-content-center">
                 <div class="main">
                     <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row align-items-center"> <a href="/profile/${value.author.authorId}"><img src="${ value.author.picture}" width="50" class="rounded-circle"></a>
-                            <div class="d-flex flex-column ml-2"><a href="/profile/${value.author.authorId}"> <span class="font-weight-bold">${ value.author.name}</span></a><small class="text-primary">${ value.author.role}</small> </div>
+                        <div class="d-flex flex-row align-items-center"> <a href="/profile/${value.author.authorId}"><img src="${value.author.picture}" width="50" class="rounded-circle"></a>
+                            <div class="d-flex flex-column ml-2"><a href="/profile/${value.author.authorId}"> <span class="font-weight-bold">${value.author.name}</span></a><small class="text-primary">${value.author.role}</small> </div>
                         </div>
                         <div class="ellipsis"> <small class="time">${ value.date}</small> 
                             <i class="fa fa-ellipsis-h" id="option" data-toggle="dropdown" > </i>
                             <div class="option-menu"> 
                                 <div class="dropdown-menu">
-                                    ${ value.isDelete?`
-                                        <div class="dropdown-item edit-post" data-id="${ value._id}">Edit</div>
+                                    ${ value.isDelete ? `
+                                        <div class="dropdown-item edit-post" onclick=editStatus(this) data-id="${ value._id}">Edit</div>
                                         <hr>
                                         <div class="dropdown-item remove-post" onclick=removeStatus(this) data-id="${ value._id}">Delete</div>
-                                    `:``}
+                                    `: ``}
                                 </div> 
                             </div>
                         </div>
@@ -277,9 +277,9 @@ const newPost = (value) => {
                     </br>
                     <div class="text-justify">
                     
-                        ${ value.content }
+                        ${ value.content}
                     </div>
-                    ${ tag }
+                    ${ tag}
                     <div class="p-2 bottom-section">
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
@@ -327,7 +327,7 @@ const postStatus = () => {
             contentType: false,
             processData: false,
             method: 'POST',
-            success: function(data, status) {
+            success: function (data, status) {
                 console.log(data)
                 data = JSON.parse(JSON.stringify(data))
                 if (data.code === 0) {
@@ -352,12 +352,12 @@ const removeStatus = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
     fetch("http://localhost:8080/status", {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
         .then(result => result.json())
         .then(data => {
             console.log(data)
@@ -373,17 +373,33 @@ const removeStatus = (target) => {
         })
 }
 
+const editStatus = (target) => {
+    var statusId = target.dataset.id
+    var content = $(`.post-${statusId} .text-justify`)[0]
+    if (content) {
+        var content = content.outerHTML
+        tinymce.activeEditor.setContent(content);
+    }
+    if ($(".post-picture")[0]) {
+        var image = $(".post-picture")[0].src
+        $("#output").attr("src", image)
+    }
+    $(".image-upload-preview").css("display", "block")
+    $(".post-share-btn").html("save")
+    $(".share-modal").modal("show")
+}
+
 const vote = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
     fetch("http://localhost:8080/status/vote", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
 
-        })
+    })
         .then(result => result.json())
         .then(data => {
             console.log(data)
@@ -413,12 +429,12 @@ const comment = (target) => {
     var data = { statusId, content }
     if (content) {
         fetch("http://localhost:8080/status/comment", {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(result => result.json())
             .then(data => {
                 console.log(data)
@@ -438,8 +454,9 @@ const comment = (target) => {
     }
 }
 
-const loadMorePost = (skip) => {
-    return fetch(`http://localhost:8080/status?skip=${skip}`)
+const loadMorePost = (skip, id) => {
+    console.log(`http://localhost:8080/status?skip=${skip}${id ? `&id=${id}` : ''}`)
+    return fetch(`http://localhost:8080/status?skip=${skip}${id ? `&id=${id}` : ''}`)
         .then(result => result.json())
         .then(data => data)
 }
@@ -455,19 +472,19 @@ $(document).delegate(".attach .picture", 'click', () => {
 })
 
 $(document).delegate(".cancel-share-btn, .close-share", 'click', () => {
-    tinymce.get("richtexteditor").setContent("");
-    $(".picture-attach-upload").val(null)
-    $('.image-upload-preview').hide();
+    setTimeout(() => {
+        tinymce.get("richtexteditor").setContent("");
+        $(".picture-attach-upload").val(null)
+        $('.image-upload-preview').hide();
+    }, 300)
+
 })
 
 $(".picture-attach-upload").change((e) => {
     var file = e.target.files[0]
-    console.log(file)
-    var image = $('#output');
-    image.src = URL.createObjectURL(file);
 
     var reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = function () {
         var output = document.getElementById('output');
         output.src = reader.result;
     };
@@ -475,19 +492,22 @@ $(".picture-attach-upload").change((e) => {
     $(".image-upload-preview").css("display", "block")
 })
 
-$(document).delegate('.image-upload-preview .close-icon', 'click', function() {
+$(document).delegate('.image-upload-preview .close-icon', 'click', function () {
     $('.image-upload-preview').slideToggle(300, 'swing');
     $(".picture-attach-upload").val(null)
 })
 
 // LOAD STATUS WHEN SCROLL BOTTOM
 if ($(".post-section")[0]) {
-    window.onscroll = async(e) => {
+    var userId = ''
+    if (window.location.pathname.includes("/profile/"))
+        userId = window.location.pathname.replace("/profile/", "")
+    window.onscroll = async (e) => {
         if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
             const countPost = $(".post-card").length
 
             $('.body-loading').css("display", "block")
-            loadMorePost(countPost).then(ressult => {
+            loadMorePost(countPost, userId).then(ressult => {
                 if (ressult.code === 0) {
                     if (ressult.data.length) {
                         ressult.data.forEach(value => {
@@ -580,27 +600,6 @@ $(document).delegate(".comments-container .load-more", 'click', (e) => {
     })
 })
 
-// SHOW INDEX PAGE POST WHEN LOAD PAGE
-if ($(".post-section")[0]) {
-    const countPost = $(".post-card").length
-    $('.body-loading').css("display", "block")
-    loadMorePost(countPost).then(ressult => {
-        if (ressult.code === 0) {
-            if (ressult.data.length) {
-                ressult.data.forEach(value => {
-                    tag = newPost(value)
-                    $(".post-section").append(tag)
-                })
-                $('.body-loading').css("display", "none")
-                showToast("Tải status", "Tải status thành công", "success")
-            } else {
-                showToast("Tải status", "Không có status nào để tải", "success")
-            }
-        } else {
-            showToast("Tải status", data.message, "error")
-        }
-    })
-}
 
 
 $(".department-thumbnail-upload").change((e) => {
@@ -608,7 +607,7 @@ $(".department-thumbnail-upload").change((e) => {
     var file = e.target.files[0]
     var image = $('.department-thumbnail-preview');
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
 
         image.attr('src', e.target.result);
     };
@@ -621,7 +620,7 @@ $(".department-insert-container .remove").on('click', (e) => {
     $(".department-thumbnail-upload").val(null)
 })
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
         removeItemButton: true,
@@ -631,7 +630,7 @@ $(document).ready(function() {
     });
 });
 
-$(function() {
+$(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
@@ -646,7 +645,7 @@ $(".department-insert-container .submit").click((e) => {
 
     var form = new FormData()
 
-    $.each($(".department-insert-container select option:selected"), function() {
+    $.each($(".department-insert-container select option:selected"), function () {
         form.append('permission[]', $(this).val());
     });
     form.append('name', name)
@@ -664,7 +663,7 @@ $(".department-insert-container .submit").click((e) => {
         contentType: false,
         processData: false,
         method: 'POST',
-        success: function(data, status) {
+        success: function (data, status) {
             if (data.code === -1) {
                 var field = ["name", "username", "password", "passwordConfirm", "email", "id"]
                 $('.nav a[href="#nav-tab-info"]').tab('show');
@@ -712,15 +711,15 @@ $(".department-insert-container .submit").click((e) => {
 // });
 
 var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
-        var toastNum = $(".toast").length
-        var typeVal = {
-            "warning": `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>`,
-            "error": `<i class="fa fa-exclamation" aria-hidden="true"></i>`,
-            "noti": `<i class="fa fa-bell" aria-hidden="true"></i>`,
-            "success": `<i class="fa fa-check" aria-hidden="true"></i>`
-        }
-        var tag =
-            `<div class="toast toast-${toastNum+1}"  id="myToast" style="position: fixed; bottom: ${y}px;
+    var toastNum = $(".toast").length
+    var typeVal = {
+        "warning": `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>`,
+        "error": `<i class="fa fa-exclamation" aria-hidden="true"></i>`,
+        "noti": `<i class="fa fa-bell" aria-hidden="true"></i>`,
+        "success": `<i class="fa fa-check" aria-hidden="true"></i>`
+    }
+    var tag =
+        `<div class="toast toast-${toastNum + 1}"  id="myToast" style="position: fixed; bottom: ${y}px;
                 left: ${x}px; z-index: 999;">
                 <div class="toast-header">
                     <div style="margin-right: 20px">${typeVal[type]}</div><strong class="mr-auto">${title}</strong>
@@ -735,13 +734,15 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
                 </div>
             </div>`
 
-        $("body").append(tag)
-        $(`.toast-${toastNum+1}`).toast({ delay: 3000 });
-        $(`.toast-${toastNum+1}`).toast("show")
-        setTimeout(() => {
-            $(`.toast-${toastNum+1}`).remove()
-        }, 4000)
-    }
+    $("body").append(tag)
+    $(`.toast-${toastNum + 1}`).toast({ delay: 3000 });
+    $(`.toast-${toastNum + 1}`).toast("show")
+    setTimeout(() => {
+        $(`.toast-${toastNum + 1}`).remove()
+    }, 4000)
+}
+
+
     // $(document).ready(function() {
     //     var tag, x, y, timeOut;
     //     for (var i = 0; i < 50; i++) {
@@ -803,3 +804,27 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
 //         }
 //     }, 1000)
 // })
+
+
+// SHOW INDEX PAGE POST WHEN LOAD PAGE
+// if ($(".post-section")[0]) {
+//     var currentPage = window.location.pathname
+//     const countPost = $(".post-card").length
+//     $('.body-loading').css("display", "block")
+//     loadMorePost(countPost, currentPage).then(ressult => {
+//         if (ressult.code === 0) {
+//             if (ressult.data.length) {
+//                 ressult.data.forEach(value => {
+//                     tag = newPost(value)
+//                     $(".post-section").append(tag)
+//                 })
+//                 $('.body-loading').css("display", "none")
+//                 showToast("Tải status", "Tải status thành công", "success")
+//             } else {
+//                 showToast("Tải status", "Không có status nào để tải", "success")
+//             }
+//         } else {
+//             showToast("Tải status", data.message, "error")
+//         }
+//     })
+// }

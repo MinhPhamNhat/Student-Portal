@@ -29,7 +29,7 @@ router.post('/insert', upload.single('file'), validator.insertDepartmentValidato
         if (!req.file) {
             var defaultImage = {
                 path: path.join(__dirname, '../public/images/tdt_logo.png'),
-                mineType: 'image/png'
+                mimetype: 'image/png'
             }
         }
         var permission = [req.body.id]

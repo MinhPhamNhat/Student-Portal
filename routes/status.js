@@ -5,8 +5,9 @@ const upload = require('../middleware/file')
 const func = require('../function/function')
     // Get status
 router.get('/', (req, res, next) => {
+    let id = req.query.id
     var skip = Number(req.query.skip)
-    status.findStatus(req, { skip, limit: 5 })
+    status.findStatus(req, { skip, limit: 5 }, id)
         .then(result => JSON.parse(result))
         .then(data => res.json(data))
 })
@@ -14,17 +15,17 @@ router.get('/', (req, res, next) => {
 // Post status
 router.post('/', upload.single('file'), (req, res, next) => {
     if (req.file) {
-        var asdasdafas = {
+        var contentData = {
             content: req.body.content,
             image: func.convertImageToURL(req.file)
         };
     } else {
-        var asdasdafas = {
+        var contentData = {
             content: req.body.content,
         };
     }
     var userID = req.user._id
-    status.postStatusToDB(asdasdafas, userID)
+    status.postStatus(contentData, userID)
         .then(result => JSON.parse(result))
         .then(data => res.json(data))
 })
@@ -35,6 +36,30 @@ router.delete('/', (req, res, next) => {
     var userId = req.user._id
     if (statusId) {
         status.removeStatus(statusId, userId)
+            .then(result => JSON.parse(result))
+            .then(data => res.json(data))
+    } else {
+        return res.json({ code: -1, message: "Invalid id" })
+    }
+})
+
+// Edit status
+router.put('/',upload.single('file'), (req, res, next) => {
+
+    if (req.file) {
+        var contentData = {
+            content: req.body.content,
+            image: func.convertImageToURL(req.file)
+        };
+    } else {
+        var contentData = {
+            content: req.body.content,
+        };
+    }
+    var { statusId } = req.body
+    var userId = req.user._id
+    if (statusId) {
+        status.editStatus(contentData, statusId, userId)
             .then(result => JSON.parse(result))
             .then(data => res.json(data))
     } else {
@@ -57,8 +82,8 @@ router.put('/vote', (req, res, next) => {
             return res.json({ code: -1, message: "Invalid id" })
         }
     })
-    // Comment status
-router.put('/comment', (req, res, next) => {
+// Comment status
+router.post('/comment', (req, res, next) => {
     var { statusId, content } = req.body
     var userId = req.user._id
     if (statusId) {
@@ -97,15 +122,15 @@ router.get('/comment', (req, res, next) => {
     }
 })
 
-// Get file upload
-router.post('/uploadfile', upload.single('image'), (req, res, next) => {
-    const file = req.file
-    if (!file) {
-        const error = new Error('Please upload a file')
-        error.httpStatusCode = 400
-        return next(error)
-    }
-    res.send(file)
-})
+// // Get file upload
+// router.post('/uploadfile', upload.single('image'), (req, res, next) => {
+//     const file = req.file
+//     if (!file) {
+//         const error = new Error('Please upload a file')
+//         error.httpStatusCode = 400
+//         return next(error)
+//     }
+//     res.send(file)
+// })
 
 module.exports = router

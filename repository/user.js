@@ -13,7 +13,17 @@ module.exports = {
         .then(result => {
             return JSON.stringify({code:0, message: "success", data: result})
         })
-    }
+    },
+
+    getUser: async (userid) => {
+        return User.findOne({_id: userid}).exec()
+        .then(result => {
+            if (result)
+                return JSON.stringify({code:0, message: "success", data: result})
+            else
+                return JSON.stringify({code:-1, message: "User not found"})
+        })
+    },
 
 
 

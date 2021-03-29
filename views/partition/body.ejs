@@ -1,6 +1,64 @@
 <div class="main-body">
     <div class="post-section">
-
+        <% data.forEach(value => {%>
+    <!-- post status start -->
+    <div class="post-card card post-<%= value._id %>">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="main">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center"> <a href="/profile/<%= value.author.authorId %>"><img src="<%=  value.author.picture %>" width="50" class="rounded-circle"></a>
+                            <div class="d-flex flex-column ml-2"><a href="/profile/<%= value.author.authorId %>"> <span class="font-weight-bold"><%=  value.author.name %></span></a><small class="text-primary"><%=  value.author.role %></small> </div>
+                        </div>
+                        <div class="ellipsis"> <small class="time"><%=  value.date %></small> 
+                            <i class="fa fa-ellipsis-h" id="option" data-toggle="dropdown" > </i>
+                            <div class="option-menu"> 
+                                <div class="dropdown-menu">
+                                    <%  if(value.isDelete){ %>
+                                        <div class="dropdown-item edit-post" onclick=editStatus(this) data-id="<%=  value._id %>">Edit</div>
+                                        <hr>
+                                        <div class="dropdown-item remove-post" onclick=removeStatus(this) data-id="<%=  value._id %>">Delete</div>
+                                    <%}%>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="text-justify">
+                        <%- value.content  %>
+                    </div>
+                    
+                    <%  if(value.attach.picture){ %>
+                    <img class="post-picture" src="<%= value.attach.picture %>">
+                    <% } %>
+                    <div class="p-2 bottom-section">
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-row icons d-flex align-items-center">
+                                <button onclick=vote(this) data-id="<%=  value._id %>" class="post-meta-like <%= value.vote ? " voted " : " " %>">
+                                        <div style="background-image: url('/images/icons/<%=  value.vote ? "heart" : "unheart" %>.png')" class="pic icon-heart"></div>
+                                        <span><%=  value.meta.votes.length %></span>
+                                    </button></div>
+                            <div class="d-flex flex-row muted-color"> <p class="no-comment"><%=  value.meta.comments.length %> comments</p></div>
+                        </div>
+                        <hr>
+                        <div class="comment-input-section"> <input placeholder="Nói gì đi" type="text" data-id="<%=  value._id %>" class="form-control comments-input">
+                            <div class="fonts" onclick=comment(this) data-id="<%=  value._id %>"><i class="fa fa-paper-plane" aria-hidden="true"></i> </div>
+                        </div>
+                        <img class="comment-loading" src="/images/icons/comment_loading.gif">
+                        <div class="comments-container">
+                            <div class="comments">
+                            </div>
+                            <div data-id="<%=  value._id %>" class="load-more">Xem thêm ...</div>
+                            <div class="hide-comment-section">
+                                <i data-id="<%=  value._id %>" class="fa fa-chevron-up" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- post status end -->
+       <% }) %>
     </div>
     <div class="body-loading" style="display:none">
         <img src="/images/icons/loading.svg">

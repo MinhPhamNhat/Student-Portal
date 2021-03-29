@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<%- include('./partition/header', {user: user}); -%>
-
+<%- include('./partition/header'); -%>
+<%- include('./partition/navbar', {user: user}); -%>
     <body>
         <main>
 
@@ -17,7 +17,7 @@
 
                             <%- include('./partition/share'); -%>
                                 <!-- share box end -->
-                                <%- include('./partition/body'); -%>
+                                <%- include('./partition/body', {data: data}); -%>
                         </div>
                         <div class="col-lg-3 order-3">
                             <%- include('./partition/right-widget'); -%>

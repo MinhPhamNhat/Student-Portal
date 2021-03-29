@@ -1,51 +1,52 @@
-<head>
-    <%- include('./partition/header', {user: user}); -%>
-</head>
 
-<body data-new-gr-c-s-check-loaded="14.980.0" data-gr-ext-installed="">
-    <div class="container">
-        <div class="row department-container">
-            <div class="card department-card-container">
-                <div class="card-header">
-                    <div><i class="fa fa-home" aria-hidden="true"></i>
-                        <a href="#"><strong> Trang chủ</strong> </a>
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        <strong> Danh sách phòng ban</strong>
-                        
-                    </div>
-                </div>
-
-                <div class="department-item">
-                    <% if (user.role.admin){ %>
-                        <div class="card" onclick="window.location.href='/department/insert'" style="width: 18rem;">
-                                <div class="card-body d-flex flex-col justify-content-center align-items-center">
-                                        <i class="fa fa-plus-circle" style="font-size: 100px;"aria-hidden="true"></i>
-                                </div>
-                            </div>
-                    <%}%>
-                    
-                    <% data.forEach(value => {%>
-                    <div class="card" data-id="<%=value._id%>" style="width: 18rem;">
-                            <% if(value.avatar) {%>
-                                <img src="<%=value.avatar%>" class="card-img-top">
-                            <% }%>
-                        <div class="card-body">
-                            <h5><strong class="card-title"><%=value.name%></strong></h5>
+<!DOCTYPE html>
+<html>
+    <%- include('./partition/header'); -%>
+    <%- include('./partition/navbar', {user: user}); -%>
+    
+    <body data-new-gr-c-s-check-loaded="14.980.0" data-gr-ext-installed="">
+        <div class="container">
+            <div class="row department-container">
+                <div class="card department-card-container">
+                    <div class="card-header">
+                        <div><i class="fa fa-home" aria-hidden="true"></i>
+                            <a href="#"><strong> Trang chủ</strong> </a>
+                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            <strong> Danh sách phòng ban</strong>
+                            
                         </div>
                     </div>
-                    <%})%>
+    
+                    <div class="department-item">
+                        <% if (user.role.admin){ %>
+                            <div class="card" onclick="window.location.href='/department/insert'" style="width: 18rem;">
+                                    <div class="card-body d-flex flex-col justify-content-center align-items-center">
+                                            <i class="fa fa-plus-circle" style="font-size: 100px;"aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                        <%}%>
+                        
+                        <% data.forEach(value => {%>
+                        <div class="card" data-id="<%=value._id%>" style="width: 18rem;">
+                                <% if(value.avatar) {%>
+                                    <img src="<%=value.avatar%>" class="card-img-top">
+                                <% }%>
+                            <div class="card-body">
+                                <h5><strong class="card-title"><%=value.name%></strong></h5>
+                            </div>
+                        </div>
+                        <%})%>
+                    </div>
                 </div>
+    
             </div>
-
         </div>
-    </div>
-
-    <!-- Scroll to top start -->
-    <div class="scroll-top not-visible">
-        <i class="bi bi-finger-index"></i>
-    </div>
-    <!-- Scroll to Top End -->
-    <%- include('./partition/footer') -%>
-</body>
-
+    
+        <!-- Scroll to top start -->
+        <div class="scroll-top not-visible">
+            <i class="bi bi-finger-index"></i>
+        </div>
+        <!-- Scroll to Top End -->
+        <%- include('./partition/footer') -%>
+    </body>
 </html>

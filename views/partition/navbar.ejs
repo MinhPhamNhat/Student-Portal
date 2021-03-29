@@ -1,0 +1,212 @@
+<body>
+    <!-- header area start -->
+    <header>
+        <div class="header-top sticky bg-white d-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <!-- header top navigation start -->
+                        <div class="header-top-navigation">
+                            <nav>
+                                <ul>
+                                    <li class="msg-trigger "><a class="msg-trigger-btn" href="#a">Thông báo</a>
+                                        <div class="message-dropdown" id="a">
+                                            <ul class="dropdown-msg-list ">
+                                                <li class="classify-list-item d-flex justify-content-between ">
+                                                    <!-- profile picture end -->
+                                                    <div class="profile-thumb ">
+                                                        <figure class="profile-thumb-middle ">
+                                                            <img id="" src="/images/profile-small-3.jpg " alt="profile picture ">
+                                                        </figure>
+                                                    </div>
+                                                    <!-- profile picture end -->
+
+                                                    <div class="msg-content ">
+                                                        <h6 class="author "><a href="http://localhost:8080/department">Phòng ban</a></h6>
+                                                    </div>
+
+                                                </li>
+                                                <li class="classify-list-item d-flex justify-content-between ">
+                                                    <!-- profile picture end -->
+                                                    <div class="profile-thumb ">
+                                                        <figure class="profile-thumb-middle ">
+                                                            <img src="/images/profile-small-4.jpg " alt="profile picture ">
+                                                        </figure>
+                                                    </div>
+                                                    <!-- profile picture end -->
+
+                                                    <div class="msg-content ">
+                                                        <h6 class="author "><a href="http://localhost:8080/">Chủ đề</a></h6>
+                                                    </div>
+
+                                                </li>
+                                                <li class="classify-list-item d-flex justify-content-between ">
+                                                    <!-- profile picture end -->
+                                                    <div class="profile-thumb ">
+                                                        <figure class="profile-thumb-middle ">
+                                                            <img src="/images/profile-small-5.jpg " alt="profile picture ">
+                                                        </figure>
+                                                    </div>
+                                                    <!-- profile picture end -->
+
+
+                                                    <div class="msg-content ">
+                                                        <h6 class="author "><a href="http://localhost:8080/notification">Tất cả thông báo</a></h6>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- header top navigation start -->
+                    </div>
+
+                    <div class="col-md-2 ">
+                        <!-- brand logo start -->
+                        <div class="brand-logo text-center ">
+                            <a href="http://localhost:8080/">
+                                <img id="tdtu_logo" src="/images/tdtu.png" alt="brand logo ">
+                            </a>
+                        </div>
+                        <!-- brand logo end -->
+                    </div>
+
+                    <div class="col-md-5 ">
+                        <div class="header-top-right d-flex align-items-center justify-content-end ">
+
+                            <!-- profile picture start -->
+                            <div class="profile-setting-box ">
+                                <div class="profile-thumb-small ">
+                                    <a href="javascript:void(0) " class="profile-triger ">
+                                        <figure>
+                                            <img src="<%= user.avatar %>" alt="profile picture ">
+                                        </figure>
+                                    </a>
+                                    <div class="profile-dropdown ">
+                                        <div class="profile-head ">
+                                            <h5 class="name ">
+                                                <a href="">
+                                                    <%= user.name %>
+                                                </a>
+                                            </h5>
+                                            <a class="mail " href="">
+                                                <%= user.email %>
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="profile-body ">
+                                            <ul>
+                                                <li><a href=""><i class="fa fa-user-o"></i></i>Profile</a></li>
+                                                <li><a href=""><i class="fa fa-sliders"></i>Setting</a></li>
+                                            </ul>
+                                            <ul>
+                                                <li><a href="/signout"><i class="fa fa-sign-out" aria-hidden="true"></i></i>Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- profile picture end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header area end -->
+    <!-- header area start -->
+    <header>
+        <div class="mobile-header-wrapper sticky d-block d-lg-none ">
+            <div class="mobile-header position-relative ">
+                <div class="mobile-logo ">
+                    <a href="http://localhost:8080/">
+                        <img src="/images/tdtu.png " alt="logo ">
+                    </a>
+                </div>
+                <div class="mobile-menu w-100 ">
+                    <ul>
+                        <li>
+                            <button class="notification request-trigger1 "><i class="flaticon-users "></i>
+                                <span>Thông báo</span>
+                            </button>
+                            <ul class="frnd-request-list ">
+                                <li>
+                                    <div class="frnd-request-member ">
+                                        <figure class="request-thumb ">
+                                            <a href="http://localhost:8080/">
+                                                <img src="/images/profile-midle-1.jpg " alt="proflie author ">
+                                            </a>
+                                        </figure>
+                                        <div class="frnd-content ">
+                                            <h6 class="author "><a href="https://stdportal.tdtu.edu.vn/">Phòng ban</a></h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="frnd-request-member ">
+                                        <figure class="request-thumb ">
+                                            <a href="http://localhost:8080/">
+                                                <img src="/images/profile-midle-2.jpg " alt="proflie author ">
+                                            </a>
+                                        </figure>
+                                        <div class="frnd-content ">
+                                            <h6 class="author "><a href="https://gradstudent.tdtu.edu.vn">Chủ đề</a></h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="frnd-request-member ">
+                                        <figure class="request-thumb ">
+                                            <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html ">
+                                                <img src="/images/profile-midle-3.jpg " alt="proflie author ">
+                                            </a>
+                                        </figure>
+                                        <div class="frnd-content ">
+                                            <h6 class="author "><a href="https://vocational.tdtu.edu.vn">Tất cả thông báo</a></h6>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mobile-header-profile ">
+                    <!-- profile picture end -->
+                    <div class="profile-thumb profile-setting-box ">
+                        <a href="javascript:void(0) " class="profile-triger ">
+                            <figure class="profile-thumb-middle ">
+                                <img src="<%= user.avatar %>" alt="profile picture ">
+                            </figure>
+                        </a>
+                        <div class="profile-dropdown text-left ">
+                            <div class="profile-head ">
+                                <h5 class="name ">
+                                    <a href="https://demo.hasthemes.com/adda-preview/adda/index.html# ">
+                                        <%= user.name%>
+                                    </a>
+                                </h5>
+                                <a class="mail " href="https://demo.hasthemes.com/adda-preview/adda/index.html# ">
+                                    <%= user.email %>
+                                </a>
+                            </div>
+                            
+                            <div class="profile-body ">
+                                <ul>
+                                    <li><a href=""><i class="fa fa-user-o"></i></i>Profile</a></li>
+                                    <li><a href=""><i class="fa fa-sliders"></i>Setting</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="/signout"><i class="fa fa-sign-out" aria-hidden="true"></i></i>Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- profile picture end -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header area end -->
+</body>

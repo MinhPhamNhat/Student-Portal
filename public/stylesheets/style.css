@@ -11048,7 +11048,7 @@ ul#myTab {
 }
 
 .post-card .text-justify {
-    margin: 10px 20px 20px 20px;
+    margin: 10px;
 }
 
 .post-card a {
@@ -11202,6 +11202,7 @@ hr {
     position: absolute;
     box-shadow: 1px 0 4px rgba(0, 0, 0, .24);
     text-align: center;
+    z-index: 999;
 }
 
 .post-card .option-menu .dropdown-item {
@@ -11215,4 +11216,7 @@ hr {
     text-align: center;
     margin: 5px;
     cursor: pointer;
+}
+.profile-picture{
+    max-width: 100px;
 }
