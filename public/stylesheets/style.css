@@ -11220,3 +11220,13 @@ hr {
 .profile-picture{
     max-width: 100px;
 }
+
+.share-your-mood{
+    height: 700px;
+}
+
+.remove-confirm .ok-remove,
+.remove-confirm .no-remove{
+    padding: 10px 20px 10px 20px;
+    
+}

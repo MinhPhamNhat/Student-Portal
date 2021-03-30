@@ -117,13 +117,14 @@ module.exports = {
     },
 
     editStatus: async (content, statusId, userId) => {
-        return Post.findOneAndDelete({ _id: statusId, authorId: userId }).exec()
-            .then(postRes => {
+        return Post.findOne({ _id: statusId, authorId: userId }).exec()
+            .then(async postRes => {
                 if (postRes) {
                     postRes.content = content.content
                     postRes.attach.picture = content.image ? content.image : ''
                     postRes.save()
-                    return JSON.stringify({ code: 0, message: "Success edit status", data: postRes })
+                    var data = await parsePost(postRes, userId)
+                    return JSON.stringify({ code: 0, message: "Success edit status", data })
                 } else {
                     return JSON.stringify({ code: -2, message: "Access denined" })
                 }

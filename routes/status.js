@@ -45,7 +45,6 @@ router.delete('/', (req, res, next) => {
 
 // Edit status
 router.put('/',upload.single('file'), (req, res, next) => {
-
     if (req.file) {
         var contentData = {
             content: req.body.content,

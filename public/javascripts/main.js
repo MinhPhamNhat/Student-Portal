@@ -1,9 +1,9 @@
 const socket = io.connect("http://localhost:8080");
 tinymce.init({
+    height: "350",
     selector: 'textarea',
-    plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen paste powerpaste table advtable tinycomments tinymcespellchecker',
-    toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-    toolbar_mode: 'floating',
+    plugins: 'autoresize advcode casechange formatpainter linkchecker autolink lists media mediaembed pageembed paste powerpaste table advtable',
+    autoresize_max_height: 500,
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
 });
@@ -266,9 +266,9 @@ const newPost = (value) => {
                             <div class="option-menu"> 
                                 <div class="dropdown-menu">
                                     ${ value.isDelete ? `
-                                        <div class="dropdown-item edit-post" onclick=editStatus(this) data-id="${ value._id}">Edit</div>
+                                        <div class="dropdown-item edit-post" onclick=editModal(this) data-id="${ value._id}">Edit</div>
                                         <hr>
-                                        <div class="dropdown-item remove-post" onclick=removeStatus(this) data-id="${ value._id}">Delete</div>
+                                        <div class="dropdown-item remove-post" onclick=removeModal(this) data-id="${ value._id}">Delete</div>
                                     `: ``}
                                 </div> 
                             </div>
@@ -312,7 +312,8 @@ const newPost = (value) => {
 
 // POST STATUS 
 const postStatus = () => {
-    $("#textbox").modal("hide")
+
+    $(".share-modal").modal("hide")
     var content = tinyMCE.activeEditor.getContent();
     var file = $(".picture-attach-upload")[0].files[0]
 
@@ -371,22 +372,103 @@ const removeStatus = (target) => {
                 showToast("Xóa status", data.message, "warning")
             }
         })
+
+    $(".remove-confirm").modal("hide")
 }
 
 const editStatus = (target) => {
+    console.log($("#output"))
+    $(".share-modal").modal("hide")
+    var statusId = target.dataset.id
+    var content = tinyMCE.activeEditor.getContent();
+    var file = undefined
+    if ($("#output")[0].src) {
+        var image = $("#output")[0].src
+        var block = image.split(";");
+        var contentType = block[0].split(":")[1];
+        var realData = block[1].split(",")[1];
+        var blob = b64toBlob(realData, contentType);
+        var file = new File([blob], "image.png")
+    }
+    var data = new FormData()
+    data.append('statusId', statusId)
+    data.append('file', file)
+    data.append('content', content)
+    if (content || file) {
+        $.ajax({
+            url: 'http://localhost:8080/status',
+            data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'PUT',
+            success: function (data, status) {
+                console.log(data)
+                data = JSON.parse(JSON.stringify(data))
+                if (data.code === 0) {
+                    var tag = newPost(data.data)
+                    $(`.post-${statusId}`).replaceWith(tag)
+                    showToast("Chỉnh sửa status", "Chỉnh sửa status thành công", "success")
+                    tinymce.get("richtexteditor").setContent("");
+                    $(".picture-attach-upload").val(null)
+                    $('.image-upload-preview').hide();
+                } else {
+                    showToast("Chỉnh sửa status", data.message, "Error")
+                }
+            }
+        })
+    } else {
+        showToast("Chỉnh sửa status", "Vui lòng nhập nội dung", "warning")
+    }
+    $(".post-share-btn").attr("onclick", "postStatus(this)")
+}
+
+const removeModal = (target) => {
+    $(".remove-confirm").modal("show")
+    $(".ok-remove").attr("data-id", target.dataset.id)
+}
+
+const editModal = (target) => {
     var statusId = target.dataset.id
     var content = $(`.post-${statusId} .text-justify`)[0]
     if (content) {
         var content = content.outerHTML
         tinymce.activeEditor.setContent(content);
     }
-    if ($(".post-picture")[0]) {
-        var image = $(".post-picture")[0].src
+    if ($(`.post-${statusId} .post-picture`)[0]) {
+        var image = $(`.post-${statusId} .post-picture`)[0].src
+
         $("#output").attr("src", image)
+        $(".image-upload-preview").css("display", "block")
     }
-    $(".image-upload-preview").css("display", "block")
+    $(".post-share-btn").attr("onclick", "editStatus(this)")
+    $(".post-share-btn").attr("data-id", statusId)
     $(".post-share-btn").html("save")
     $(".share-modal").modal("show")
+}
+
+const b64toBlob = (b64Data, contentType, sliceSize) => {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
 }
 
 const vote = (target) => {
@@ -455,7 +537,6 @@ const comment = (target) => {
 }
 
 const loadMorePost = (skip, id) => {
-    console.log(`http://localhost:8080/status?skip=${skip}${id ? `&id=${id}` : ''}`)
     return fetch(`http://localhost:8080/status?skip=${skip}${id ? `&id=${id}` : ''}`)
         .then(result => result.json())
         .then(data => data)
@@ -471,14 +552,17 @@ $(document).delegate(".attach .picture", 'click', () => {
     $(".picture-attach-upload").trigger('click')
 })
 
-$(document).delegate(".cancel-share-btn, .close-share", 'click', () => {
+$(".share-modal").on('hidden.bs.modal', function(){
     setTimeout(() => {
+        $(".post-share-btn").attr("onclick", "postStatus(this)")
+        $(".post-share-btn").html("post")
+        $("#output").attr("src", null)
         tinymce.get("richtexteditor").setContent("");
         $(".picture-attach-upload").val(null)
         $('.image-upload-preview').hide();
     }, 300)
+});
 
-})
 
 $(".picture-attach-upload").change((e) => {
     var file = e.target.files[0]
@@ -495,7 +579,11 @@ $(".picture-attach-upload").change((e) => {
 $(document).delegate('.image-upload-preview .close-icon', 'click', function () {
     $('.image-upload-preview').slideToggle(300, 'swing');
     $(".picture-attach-upload").val(null)
+    setTimeout(() => {
+        $("#output").attr("src", null)
+    }, 300);
 })
+
 
 // LOAD STATUS WHEN SCROLL BOTTOM
 if ($(".post-section")[0]) {
