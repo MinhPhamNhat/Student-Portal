@@ -432,7 +432,7 @@ const editModal = (target) => {
     var statusId = target.dataset.id
     var content = $(`.post-${statusId} .text-justify`)[0]
     if (content) {
-        var content = content.outerHTML
+        var content = content.innerHTML
         tinymce.activeEditor.setContent(content);
     }
     if ($(`.post-${statusId} .post-picture`)[0]) {
@@ -781,22 +781,11 @@ $(".department-insert-container .submit").click((e) => {
     })
 })
 
-// var input = document.getElementsByClassName("comments-input");
-// input.addEventListener("keyup", function(event) {
-//   if (event.keyCode === 13) {
-//    event.preventDefault();
-//    console.log(1)
-//    document.getElementsByClassName(`post-${statusId}`).find(".fonts").click();
-//   }
-// });
-// $(".comments-input").keydown(function(event){ 
-//     var statusId = event.target.dataset.id
 
-//     var keyCode = (event.keyCode ? event.keyCode : event.which);   
-//     if (keyCode == 13) {console.log(1)
-//         $(`.post-${statusId} .fonts`).trigger('click');
-//     }
-// });
+$('.edit-btn').on('click', () => {
+    $(".profile-modal").modal("show")
+})
+
 
 var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     var toastNum = $(".toast").length
@@ -830,89 +819,3 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     }, 4000)
 }
 
-
-    // $(document).ready(function() {
-    //     var tag, x, y, timeOut;
-    //     for (var i = 0; i < 50; i++) {
-    //         x = Math.floor(Math.random() * 1920);
-    //         y = Math.floor(Math.random() * 1080);
-    //         timeOut = Math.floor(Math.random() * 2000) + 1000;
-    //         tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
-    //                 right: ${x}; z-index: 999;">
-    //                 <div class="toast-header">
-    //                     <strong class="mr-auto"><i class="fa fa-grav"></i> Chào mừng bạn đã vô đây chơi</strong>
-    //                     <small>0 sec ago</small>
-    //                     <button type="button" class="ml-2 mb-1 close"
-    //                         data-dismiss="toast">
-    //                         <span aria-hidden="true">&times;</span>
-    //                     </button>
-    //                 </div>
-    //                 <div class="toast-body">
-    //                     <div>Chúc bạn trải nghiệm vui vẻ</div>
-    //                 </div>
-    //             </div>`
-    //         $("body").append(tag)
-
-//         $(`.toast-${i}`).toast({ delay: timeOut });
-//         $(`.toast-${i}`).toast("show")
-//     }
-//     setTimeout(function() {
-//         for (var i = 0; i < 50; i++) {
-//             $(`.toast-${i}`).remove()
-//         }
-//     }, 2500)
-// });
-// $(".show-toast").click(function() {
-//     for (var i = 0; i < 100; i++) {
-//         var x = Math.floor(Math.random() * 1920);
-//         var y = Math.floor(Math.random() * 1080);
-//         var tag = `<div class="toast toast-${i}"  id="myToast" style="position: absolute; top: ${y};
-//         right: ${x}; z-index: 100;">
-//         <div class="toast-header">
-//             <strong class="mr-auto"><i class="fa fa-grav"></i> We miss
-//                 you!</strong>
-//             <small>11 mins ago</small>
-//             <button type="button" class="ml-2 mb-1 close"
-//                 data-dismiss="toast">
-//                 <span aria-hidden="true">&times;</span>
-//             </button>
-//         </div>
-//         <div class="toast-body">
-//             <div>It's been a long time since you visited us. We've
-//                 something special for you. <a href="#">Click here!</a></div>
-//         </div>
-//     </div>`
-//         $("body").append(tag)
-
-//         $(`.toast-${i}`).toast("show")
-//     }
-//     setTimeout(function() {
-//         for (var i = 0; i < 100; i++) {
-//             $(`.toast-${i}`).remove()
-//         }
-//     }, 1000)
-// })
-
-
-// SHOW INDEX PAGE POST WHEN LOAD PAGE
-// if ($(".post-section")[0]) {
-//     var currentPage = window.location.pathname
-//     const countPost = $(".post-card").length
-//     $('.body-loading').css("display", "block")
-//     loadMorePost(countPost, currentPage).then(ressult => {
-//         if (ressult.code === 0) {
-//             if (ressult.data.length) {
-//                 ressult.data.forEach(value => {
-//                     tag = newPost(value)
-//                     $(".post-section").append(tag)
-//                 })
-//                 $('.body-loading').css("display", "none")
-//                 showToast("Tải status", "Tải status thành công", "success")
-//             } else {
-//                 showToast("Tải status", "Không có status nào để tải", "success")
-//             }
-//         } else {
-//             showToast("Tải status", data.message, "error")
-//         }
-//     })
-// }

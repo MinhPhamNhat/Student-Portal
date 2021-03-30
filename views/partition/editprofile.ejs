@@ -1,0 +1,89 @@
+<div class="modal hide fade profile-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid rounded bg-white">
+                    <div class="row">
+                        <div class="col-md-3 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="text-right"><strong>Profile Picture</strong></h4>
+                                </div>
+                                <div class="d-flex flex-column align-items-center text-center pb-5">
+                                    <img class="rounded-circle mt-5 modal-profile-picture" src="<%= userProfile.avatar %>">
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="text-right"><strong>Profile Banner</strong></h4>
+                                </div>
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img src="/images/banner.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mb-5">
+                                    <h4 class="text-right"><strong>Profile Settings</strong></h4>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="fullname" class="labels">Full Name</label>
+                                    <input type="text" id="fullname" name="fullname"class="form-control" readonly value="<%= userProfile.name %>">
+                                </div>
+                                <div class="mt-2">
+                                    <label class="labels">Email</label>
+                                    <input type="text" class="form-control" readonly value="<%= userProfile.email %>">
+                                </div>
+                                <div class="mt-2">
+                                    <label class="labels">Role</label>
+                                    <input type="text" class="form-control"  readonly value="<%= userProfile.role.admin?"Admin":userProfile.role.department?"Department":"Student" %>">
+                                </div>
+                                <div class="mt-2">
+                                    <label class="labels">Birthday</label>
+                                    <input type="date" class="form-control" value="" placeholder="Input your birthday">
+                                </div>
+            
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label class="labels">Country</label>
+                                        <input type="text" class="form-control" placeholder="Country" value="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">City</label>
+                                        <input type="text" class="form-control" value="" placeholder="City">
+                                    </div>
+                                </div>
+                                <div class="mt-5 text-center" >
+                                    <button style="padding:10px 20px 10px 20px" class="btn profile-button" type="button">Save Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="text-right"><strong>Quote</strong></h4>
+                                </div>
+                                <div class="mb-5 d-flex align-items-center">
+                                    <p><i class="fa fa-quote-left" aria-hidden="true"></i></p>
+                                    <input type="text" class="form-control no-border " placeholder="What is your best regards quote">
+                                    <p><i class="fa fa-quote-right" aria-hidden="true"></i></p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="text-right"><strong>Hobbies</strong></h4>
+                                </div>
+                                <div class=" mt-2">
+                                    <label class="labels">Hobbies</label>
+                                    <input type="text" class="form-control" placeholder="What is your best regards quote">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
