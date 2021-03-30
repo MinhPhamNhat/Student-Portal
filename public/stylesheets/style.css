@@ -11,6 +11,8 @@ a {
     width: 50%;
 }
 
+
+
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 .login-block {
     background: #DE6262;
@@ -1662,34 +1664,7 @@ only screen and (max-width: 767.98px) {
     -webkit-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
-}
-
-.share-text-box .btn-share {
-    top: 50%;
-    right: 3px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1;
-    padding: 11px 25px;
-    margin-right: 2px;
-    border-radius: 40px;
-    background-color: #b415b9;
-    position: absolute;
-    text-transform: uppercase;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-@media only screen and (max-width: 479.98px) {
-    .share-text-box .btn-share {
-        display: none;
-    }
-}
-
-.share-text-box .btn-share:hover {
-    background-color: #333333;
+    cursor: pointer;
 }
 
 .share-modal .modal-dialog {
@@ -1709,7 +1684,8 @@ only screen and (max-width: 767.98px) {
     cursor: pointer;
 }
 
-.post-share-btn:hover {
+.post-share-btn:hover,
+.cancel-share-btn:hover {
     background-color: #333333;
 }
 
@@ -11156,7 +11132,6 @@ hr {
     position: absolute;
     bottom: 0px;
     left:50%;
-    z-index: 10;
     transform: translate(-50%,-50%);
     margin-top: 20px;
     font-size: 20px;
@@ -11328,3 +11303,22 @@ hr {
     border: 0;
 }
 /* end profile area */
+
+/* notification */
+
+.noti-container .dropdown-list-image {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.noti-container .dropdown-list-image img {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.noti-container .btn-light {
+    color: #2cdd9b;
+    background-color: #e5f7f0;
+    border-color: #d8f7eb;
+}
+
+/* end notification */

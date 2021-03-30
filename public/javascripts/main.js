@@ -2,7 +2,16 @@ const socket = io.connect("http://localhost:8080");
 tinymce.init({
     height: "350",
     selector: 'textarea',
-    plugins: 'autoresize advcode casechange formatpainter linkchecker autolink lists media mediaembed pageembed paste powerpaste table advtable',
+    plugins: 'autoresize lists code emoticons media mediaembed pageembed paste powerpaste',
+        toolbar: 'undo redo | styleselect | bold italic | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'outdent indent | numlist bullist | emoticons',
+        emoticons_append: {
+        custom_mind_explode: {
+        keywords: ['brain', 'mind', 'explode', 'blown'],
+        char: '🤯'
+        }
+    },
     autoresize_max_height: 500,
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',

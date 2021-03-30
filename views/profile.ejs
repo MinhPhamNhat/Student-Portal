@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <%- include('./partition/header'); -%>
-<%- include('./partition/navbar', {user: user}); -%>
+<%- include('./partition/navbar', {user}); -%>
 
 <body>
     <main>
@@ -60,7 +60,7 @@
                 <div class="row ">
 
                     <div class="col-lg-3 order-2 order-lg-1">
-                        <%- include('./partition/left-widget'); -%>
+                        <%- include('./partition/left-widget', {user}); -%>
                     </div>
                     <div class="col-lg-6 order-1 order-lg-2">
                         <!-- share box start -->
@@ -68,7 +68,7 @@
                         
                         <%- isCurrentUser?include('./partition/share'):'' -%>
                             <!-- share box end -->
-                            <%- include('./partition/body', {data: data}); -%>
+                            <%- include('./partition/body', {data}); -%>
                     </div>
                     <div class="col-lg-3 order-3">
                         <%- include('./partition/right-widget'); -%>
