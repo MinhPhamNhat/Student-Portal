@@ -1,235 +1,65 @@
-const socket = io.connect("http://localhost:8080");
+const socket = io()
+socket.on('connect', () => {
+    socket.send("Hello")
+
+    // socket.emit("send-data", { data: $(".name").text() })
+})
+
+socket.on("typing", (data) => {
+    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
+        $(`.post-${data.statusId} .comment-loading`).show()
+})
+
+socket.on("typing-done", (data) => {
+    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
+        $(`.post-${data.statusId} .comment-loading`).hide()
+})
+
+socket.on("comment-send", (data) => {
+    console.log(data)
+})
+
+var typingTimer;
+var doneTypingInterval = 1000;
+
+const typingCatch = (e) => {
+    var statusId = e.dataset.id
+    socket.emit("typing", { statusId })
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => { socket.emit("typing-done", { statusId }) }, doneTypingInterval);
+}
+
+const typingStopCatch = (e) => {
+    clearTimeout(typingTimer);
+}
+
+
+
 tinymce.init({
     height: "350",
     selector: 'textarea',
     plugins: 'autoresize lists code emoticons media mediaembed pageembed paste powerpaste',
-        toolbar: 'undo redo | styleselect | bold italic | ' +
-            'alignleft aligncenter alignright alignjustify | ' +
-            'outdent indent | numlist bullist | emoticons',
-        emoticons_append: {
+    toolbar: 'undo redo | styleselect | bold italic | ' +
+        'alignleft aligncenter alignright alignjustify | ' +
+        'outdent indent | numlist bullist | emoticons',
+    emoticons_append: {
         custom_mind_explode: {
-        keywords: ['brain', 'mind', 'explode', 'blown'],
-        char: '🤯'
+            keywords: ['brain', 'mind', 'explode', 'blown'],
+            char: '🤯'
         }
     },
     autoresize_max_height: 500,
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
+    editor_css: "./stylesheets/tiny-mce.css",
+    visual: false
 });
 
-$(document).on('focusin', function (e) {
+$(document).on('focusin', function(e) {
     if ($(e.target).closest(".tox-dialog").length) {
         e.stopImmediatePropagation();
     }
 });
-(function ($) {
-    "use strict";
-
-    $(".msg-trigger-btn").on("click", function (event) {
-        event.stopPropagation();
-        event.preventDefault();
-        var $this = $(this);
-        var $prevTartget = $(this).parent().siblings().children(".msg-trigger-btn").attr('href');
-        var target = $this.attr('href');
-        $(target).slideToggle();
-        $($prevTartget).slideUp();
-
-    });
-
-    //Close When Click Outside
-    $('body').on('click', function (e) {
-        var $target = e.target;
-        if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
-            $(".message-dropdown").slideUp("slow");
-        }
-    });
-
-    //Background Image JS start
-    var bgSelector = $(".bg-img");
-    bgSelector.each(function (index, elem) {
-        var element = $(elem),
-            bgSource = element.data('bg');
-        element.css('background-image', 'url(' + bgSource + ')');
-    });
-
-    // active profile carousel js
-    $('.active-profile-carousel').slick({
-        speed: 800,
-        slidesToShow: 10,
-        prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
-        responsive: [{
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 5,
-            }
-        },
-        {
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 8,
-            }
-        }
-        ]
-    });
-
-    // active profile carousel js
-    $('.active-profile-mobile').slick({
-        speed: 800,
-        slidesToShow: 6,
-        arrows: false,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 4,
-            }
-        }]
-    });
-
-    // active profile carousel js
-    $('.favorite-item-carousel').slick({
-        autoplay: true,
-        speed: 800,
-        slidesToShow: 5,
-        arrows: false,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 3,
-            }
-        },
-        {
-            breakpoint: 576,
-            settings: {
-                slidesToShow: 2,
-            }
-        }
-        ]
-    });
-
-    // live chat box and friend search box active js
-    $(".profile-active").on('click', function () {
-        $(".chat-output-box").addClass('show');
-    })
-    $(".search-field").on('click', function () {
-        $(".friend-search-list").addClass('show');
-    })
-    $(".close-btn").on('click', function () {
-        var $this = $(this),
-            $target = $this.data('close');
-        $('.' + $target).removeClass('show');
-    })
-
-    // mobile header seach box active
-    $(".search-trigger").on('click', function () {
-        $('.search-trigger, .mob-search-box').toggleClass('show');
-    })
-
-    $(".chat-trigger, .close-btn").on('click', function () {
-        $('.mobile-chat-box').toggleClass('show');
-    })
-    $(".request-trigger1").on('click', function () {
-        $('.portal-request-list').removeClass('show');
-        $('.frnd-request-list').toggleClass('show');
-    })
-
-    $(".request-trigger2").on('click', function (event) {
-        $('.frnd-request-list').removeClass('show');
-        $('.portal-request-list').toggleClass('show');
-    })
-
-    // mobile friend search active js
-    $(".search-toggle-btn").on('click', function () {
-        $('.mob-frnd-search-inner').toggleClass('show');
-    })
-
-    // profile dropdown triger js
-    $('.profile-triger').on('click', function (event) {
-        event.stopPropagation();
-        $(".profile-dropdown").slideToggle();
-    })
-
-    //Close When Click Outside
-    $('body').on('click', function (e) {
-        var $target = e.target;
-        if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
-            $(".profile-dropdown").slideUp("slow");
-        }
-    });
-
-    // perfect scroll bar js
-    $('.custom-scroll').each(function () {
-        var ps = new PerfectScrollbar($(this)[0]);
-    });
-
-
-    // light gallery active js
-    $(document).ready(function () {
-        $(".img-popup").lightGallery();
-
-        // light gallery images
-        $(".img-gallery").lightGallery({
-            selector: ".gallery-selector",
-            hash: false
-        });
-    });
-
-    $('.gallery-toggle').on('click', function () {
-
-        var productThumb = $(this).find(".product-thumb-large-view img"),
-            imageSrcLength = productThumb.length,
-            images = [];
-        for (var i = 0; i < imageSrcLength; i++) {
-            images[i] = { "src": productThumb[i].src, "thumb": productThumb[i].src };
-        }
-
-        $(this).lightGallery({
-            dynamic: true,
-            actualSize: false,
-            hash: false,
-            index: 0,
-            dynamicEl: images
-        });
-
-    });
-
-    // photo filter active js
-    $('.photo-filter').imagesLoaded(function () {
-        var $grid = $('.photo-filter, .friends-list').isotope({});
-        // filter items on button click
-        $('.filter-menu').on('click', 'button', function () {
-            var filterValue = $(this).attr('data-filter');
-            $grid.isotope({ filter: filterValue });
-            $(this).siblings('.active').removeClass('active');
-            $(this).addClass('active');
-        });
-
-    });
-
-    // nice select active js
-    $('select').niceSelect();
-
-    // Scroll to top active js
-    $(window).on('scroll', function () {
-        if ($(this).scrollTop() > 600) {
-            $('.scroll-top').removeClass('not-visible');
-        } else {
-            $('.scroll-top').addClass('not-visible');
-        }
-    });
-    $('.scroll-top').on('click', function (event) {
-        $('html,body').animate({
-            scrollTop: 0
-        }, 1000);
-    });
-
-
-    $('#email').bind("cut copy paste", function (e) {
-        e.preventDefault();
-    });
-
-
-})(jQuery);
 
 const newComment = (value) => `
     <!-- user comment -->
@@ -240,7 +70,6 @@ const newComment = (value) => `
             </a>
         </div>
         <div class="user-comment-content">
-            
                 <span class="user-comment-name">
                     <a href="/profile/${value.author.authorId}"><strong>${value.author.name}</strong></a>
                     </span>
@@ -257,11 +86,11 @@ const newComment = (value) => `
 
 
 const newPost = (value) => {
-    var tag = ''
-    if (value.attach.picture) {
-        tag = `<img class="post-picture" src="${value.attach.picture}">`
-    }
-    return `
+        var tag = ''
+        if (value.attach.picture) {
+            tag = `<img class="post-picture" src="${value.attach.picture}">`
+        }
+        return `
     <!-- post status start -->
         <div class="post-card card post-${ value._id}">
             <div class="row d-flex align-items-center justify-content-center">
@@ -300,8 +129,12 @@ const newPost = (value) => {
                             <div class="d-flex flex-row muted-color"> <p class="no-comment">${ value.meta.comments.length} comments</p></div>
                         </div>
                         <hr>
-                        <div class="comment-input-section"> <input placeholder="Nói gì đi" type="text" data-id="${ value._id}" class="form-control comments-input">
-                            <div class="fonts" onclick=comment(this) data-id="${ value._id}"><i class="fa fa-paper-plane" aria-hidden="true"></i> </div>
+                        <div class="comment-input-section"> 
+                            <input placeholder="Nói gì đi" type="text" data-id="${ value._id}" onkeyup=typingCatch(this) onkeydown=typingStopCatch(this) class="form-control comments-input">
+                            <div class="fonts" onclick=comment(this) data-id="${ value._id}">
+                                <i class="fa fa-paper-plane" aria-hidden="true">
+                                </i> 
+                            </div>
                         </div>
                         <img class="comment-loading" src="/images/icons/comment_loading.gif">
                         <div class="comments-container">
@@ -625,6 +458,8 @@ if ($(".post-section")[0]) {
     };
 }
 
+
+
 // Hide comment
 $(document).delegate('.hide-comment-section', 'click', (e) => {
     var statusId = e.target.dataset.id
@@ -718,6 +553,8 @@ $(".department-insert-container .remove").on('click', (e) => {
 })
 
 $(document).ready(function () {
+
+
 
     var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
         removeItemButton: true,
@@ -828,3 +665,223 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     }, 4000)
 }
 
+
+
+
+
+
+
+
+
+
+
+// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT
+
+(function($) {
+    "use strict";
+
+    $(".msg-trigger-btn").on("click", function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var $this = $(this);
+        var $prevTartget = $(this).parent().siblings().children(".msg-trigger-btn").attr('href');
+        var target = $this.attr('href');
+        $(target).slideToggle();
+        $($prevTartget).slideUp();
+
+    });
+
+    //Close When Click Outside
+    $('body').on('click', function(e) {
+        var $target = e.target;
+        if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
+            $(".message-dropdown").slideUp("slow");
+        }
+    });
+
+    //Background Image JS start
+    var bgSelector = $(".bg-img");
+    bgSelector.each(function(index, elem) {
+        var element = $(elem),
+            bgSource = element.data('bg');
+        element.css('background-image', 'url(' + bgSource + ')');
+    });
+
+    // active profile carousel js
+    $('.active-profile-carousel').slick({
+        speed: 800,
+        slidesToShow: 10,
+        prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
+        responsive: [{
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 5,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 8,
+                }
+            }
+        ]
+    });
+
+    // active profile carousel js
+    $('.active-profile-mobile').slick({
+        speed: 800,
+        slidesToShow: 6,
+        arrows: false,
+        responsive: [{
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 4,
+            }
+        }]
+    });
+
+    // active profile carousel js
+    $('.favorite-item-carousel').slick({
+        autoplay: true,
+        speed: 800,
+        slidesToShow: 5,
+        arrows: false,
+        responsive: [{
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 2,
+                }
+            }
+        ]
+    });
+
+    // live chat box and friend search box active js
+    $(".profile-active").on('click', function() {
+        $(".chat-output-box").addClass('show');
+    })
+    $(".search-field").on('click', function() {
+        $(".friend-search-list").addClass('show');
+    })
+    $(".close-btn").on('click', function() {
+        var $this = $(this),
+            $target = $this.data('close');
+        $('.' + $target).removeClass('show');
+    })
+
+    // mobile header seach box active
+    $(".search-trigger").on('click', function() {
+        $('.search-trigger, .mob-search-box').toggleClass('show');
+    })
+
+    $(".chat-trigger, .close-btn").on('click', function() {
+        $('.mobile-chat-box').toggleClass('show');
+    })
+    $(".request-trigger1").on('click', function() {
+        $('.portal-request-list').removeClass('show');
+        $('.frnd-request-list').toggleClass('show');
+    })
+
+    $(".request-trigger2").on('click', function(event) {
+        $('.frnd-request-list').removeClass('show');
+        $('.portal-request-list').toggleClass('show');
+    })
+
+    // mobile friend search active js
+    $(".search-toggle-btn").on('click', function() {
+        $('.mob-frnd-search-inner').toggleClass('show');
+    })
+
+    // profile dropdown triger js
+    $('.profile-triger').on('click', function(event) {
+        event.stopPropagation();
+        $(".profile-dropdown").slideToggle();
+    })
+
+    //Close When Click Outside
+    $('body').on('click', function(e) {
+        var $target = e.target;
+        if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
+            $(".profile-dropdown").slideUp("slow");
+        }
+    });
+
+    // perfect scroll bar js
+    $('.custom-scroll').each(function() {
+        var ps = new PerfectScrollbar($(this)[0]);
+    });
+
+
+    // light gallery active js
+    $(document).ready(function() {
+        $(".img-popup").lightGallery();
+
+        // light gallery images
+        $(".img-gallery").lightGallery({
+            selector: ".gallery-selector",
+            hash: false
+        });
+    });
+
+    $('.gallery-toggle').on('click', function() {
+
+        var productThumb = $(this).find(".product-thumb-large-view img"),
+            imageSrcLength = productThumb.length,
+            images = [];
+        for (var i = 0; i < imageSrcLength; i++) {
+            images[i] = { "src": productThumb[i].src, "thumb": productThumb[i].src };
+        }
+
+        $(this).lightGallery({
+            dynamic: true,
+            actualSize: false,
+            hash: false,
+            index: 0,
+            dynamicEl: images
+        });
+
+    });
+
+    // photo filter active js
+    $('.photo-filter').imagesLoaded(function() {
+        var $grid = $('.photo-filter, .friends-list').isotope({});
+        // filter items on button click
+        $('.filter-menu').on('click', 'button', function() {
+            var filterValue = $(this).attr('data-filter');
+            $grid.isotope({ filter: filterValue });
+            $(this).siblings('.active').removeClass('active');
+            $(this).addClass('active');
+        });
+
+    });
+
+    // nice select active js
+    $('select').niceSelect();
+
+    // Scroll to top active js
+    $(window).on('scroll', function() {
+        if ($(this).scrollTop() > 600) {
+            $('.scroll-top').removeClass('not-visible');
+        } else {
+            $('.scroll-top').addClass('not-visible');
+        }
+    });
+    $('.scroll-top').on('click', function(event) {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 1000);
+    });
+
+
+    $('#email').bind("cut copy paste", function(e) {
+        e.preventDefault();
+    });
+
+
+})(jQuery);

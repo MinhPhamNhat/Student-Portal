@@ -11,8 +11,6 @@ a {
     width: 50%;
 }
 
-
-
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 .login-block {
     background: #DE6262;
@@ -1903,7 +1901,6 @@ only screen and (max-width: 767.98px) {
 
 /*------- profile picture style start -------*/
 
-
 .profile-setting-box {
     position: relative;
 }
@@ -2041,7 +2038,6 @@ only screen and (max-width: 767.98px) {
     position: absolute;
     margin: auto;
 }
-
 
 .profile-sidebar {
     margin-top: 105px;
@@ -10666,8 +10662,7 @@ ul#myTab {
     cursor: pointer;
 }
 
-
-.share-your-mood{
+.share-your-mood {
     height: 700px;
 }
 
@@ -10935,9 +10930,8 @@ ul#myTab {
 }
 
 .remove-confirm .ok-remove,
-.remove-confirm .no-remove{
+.remove-confirm .no-remove {
     padding: 10px 20px 10px 20px;
-    
 }
 
 .comment-input {
@@ -11067,12 +11061,12 @@ hr {
 /* end department insert area */
 
 
-
 /* profile area */
 
-.picture-and-name{
+.picture-and-name {
     text-align: center;
 }
+
 .profile-menu-area {
     margin-top: 20px;
 }
@@ -11097,26 +11091,26 @@ hr {
     overflow: hidden;
 }
 
-.profile-menu-area{
+.profile-menu-area {
     margin-bottom: 20px;
     margin-top: 430px;
 }
 
-.profile-picture{
+.profile-picture {
     width: 150px;
     height: 150px;
 }
 
-.profile-picture img{
+.profile-picture img {
     max-width: 140px;
     max-height: 140px;
 }
 
-.top-bar{
+.top-bar {
     position: absolute;
     background-color: white;
     top: 0px;
-    width:100%;
+    width: 100%;
     height: 450px;
 }
 
@@ -11124,20 +11118,19 @@ hr {
     position: absolute;
     top: 50px;
     max-height: 300px;
-    width:100%;
-
+    width: 100%;
 }
 
-.email-name{
+.email-name {
     position: absolute;
     bottom: 0px;
-    left:50%;
-    transform: translate(-50%,-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin-top: 20px;
     font-size: 20px;
 }
 
-.email-name .profile-email{
+.email-name .profile-email {
     margin: 5px;
     font-size: 13px;
 }
@@ -11188,18 +11181,18 @@ hr {
     position: absolute;
     width: 150px;
     height: 150px;
-    left:50%;
+    left: 50%;
     top: 300px;
     -webkit-transform: translateY(calc(-50% - 10px));
     -ms-transform: translateY(calc(-50% - 10px));
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background-color: #fff;
     z-index: 1;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199.98px) {
     .profile-picture-box {
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -11241,7 +11234,6 @@ hr {
     }
 }
 
-
 .profile-desc {
     padding: 30px;
     margin-top: 25px;
@@ -11252,7 +11244,6 @@ hr {
     color: #666666;
     padding-top: 10px;
 }
-
 
 .profile-modal .form-control:focus {
     box-shadow: none;
@@ -11286,23 +11277,26 @@ hr {
     cursor: pointer
 }
 
-.profile-modal input{
+.profile-modal input {
     font-size: 13px;
 }
 
-.profile-modal .labels{
+.profile-modal .labels {
     font-size: 15px;
     /* font-weight: bold; */
 }
 
-.profile-modal .modal-profile-picture{
+.profile-modal .modal-profile-picture {
     width: 100px;
 }
 
 .no-border {
     border: 0;
 }
+
+
 /* end profile area */
+
 
 /* notification */
 
@@ -11311,14 +11305,21 @@ hr {
     height: 2.5rem;
     width: 2.5rem;
 }
+
 .noti-container .dropdown-list-image img {
     height: 2.5rem;
     width: 2.5rem;
 }
+
 .noti-container .btn-light {
     color: #2cdd9b;
     background-color: #e5f7f0;
     border-color: #d8f7eb;
 }
 
+
 /* end notification */
+
+.tox-tinymce {
+    border: none;
+}

@@ -3,7 +3,11 @@ const router = express.Router()
 const status = require('../repository/status')
 const upload = require('../middleware/file')
 const func = require('../function/function')
-    // Get status
+const { RequestTimeout } = require('http-errors')
+const { route } = require('.')
+const io = require("../config/socketIO")
+
+// Get status
 router.get('/', (req, res, next) => {
     let id = req.query.id
     var skip = Number(req.query.skip)
@@ -44,7 +48,7 @@ router.delete('/', (req, res, next) => {
 })
 
 // Edit status
-router.put('/',upload.single('file'), (req, res, next) => {
+router.put('/', upload.single('file'), (req, res, next) => {
     if (req.file) {
         var contentData = {
             content: req.body.content,
@@ -81,14 +85,17 @@ router.put('/vote', (req, res, next) => {
             return res.json({ code: -1, message: "Invalid id" })
         }
     })
-// Comment status
+    // Comment status
 router.post('/comment', (req, res, next) => {
     var { statusId, content } = req.body
     var userId = req.user._id
     if (statusId) {
         status.insertComment(statusId, userId, content)
             .then(result => JSON.parse(result))
-            .then(data => res.json(data))
+            .then(data => {
+                io.io.emit("comment-send", data)
+                res.json(data)
+            })
     } else {
         return res.json({ code: -1, message: "Invalid id" })
     }

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const session = require('express-session')
 const authen = require('./middleware/authenticateUser')
 const mongoose = require('mongoose')
-const socketio = require("socket.io")
+    // const socketio = require("socket.io")
 const http = require('http')
 const fs = require('fs')
 
@@ -30,8 +30,8 @@ const notiRouter = require('./routes/notificator')
 const departmentRouter = require('./routes/department')
 
 const app = express();
-const server = http.createServer(app);
-const io = socketio(server)
+// const server = http.createServer(app);
+// const io = socketio(server)
 const PORT = process.env.PORT || 8080
 
 
@@ -72,20 +72,6 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-
-// io.on('connection', socket => {
-
-//     console.log(socket.id + " Just join server")
-
-//     socket.on('disconnect', () => {
-//         console.log(socket.id + " Just disconnect from server")
-//     })
-
-//     socket.on("send-data", (data) => {
-//         console.log(data)
-//     })
-// })
-
-server.listen(PORT, () => console.log(`Listen on: http://localhost:${PORT}`))
+// server.listen(PORT, () => console.log(`Listen on: http://localhost:${PORT}`))
 
 module.exports = app;
