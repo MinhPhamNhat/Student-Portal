@@ -1,7 +1,6 @@
 module.exports = {
     authen: (req, res, next) => {
         if (req.user) {
-
             if (req.user.role.admin || req.user.role.department) {
                 next()
             } else if (req.user.role.student) {

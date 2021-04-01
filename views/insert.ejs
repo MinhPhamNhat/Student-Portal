@@ -1,195 +1,193 @@
-
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
-    <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
-    
-    <%- include('./partition/header'); -%>
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
+
+<%- include('./partition/header'); -%>
     <%- include('./partition/navbar', {user: user}); -%>
-    
-    <body>
-        <div class="container py-5 department-insert-container">
-    
-            <div class="row mb-4">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4">Thêm Phòng Khoa</h1>
+
+        <body>
+            <div class="container py-5 department-insert-container">
+
+                <div class="row mb-4">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h1 class="display-4">Thêm Phòng Khoa</h1>
+                    </div>
                 </div>
-            </div>
-    
-    
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="bg-white rounded-lg shadow-sm p-5">
-                        <!-- orm tabs -->
-                        <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
-                            <li class="nav-item">
-                                <a data-toggle="pill" href="#nav-tab-info" class="nav-link active rounded-pill">
-                                    <i class="fa fa-info" aria-hidden="true"></i></i> Thông tin
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="pill" href="#nav-tab-thumbnail" class="nav-link rounded-pill">
-                                    <i class="fa fa-picture-o" aria-hidden="true"></i></i> Ảnh đại diện
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="pill" href="#nav-tab-permission" class="nav-link rounded-pill">
-                                    <i class="fa fa-key" aria-hidden="true"></i></i> Đặt quyền
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- End -->
-    
-    
-                        <!-- form content -->
-                        <div class="tab-content">
-                            <!-- info-->
-                            <div id="nav-tab-info" class="tab-pane fade show active">
-                                <table>
-                                    <div class="form-row ">
-                                        <tr>
-                                            <td>
-                                                <div class="input-group mb-3 input-field-name">
-                                                    <label for="department-name"><strong>Tên phòng</strong></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i aria-hidden="true" class="fa fa-pencil" ></i></span>
-                                                        </div>
-                                                        <input id="department-name" type="text" name="name" placeholder="Đặt tên cho Phòng Khoa của bạn" required class="form-control"  aria-label="Name" >
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i style="margin-left:10px"  data-toggle="tooltip" data-placement="right"  title="Không chứa số hoặc ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
-                                        </tr>
-                                        <tr>           
-                                            <td>
-                                                <div class="input-group mb-3 input-field-email">
-                                                    <label  for="department-email"><strong>Email</strong></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
-                                                        </div>
-                                                        <input id="department-email" type="email" name="email" placeholder="Email phòng khoa" class="form-control" required aria-label="Username">
-                                                
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i style="margin-left:10px"  data-toggle="tooltip" data-placement="right"  title="Không chứ ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="input-group mb-3 input-field-username">
-                                                    <label  for="department-username"><strong>Tên tài khoản</strong></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-                                                        </div>
-                                                        <input id="department-username" type="text" name="username" placeholder="Tên tài khoản phòng khoa" class="form-control" required aria-label="Username">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right"  title="Có độ dài từ 6 đến 18 ký tự và không chứ ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
-                                        </tr>        
-                                        <tr>
-                                            <td>
-                                                <div class="form-row">
-                                                    <div class="input-group mb-3 col-sm-6 input-field-password">
-                                                        <label  for="department-password"><strong>Nhập mật khẩu</strong></label>
+
+
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="bg-white rounded-lg shadow-sm p-5">
+                            <!-- orm tabs -->
+                            <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
+                                <li class="nav-item">
+                                    <a data-toggle="pill" href="#nav-tab-info" class="nav-link active rounded-pill">
+                                        <i class="fa fa-info" aria-hidden="true"></i></i> Thông tin
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="pill" href="#nav-tab-thumbnail" class="nav-link rounded-pill">
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i></i> Ảnh đại diện
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="pill" href="#nav-tab-permission" class="nav-link rounded-pill">
+                                        <i class="fa fa-key" aria-hidden="true"></i></i> Đặt quyền
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End -->
+
+
+                            <!-- form content -->
+                            <div class="tab-content">
+                                <!-- info-->
+                                <div id="nav-tab-info" class="tab-pane fade show active">
+                                    <table>
+                                        <div class="form-row ">
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group mb-3 input-field-name">
+                                                        <label for="department-name"><strong>Tên phòng</strong></label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                                                <span class="input-group-text"><i aria-hidden="true" class="fa fa-pencil" ></i></span>
                                                             </div>
-                                                            <input id="department-password" type="password" name="password" placeholder="Mật khẩu phòng khoa" class="form-control" required aria-label="Password">
+                                                            <input id="department-name" type="text" name="name" placeholder="Đặt tên cho Phòng Khoa của bạn" required class="form-control" aria-label="Name">
                                                         </div>
                                                     </div>
-                                                    <div class="input-group mb-3 col-sm-6 input-field-passwordConfirm">
-                                                        <label  for="department-password-confirm"><strong>Nhập lại mật khẩu</strong></label>
+                                                </td>
+                                                <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Không chứa số hoặc ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group mb-3 input-field-email">
+                                                        <label for="department-email"><strong>Email</strong></label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                                                <span class="input-group-text"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
                                                             </div>
-                                                            <input id="department-password-confirm" type="password" name="passwordConfirm" placeholder="Nhập lại mật khẩu phòng khoa" class="form-control" required aria-label="Password">
+                                                            <input id="department-email" type="email" name="email" placeholder="Email phòng khoa" class="form-control" required aria-label="Username">
+
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right"  title="Có độ dài trên 6 ký tự và không chứa ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="input-group mb-3 input-field-id">
-                                                    <label  for="department-id"><strong>Mã phòng khoa</strong></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="fa fa-id-card-o" aria-hidden="true"></i></span>
+                                                </td>
+                                                <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Không chứ ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group mb-3 input-field-username">
+                                                        <label for="department-username"><strong>Tên tài khoản</strong></label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+                                                            </div>
+                                                            <input id="department-username" type="text" name="username" placeholder="Tên tài khoản phòng khoa" class="form-control" required aria-label="Username">
                                                         </div>
-                                                        <input id="department-id" type="text" name="id" placeholder="Mã phòng khoa" class="form-control" required aria-label="Identify">
-                                                
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right"  title="Không chứa số hoặc ký tự đặc biệt, không ghi Tiếng Việt" class="fa fa-question" aria-hidden="true"></i></td>
-                                        </tr>  
-                                    </div>   
-                                </table>
-                            </div>
-                            <!-- End info -->
-    
-                            <!-- thumbnail  -->
-                            <div id="nav-tab-thumbnail" class="tab-pane fade">
-                                <!--image file upoad sample-->
-                                <div class="box">
-                                    <!-- fileuploader view component -->
-                                    <div class="margin-bottom-20">
-                                        <img class="department-thumbnail-preview box-center margin-top-20" style="width:200px" alt="No image" src="/images/tdt_logo.png">
-                                        <i style="margin-left:10px" data-toggle="tooltip" data-placement="right"  title="Đây sẽ là ảnh mặc định của phòng khoa" class="fa fa-question" aria-hidden="true"></i>
-                                    </div>
-                                    <p>
-                                        <button class="remove btn btn-outline-secondary " name="delete"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
-                                    </p>
-                                    <!-- ./fileuploader view component -->
-                                    <div class="row">
-                                        <div class="col-sm-10">
-                                            <span class="control-fileupload">
+                                                </td>
+                                                <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Có độ dài từ 6 đến 18 ký tự và không chứ ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-row">
+                                                        <div class="input-group mb-3 col-sm-6 input-field-password">
+                                                            <label for="department-password"><strong>Nhập mật khẩu</strong></label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                                                </div>
+                                                                <input id="department-password" type="password" name="password" placeholder="Mật khẩu phòng khoa" class="form-control" required aria-label="Password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group mb-3 col-sm-6 input-field-passwordConfirm">
+                                                            <label for="department-password-confirm"><strong>Nhập lại mật khẩu</strong></label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                                                                </div>
+                                                                <input id="department-password-confirm" type="password" name="passwordConfirm" placeholder="Nhập lại mật khẩu phòng khoa" class="form-control" required aria-label="Password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Có độ dài trên 6 ký tự và không chứa ký tự đặc biệt" class="fa fa-question" aria-hidden="true"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group mb-3 input-field-id">
+                                                        <label for="department-id"><strong>Mã phòng khoa</strong></label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="fa fa-id-card-o" aria-hidden="true"></i></span>
+                                                            </div>
+                                                            <input id="department-id" type="text" name="id" placeholder="Mã phòng khoa" class="form-control" required aria-label="Identify">
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Không chứa số hoặc ký tự đặc biệt, không ghi Tiếng Việt" class="fa fa-question" aria-hidden="true"></i></td>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                </div>
+                                <!-- End info -->
+
+                                <!-- thumbnail  -->
+                                <div id="nav-tab-thumbnail" class="tab-pane fade">
+                                    <!--image file upoad sample-->
+                                    <div class="box">
+                                        <!-- fileuploader view component -->
+                                        <div class="margin-bottom-20">
+                                            <img class="department-thumbnail-preview box-center margin-top-20" style="width:200px" alt="No image" src="/images/tdt_logo.png">
+                                            <i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Đây sẽ là ảnh mặc định của phòng khoa" class="fa fa-question" aria-hidden="true"></i>
+                                        </div>
+                                        <p>
+                                            <button class="remove btn btn-outline-secondary " name="delete"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
+                                        </p>
+                                        <!-- ./fileuploader view component -->
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <span class="control-fileupload">
                                         <label for="file1" class="text-left">Chọn ảnh đại diện cho phòng khoa</label>
                                         <input id="department-thumbnail" type="file" accept="image/png, image/jpeg" class="department-thumbnail-upload">
                                       </span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!--./image file upoad sample-->
                                 </div>
-                                <!--./image file upoad sample-->
-                            </div>
-                            <!-- End thumbnail -->
-    
-                            <!-- permission -->
-                            <div id="nav-tab-permission" class="tab-pane fade">
-                                        <div class="form-row">
-                                                <div class="col-sm-10"> 
-                                                    <select name="permission" id="choices-multiple-remove-button" placeholder="Vui lòng chọn các phòng khoa" multiple>
-                                                        <% data.forEach(value=>{%>
-                                                            <option value="<%=value.departmentID%>"><%=value.name%></option>
-                                                        <% })%>
-                                                    </select>
-                                                </div>
-                                        
-                                            <div>
-                                                <i class="col-sm-2 fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Đã gồm quyền đăng bài của chính bạn"></i>
-                                            </div>
+                                <!-- End thumbnail -->
+
+                                <!-- permission -->
+                                <div id="nav-tab-permission" class="tab-pane fade">
+                                    <div class="form-row">
+                                        <div class="col-sm-10">
+                                            <select name="permission" id="choices-multiple-remove-button" placeholder="Vui lòng chọn các phòng khoa" multiple>
+                                                <% data.forEach(value=>{%>
+                                                    <option value="<%=value.departmentID%>"><%=value.name%></option>
+                                                <% })%>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <i class="col-sm-2 fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Đã gồm quyền đăng bài của chính bạn"></i>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-outline-success submit">Tạo</button>
+                                    <!-- End permission -->
                                 </div>
-                                
-                                <button class="btn btn-outline-success submit">Tạo</button>
-                                <!-- End permission -->
+                                <!-- End -->
+
                             </div>
-                            <!-- End -->
-    
                         </div>
                     </div>
                 </div>
-            </div>
-    
-            <!-- Scroll to Top End -->
-    </body>
-<%- include('./partition/footer') -%>
+
+                <!-- Scroll to Top End -->
+        </body>
+        <%- include('./partition/footer') -%>
+
 </html>
-
-

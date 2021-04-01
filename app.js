@@ -26,7 +26,7 @@ const loginRouter = require('./routes/login')
 const signoutRouter = require('./routes/signout')
 const profileRouter = require('./routes/profile')
 const statusRouter = require('./routes/status')
-const notiRouter = require('./routes/notificator')
+const notiRouter = require('./routes/notification')
 const departmentRouter = require('./routes/department')
 
 const app = express();

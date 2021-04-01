@@ -93,12 +93,13 @@ router.post('/comment', (req, res, next) => {
         status.insertComment(statusId, userId, content)
             .then(result => JSON.parse(result))
             .then(data => {
-                io.io.emit("comment-send", data)
+                io.io.emit("comment-send", { data, userId, statusId })
                 res.json(data)
             })
     } else {
         return res.json({ code: -1, message: "Invalid id" })
     }
+
 })
 
 // delete comment

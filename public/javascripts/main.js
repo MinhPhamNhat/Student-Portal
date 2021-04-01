@@ -2,7 +2,6 @@ const socket = io()
 socket.on('connect', () => {
     socket.send("Hello")
 
-    // socket.emit("send-data", { data: $(".name").text() })
 })
 
 socket.on("typing", (data) => {
@@ -16,7 +15,17 @@ socket.on("typing-done", (data) => {
 })
 
 socket.on("comment-send", (data) => {
-    console.log(data)
+    console.log(data.data)
+    if (data.userId !== $("._user-id")[0].dataset.id) {
+        var commentSection = $(`.post-${data.statusId} .comments-container`)
+        if (data.data.code === 0) {
+            var tag = newComment(data.data.data.comments)
+            commentSection.find(".comments").prepend(tag)
+            $(`.post-${data.statusId} .no-comment`).text(`${data.data.data.no_comment} comments`)
+            commentSection.find(".none-comment").remove()
+        }
+    }
+
 })
 
 var typingTimer;
@@ -553,9 +562,6 @@ $(".department-insert-container .remove").on('click', (e) => {
 })
 
 $(document).ready(function () {
-
-
-
     var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
         removeItemButton: true,
         maxItemCount: null,

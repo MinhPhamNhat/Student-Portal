@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-<!-- <%- include('./partition/header'); -%> -->
-<body>
-    <%- include('./partition/noti'); -%>
-</body>
+<%- include('./partition/header'); -%>
+    <%- include('./partition/navbar', {user: user}); -%>
 
-<!-- <%- include('./partition/header'); -%> -->
+        <body>
+            <%- include('./partition/noti'); -%>
+                <%- include('./partition/footer'); -%>
+        </body>
+
 </html>
