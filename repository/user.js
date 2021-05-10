@@ -1,18 +1,9 @@
-const mongoose = require('mongoose')
 const User = require('../models/user')
-const Account = require('../models/account')
-
-const parseAccount = (value) => {
-
-}
 
 module.exports = {
 
-    getDepartment: async() => {
-        return User.find({ "role.department": true }).exec()
-            .then(result => {
-                return JSON.stringify({ code: 0, message: "success", data: result })
-            })
+    getDepartmentID: async() => {
+        return await User.find({ $or : [{"role.department": true}, {"role.admin": true}] }, 'departmentID name').exec()
     },
 
     getUser: async(userid) => {

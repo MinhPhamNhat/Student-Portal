@@ -10,53 +10,9 @@
                         <div class="header-top-navigation">
                             <nav>
                                 <ul>
-                                    <li class="msg-trigger "><a class="msg-trigger-btn" href="#a">Thông báo</a>
-                                        <div class="message-dropdown" id="a">
-                                            <ul class="dropdown-msg-list ">
-                                                <li class="classify-list-item d-flex justify-content-between ">
-                                                    <!-- profile picture end -->
-                                                    <div class="profile-thumb ">
-                                                        <figure class="profile-thumb-middle ">
-                                                            <img id="" src="/images/profile-small-3.jpg " alt="profile picture ">
-                                                        </figure>
-                                                    </div>
-                                                    <!-- profile picture end -->
-
-                                                    <div class="msg-content ">
-                                                        <h6 class="author "><a href="http://localhost:8080/department">Phòng ban</a></h6>
-                                                    </div>
-
-                                                </li>
-                                                <li class="classify-list-item d-flex justify-content-between ">
-                                                    <!-- profile picture end -->
-                                                    <div class="profile-thumb ">
-                                                        <figure class="profile-thumb-middle ">
-                                                            <img src="/images/profile-small-4.jpg " alt="profile picture ">
-                                                        </figure>
-                                                    </div>
-                                                    <!-- profile picture end -->
-
-                                                    <div class="msg-content ">
-                                                        <h6 class="author "><a href="http://localhost:8080/">Chủ đề</a></h6>
-                                                    </div>
-
-                                                </li>
-                                                <li class="classify-list-item d-flex justify-content-between ">
-                                                    <!-- profile picture end -->
-                                                    <div class="profile-thumb ">
-                                                        <figure class="profile-thumb-middle ">
-                                                            <img src="/images/profile-small-5.jpg " alt="profile picture ">
-                                                        </figure>
-                                                    </div>
-                                                    <!-- profile picture end -->
-
-
-                                                    <div class="msg-content ">
-                                                        <h6 class="author "><a href="http://localhost:8080/notification">Tất cả thông báo</a></h6>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <li><a href="/department">Phòng ban</a>
+                                    </li>
+                                    <li><a href="/notification">Tất cả thông báo</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -67,7 +23,7 @@
                     <div class="col-md-2 ">
                         <!-- brand logo start -->
                         <div class="brand-logo text-center ">
-                            <a href="http://localhost:8080/">
+                            <a href="/">
                                 <img id="tdtu_logo" src="/images/tdtu.png" alt="brand logo ">
                             </a>
                         </div>
@@ -88,11 +44,11 @@
                                     <div class="profile-dropdown ">
                                         <div class="profile-head ">
                                             <h5 class="name ">
-                                                <a href="">
+                                                <a href="/profile/<%= user._id %>">
                                                     <%= user.name %>
                                                 </a>
                                             </h5>
-                                            <a class="mail " href="">
+                                            <a class="mail " >
                                                 <%= user.email %>
                                             </a>
                                         </div>
@@ -116,6 +72,7 @@
                     </div>
                 </div>
             </div>
+            <div class="noti-inform"><span><strong class="department">Phòng đại học</strong> vừa đăng một thông báo mới tại <strong class="category">Phòng đại học</strong></span></div>
         </div>
     </header>
     <!-- header area end -->
@@ -124,54 +81,15 @@
         <div class="mobile-header-wrapper sticky d-block d-lg-none ">
             <div class="mobile-header position-relative ">
                 <div class="mobile-logo ">
-                    <a href="http://localhost:8080/">
+                    <a href="/">
                         <img src="/images/tdtu.png " alt="logo ">
                     </a>
                 </div>
                 <div class="mobile-menu w-100 ">
                     <ul>
-                        <li>
-                            <button class="notification request-trigger1 "><i class="flaticon-users "></i>
-                                <span>Thông báo</span>
-                            </button>
-                            <ul class="frnd-request-list ">
-                                <li>
-                                    <div class="frnd-request-member ">
-                                        <figure class="request-thumb ">
-                                            <a href="http://localhost:8080/">
-                                                <img src="/images/profile-midle-1.jpg " alt="proflie author ">
-                                            </a>
-                                        </figure>
-                                        <div class="frnd-content ">
-                                            <h6 class="author "><a href="http://localhost:8080/department">Phòng ban</a></h6>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="frnd-request-member ">
-                                        <figure class="request-thumb ">
-                                            <a href="http://localhost:8080/">
-                                                <img src="/images/profile-midle-2.jpg " alt="proflie author ">
-                                            </a>
-                                        </figure>
-                                        <div class="frnd-content ">
-                                            <h6 class="author "><a href="http://localhost:8080">Chủ đề</a></h6>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="frnd-request-member ">
-                                        <figure class="request-thumb ">
-                                            <a href="https://demo.hasthemes.com/adda-preview/adda/profile.html ">
-                                                <img src="/images/profile-midle-3.jpg " alt="proflie author ">
-                                            </a>
-                                        </figure>
-                                        <div class="frnd-content ">
-                                            <h6 class="author "><a href="http://localhost:8080/notification">Tất cả thông báo</a></h6>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                        <li><a href="/department">Phòng ban</a>
+                        </li>
+                        <li><a href="/notification">Tất cả thông báo</a>
                         </li>
                     </ul>
                 </div>
@@ -197,7 +115,7 @@
 
                             <div class="profile-body ">
                                 <ul>
-                                    <li><a href=""><i class="fa fa-user-o"></i></i>Profile</a></li>
+                                    <li><a href="/profile/<%= user._id %>"><i class="fa fa-user-o"></i></i>Profile</a></li>
                                     <li><a href=""><i class="fa fa-sliders"></i>Setting</a></li>
                                 </ul>
                                 <ul>
@@ -208,6 +126,7 @@
                     </div>
                     <!-- profile picture end -->
                 </div>
+                <span class="noti-inform"><strong class="department">Phòng đại học</strong> vừa đăng một thông báo mới tại <strong class="category">Phòng đại học</strong></span>
             </div>
         </div>
     </header>

@@ -15,20 +15,25 @@
                         </div>
                         <div class="notifications-content">
                             <div class="notifications-filter">
-                                <form action="/notification?<%=searchUrl.category%>">
-                                    <select class="selectpicker" data-dropup-auto="false" data-size="5" name="category" >
-                                        <option value="" selected>Chọn Phòng/Khoa</option>
-                                        <% categories.forEach(value => { %>
-                                            <option value="<%=value._id%>"><%=value.name%></option>
+                                <form action="/notification">
+                                    <% if(currentCategory){%>
+                                        <input type="hidden" name="category" value="<%=currentCategory%>">
+                                    <%}%>
+                                    <select data-dropup-auto="false" class="department-picker" data-size="5" name="department" >
+                                        <option value="" <%=!currentDepartment?"selected":""%>>Tất cả Phòng/Khoa</option>
+                                        <% departments.forEach(value => { %>
+                                            <option value="<%=value.departmentID%>" <%=currentDepartment===value.departmentID?"selected":""%>><%=value.name%></option>
                                         <% }) %>
                                     </select>
                                     <input type="submit" class="notifications-search" value="Tìm kiếm">
                                 </form>
-                                <div class="notifications-create">
-                                    <button class="create-btn">
-                                        Tạo thông báo
-                                    </button>
-                                </div>
+                                <%if (!user.role.student){%>
+                                    <div class="notifications-create">
+                                        <button class="create-btn">
+                                            Tạo thông báo
+                                        </button>
+                                    </div>
+                                <%}%>
                             </div>
                             <div class="notifications-noti">
                                 <% noties.forEach(value=>{ %>
@@ -36,12 +41,31 @@
                                         <div class="noti-author">
                                             <a href="/notification?<%=searchUrl.department%>&department=<%=value.authorId.departmentID%>"><%=value.authorId.name%></a>
                                         </div>
+                                        <% if(value.myNoti){%>
+                                        <div class="noti-option">
+                                            <span id="edit-noti" 
+                                                onclick=editNotiModal(this) 
+                                                data-id="<%=value._id%>" 
+                                                title="Sửa thông báo">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </span>
+                                            <span id="remove-noti" 
+                                                onclick=removeNotiModal(this) 
+                                                data-id="<%=value._id%>"
+                                                data-author="<%=value.authorId.name%>" 
+                                                data-category="<%=value.categoryId.name%>" 
+                                                data-title="<%=value.title%>" 
+                                                data-date="<%=locals.formatDate(value.date)%>"  
+                                                title="Xoá thông báo">
+                                                <i class="fa fa-times" aria-hidden="true"></i></span>
+                                        </div>
+                                        <%}%>
                                         <div class="noti-title">
                                             <a href="/notification/detail/<%=value._id%>"><p><%=value.title%></p></a>
                                             <% if (value.isImportance) { %>
                                             <span class="noti-important"><i class="fa fa-star" aria-hidden="true"></i></span>
                                             <% } %>
-                                            <span class="noti-new">Mới</span>
+                                            <!-- <span class="noti-new">Mới</span> -->
                                         </div>
                                         <div class="noti-body">
                                             <p><%=value.subTitle%></p>
@@ -73,47 +97,127 @@
             </div>
         </div>
     </body>
+    
+    <!-- Confirm modal -->
+    <div class="modal hide fade remove-noti-confirm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bạn có muốn xoá thông báo này không ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="noti-detail">
+                        <div class="noti-detail-title">
+                            <p></p>
+                        </div>
+                        <div class="noti-detail-information">
+                            <p class="noti-detail-author"><a></a> đã đăng:</p>
+                            <p class="noti-detail-category">Chuyên mục: <a></a></p>
+                            <p>Ngày đăng: <span class="noti-detail-date"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="cancel-noti-remove">Huỷ</button>
+                    <button type="button" class="confirm-noti-remove" onclick=removeNoti(this)>Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal -->
     <div class="modal fade create-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Tạo thông báo</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Tạo thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="noti-title" class="col-form-label">Tựa đề:</label>
+                        <input type="text" class="form-control" id="noti-title">
+                    </div>
+                    <div class="form-group">
+                        <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
+                        <input type="text" class="form-control" id="noti-sub-title">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" id="noti-categories-picker">
+                            <option selected>Chọn Chuyên Mục</option>
+                            <% user.permission.forEach(value => { %>
+                                <option value="<%=value._id%>"><%=value.name%></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
+                        <input type="checkbox" value="true" id="noti-is-importance">
+                    </div>
+                    <div class="form-group">
+                        <label for="noti-content" class="col-form-label">Nội dung:</label>
+                        <textarea class="form-control" id="noti-content"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
+                <button type="butotn" class="noti-modal-save">Tạo thông báo</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="noti-title" class="col-form-label">Tựa đề:</label>
-                    <input type="text" class="form-control" id="noti-title">
-                </div>
-                <div class="form-group">
-                    <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
-                    <input type="text" class="form-control" id="noti-sub-title">
-                </div>
-                <div class="form-group">
-                    <select class="form-select" id="noti-categories-picker">
-                        <option selected>Chọn Phòng/Khoa</option>
-                        <% user.permission.forEach(value => { %>
-                            <option value="<%=value._id%>"><%=value.name%></option>
-                        <% }) %>
-                    </select>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
-                    <input type="checkbox" value="true" id="noti-is-importance">
-                </div>
-                <div class="form-group">
-                    <label for="noti-content" class="col-form-label">Nội dung:</label>
-                    <textarea class="form-control" id="noti-content"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
-              <button type="butotn" class="noti-modal-save">Tạo thông báo</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
+
+    
+    <div class="modal fade update-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Chính sửa thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="noti-title" class="col-form-label">Tựa đề:</label>
+                        <input type="text" class="form-control" id="noti-title">
+                    </div>
+                    <div class="form-group">
+                        <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
+                        <input type="text" class="form-control" id="noti-sub-title">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" id="noti-categories-picker">
+                            <option selected>Chọn Chuyên Mục</option>
+                            <% user.permission.forEach(value => { %>
+                                <option value="<%=value._id%>"><%=value.name%></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
+                        <input type="checkbox" value="true" id="noti-is-importance">
+                    </div>
+                    <div class="form-group">
+                        <label for="noti-content" class="col-form-label">Nội dung:</label>
+                        <textarea class="form-control" id="noti-content"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
+                <button type="butotn" class="noti-modal-save" onclick=editNoti(this)>Lưu thông báo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll to top start -->
+    <div class="scroll-top not-visible">
+            <i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i>
+    </div>
+    <!-- Scroll to Top End -->
 <%- include('./partition/footer'); -%>
 </html>

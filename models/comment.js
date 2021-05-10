@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const commentSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    statusId: String,
-    content: String,
-    authorId: String,
+    statusId: {type: String, require: true},
+    content: {type: String, require: true},
+    authorId: {type: String, require: true},
     date: Date,
 });
 

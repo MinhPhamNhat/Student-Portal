@@ -70,7 +70,6 @@ router.get('/', async (req, res, next) =>{
 
 // POST/: / edit profile
 router.post('/', upload.single('file') ,validator.updateProfile(), async (req, res, next) =>{
-    console.log(req.file)
     var validate = validationResult(req)
     if (validate.errors.length) {
         let errors = validate.mapped()

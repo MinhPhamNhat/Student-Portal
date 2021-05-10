@@ -101,10 +101,8 @@ module.exports = {
     },
 
     updatePassword: async (userId, oldPassword, newPassword) =>{
-        console.log(userId, oldPassword, newPassword)
         return await Account.findOneAndUpdate({ _id: userId , password: oldPassword }, {password: newPassword}).exec()
         .then(result => {
-            console.log(result)
             if (result){
                 return JSON.stringify({code: 0})
             }else{

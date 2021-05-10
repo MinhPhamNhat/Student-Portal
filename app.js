@@ -10,6 +10,7 @@ const authen = require('./middleware/authenticateUser')
 const socketio = require("socket.io")
 const http = require('http')
 const socketIO = require('./config/socketIO')
+const flash = require("connect-flash")
 
 require('dotenv').config()
 require('./config/passport')
@@ -34,6 +35,7 @@ const PORT = 8080 || process.env.PORT
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(flash())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

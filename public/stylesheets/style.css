@@ -11,130 +11,84 @@ a {
     width: 50%;
 }
 
-@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
-.login-block {
-    background: #DE6262;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #FFB88C, #DE6262);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    float: left;
-    width: 100%;
-    padding: 50px 0;
+.login-body{
+    background: url("/images/bg.png") no-repeat;
+    background-size: 100% auto;
+    background-position: center;
 }
 
-.banner-sec {
-    background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg) no-repeat left bottom;
-    background-size: cover;
-    min-height: 500px;
-    border-radius: 0 10px 10px 0;
-    padding: 0;
+.login-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.container {
+.login-message{
+    padding: 10px;
+    color: rgb(221, 0, 0);
+    font-size: 20px;
+}
+
+.login-form{
+    background-color: white;
+    width: fit-content;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form .login-header{
+    text-align: center;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 10px;
+    padding-bottom: 20px;
+}
+
+.login-form .form-control{
+    width: 500px;
+    padding: 20px;
+    font-size: 20px;
     border-radius: 10px;
 }
 
-.carousel-inner {
-    border-radius: 0 10px 10px 0;
+.login-form .form-control::-webkit-input-placeholder{
+    font-size: 20px;
+    color: rgb(170, 170, 170)
 }
 
-.carousel-caption {
-    text-align: left;
-    left: 5%;
+.login-form .login-btn{
+    padding: 20px;
+    width: 100%;
+    background-color: #00B7FF;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
 }
 
-.login-sec {
-    padding: 50px 30px;
-    position: relative;
-}
-
-.login-sec .copy-text {
-    position: absolute;
-    width: 80%;
-    bottom: 20px;
-    font-size: 13px;
-    text-align: center;
-}
-
-.login-sec .copy-text i {
-    color: #FEB58A;
-}
-
-.login-sec .copy-text a {
-    color: #E36262;
-}
-
-.login-sec h2 {
-    margin-bottom: 30px;
-    font-weight: 800;
-    font-size: 30px;
-    color: #DE6262;
-}
-
-.login-sec h2:after {
-    content: " ";
-    width: 100px;
-    height: 5px;
-    background: #FEB58A;
-    display: block;
-    margin-top: 20px;
-    border-radius: 3px;
-    margin-left: auto;
-    margin-right: auto
-}
-
-.btn-login {
-    background: #DE6262;
-    color: #fff;
-    font-weight: 600;
-}
-
-.banner-text {
-    width: 70%;
-    position: absolute;
-    bottom: 40px;
-    padding-left: 20px;
-}
-
-.banner-text h2 {
-    color: #fff;
-    font-weight: 600;
-}
-
-.banner-text h2:after {
-    content: " ";
-    width: 100px;
-    height: 5px;
-    background: #FFF;
-    display: block;
-    margin-top: 20px;
-    border-radius: 3px;
-}
-
-.banner-text p {
-    color: #fff;
-}
-
-.signin-btn a {
-    margin-top: 25px;
+.google-signin-btn a {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-top: 25px;    
     padding: 10px;
     border-radius: 40px;
     text-decoration: none;
     color: black;
+    font-size: 20px
 }
 
-.signin-btn a img {
+.google-signin-btn a img {
     height: auto;
     width: auto;
-    max-width: 30px;
-    max-height: 30px;
+    max-width: 50px;
+    max-height: 50px;
     margin-right: 10px;
 }
-
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 
 /*------------------------------------------------------------------
 Table of content
@@ -11235,7 +11189,9 @@ hr {
         border: 5px solid #fff;
     }
 }
-
+#profile-quote{
+    padding: 10px;
+}
 .profile-desc {
     padding: 30px;
     margin-top: 25px;
@@ -11354,23 +11310,28 @@ hr {
     flex-direction: column;
 }
 
-.create-noti-modal .modal-body{
+.create-noti-modal .modal-body,
+.update-noti-modal .modal-body{
     display: flex;
     flex-direction: column;
 }
 
-.create-noti-modal .noti-modal-save,
-.create-noti-modal .noti-modal-cancel{
+.create-noti-modal .noti-modal-create,
+.create-noti-modal .noti-modal-cancel,
+.update-noti-modal .noti-modal-save,
+.update-noti-modal .noti-modal-cancel{
     padding: 15px;
     margin: 10px;
     border-radius: 10px;
     color: white;
 }
 
-.create-noti-modal .noti-modal-cancel{
+.create-noti-modal .noti-modal-cancel,
+.update-noti-modal .noti-modal-cancel{
     background-color: rgb(221, 0, 0);
 }
-.create-noti-modal .noti-modal-save{
+.create-noti-modal .noti-modal-create,
+.update-noti-modal .noti-modal-save{
     background-color: rgb(6, 182, 0);
 }
 .create-noti-modal .form-check{
@@ -11389,6 +11350,24 @@ hr {
 .create-noti-modal #noti-content{
     border-color: rgb(221, 0, 0);
 }
+
+.update-noti-modal .form-check{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.update-noti-modal .form-check input{
+    margin-left: 10px;
+    height: 25px;
+    width: 25px;
+    background-color: rgb(159, 190, 219);
+}
+.update-noti-modal #noti-content{
+    border-color: rgb(221, 0, 0);
+}
+
 .notifications-top-bar{
     padding :10px;
     width: 100%;
@@ -11455,6 +11434,57 @@ hr {
     left: 10px;
     background-color: white;
 } 
+
+.notifications-noti .noti-option{
+    border-radius: 20px;
+    border: 1px solid gray;
+    padding: 5px;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background-color: white;
+}
+
+.notifications-noti .noti-option span{
+    margin: 0px 5px 0px 5px;
+    color: #00B7FF;
+    cursor: pointer;
+}
+
+.remove-noti-confirm .cancel-noti-remove,
+.remove-noti-confirm .confirm-noti-remove,
+.remove-confirm .no-remove,
+.remove-confirm .ok-remove{
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    color: white;
+}
+.remove-noti-confirm .noti-detail{
+    margin-top: 0px;
+}
+.remove-noti-confirm .noti-detail-title p{
+    font-size: 24px;
+}
+
+.remove-noti-confirm .noti-detail-category a,
+.remove-noti-confirm .noti-detail-author a{
+    color: #00B7FF;
+}
+
+.modal-content{
+    border-radius: 10px;
+}
+
+.remove-noti-confirm .cancel-noti-remove,
+.remove-confirm .no-remove{
+    background-color: rgb(136, 136, 136)
+}
+
+.remove-noti-confirm .confirm-noti-remove,
+.remove-confirm .ok-remove{
+    background-color: rgb(255, 74, 74)
+}
+
 .notifications-noti .noti .noti-title{
     font-size: 18px;
     text-transform: uppercase;
@@ -11580,7 +11610,7 @@ hr {
 .noti-detail-title p{
     font-size: 36px;
     font-weight: 600;
-    color:#1769ff;
+    color:#00B7FF;
 
 }
 .noti-detail-date{
@@ -11601,6 +11631,14 @@ hr {
     margin-left: 30px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.noti-detail .remove-noti,
+.noti-detail .edit-noti{
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+    margin-top: 10px;
+    background-color: #00B7FF;
 }
 
 .noti-timeline{
@@ -11673,6 +11711,30 @@ hr {
   margin-top:0.4rem;
 }
 
+.noti-inform{
+    margin-top: 10px;
+    position: absolute;
+    top: 70px;
+    height: 50px;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: none;
+}
+
+
+.noti-inform span{
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #efc3f8ea;
+    padding: 10px;
+    border-radius: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    min-width: fit-content;
+}
+
 .change-password{
     display: flex;
     flex-direction: column;
@@ -11721,4 +11783,22 @@ hr {
 .user-comment .remove-comment #confirm-remove-comment,
 .user-comment .remove-comment #decline-remove-comment{
     display: none;
+}
+
+.toast{
+    z-index: 1050 !important;
+}
+
+
+.nice-select {
+    border-radius: 0px;
+}
+
+.nice-select .list {
+    border-radius: 0px;
+    height: 200px;
+    overflow-y: auto;
+}
+.nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
+  background: none;
 }

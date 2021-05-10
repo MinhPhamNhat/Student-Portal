@@ -39,8 +39,7 @@
                                     <nav>
                                         <ul class="main-menu">
                                             <li class="active"><a href="">timeline</a></li>
-                                            <li><a href="">about</a></li>
-                                            <li><a href="">photos</a></li>
+                                            <li><a href="" class="about-profile">about</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -49,7 +48,7 @@
                         <div class="col-lg-3 col-md-3">
                         <% if(isCurrentUser){ %>
                             <div class="profile-edit-panel">
-                                <button class="edit-btn">edit profile</button>
+                                <button class="edit-btn">Sửa thông tin</button>
                             </div>
                         <%}%>
                         </div>
@@ -80,9 +79,10 @@
 
     <!-- Scroll to top start -->
     <div class="scroll-top not-visible">
-        <i class="bi bi-finger-index"></i>
+            <i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i>
     </div>
     <!-- Scroll to Top End -->
+    <%- include('./partition/aboutprofile', {userProfile}); -%>
     <%- include('./partition/editprofile', {userProfile}); -%>
     <%- include('./partition/footer') -%>
 </body>

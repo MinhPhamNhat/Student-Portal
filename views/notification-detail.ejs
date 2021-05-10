@@ -22,6 +22,17 @@
                             <p>Chuyên mục: <a href="/notification?category=<%=data.categoryId._id%>"><%=data.categoryId.name%></a></p>
                             <p>Ngày đăng: <span  class="noti-detail-date"><%=locals.formatDate(data.date)%></span></p>
                         </div>
+                        <%if (data.myNoti){%>
+                        <div>
+                            <button class="btn btn-secondary remove-noti" onclick=removeDetailNotiModal(this) data-id="<%=data._id%>">
+                                Xoá <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </button>
+                            
+                            <button class="btn btn-secondary edit-noti"  onclick=editNotiModal(this) data-id="<%=data._id%>">
+                                Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <%}%>
                     </div>
                     <hr>
                     <div class="noti-detail-content">
@@ -31,11 +42,45 @@
             </div>
         </div>
     </body>
-    <div class="modal fade create-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    
+    
+    <!-- Confirm modal -->
+    <div class="modal hide fade remove-noti-confirm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bạn có muốn xoá thông báo này không ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="noti-detail">
+                        <div class="noti-detail-title">
+                            <p><%=data.title%></p>
+                        </div>
+                        <div class="noti-detail-information">
+                            <p><a><%=data.authorId.name%></a> đã đăng:</p>
+                            <p>Chuyên mục: <a><%=data.categoryId.name%></a></p>
+                            <p>Ngày đăng: <span  class="noti-detail-date"><%=locals.formatDate(data.date)%></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="cancel-noti-remove">Huỷ</button>
+                    <button type="button" class="confirm-noti-remove" onclick=removeNoti(this)>Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal -->
+
+    <!-- Create Noti modal -->
+    <div class="modal fade update-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Tạo thông báo</h5>
+              <h5 class="modal-title">Chỉnh sửa thông báo</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -51,7 +96,7 @@
                 </div>
                 <div class="form-group">
                     <select class="form-select" id="noti-categories-picker">
-                        <option selected>Chọn Phòng/Khoa</option>
+                        <option selected>Chọn Chuyên Mục</option>
                         <% user.permission.forEach(value => { %>
                             <option value="<%=value._id%>"><%=value.name%></option>
                         <% }) %>
@@ -68,10 +113,16 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
-              <button type="butotn" class="noti-modal-save">Tạo thông báo</button>
+              <button type="butotn" class="noti-modal-save" onclick=editNoti(this)>Lưu thông báo</button>
             </div>
           </div>
         </div>
       </div>
+      <!-- Scroll to top start -->
+      <div class="scroll-top not-visible">
+              <i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i>
+      </div>
+      <!-- Scroll to Top End -->
+      <!-- end Create Noti modal -->
 <%- include('./partition/footer'); -%>
 </html>

@@ -163,12 +163,12 @@ module.exports = {
             })
     },
 
-    insertComment: async(statusId, userid, content) => {
+    insertComment: async(statusId, userId, content) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(postRes => {
                 if (postRes) {
-                    return User.findOne({ _id: userid })
+                    return User.findOne({ _id: userId })
                         .exec()
                         .then(stdResult => {
                             if (stdResult) {
@@ -180,7 +180,7 @@ module.exports = {
                                         date: new Date()
                                     }).save()
                                     .then(async commentRes => {
-                                        var comments = await parseComment(commentRes)
+                                        var comments = await parseComment(commentRes, userId)
                                         postRes.meta.comments.splice(0, 0, commentRes._id)
                                         postRes.save()
                                         return JSON.stringify({ code: 0, message: "Successfully posting Comment", data: { comments, no_comment: (postRes.meta.comments.length) } })

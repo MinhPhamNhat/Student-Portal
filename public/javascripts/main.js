@@ -26,6 +26,34 @@ socket.on("comment-send", (data) => {
 
 })
 
+socket.on("new-noti", (data) => {
+    $(".noti-inform .department").text(data.authorId.name)
+    $(".noti-inform .category").text(data.categoryId.name)
+    $(".noti-inform span").attr("onclick",`window.location.href = '/notification/detail/${data._id}'`)
+
+    $(".noti-timeline .sessions li").last().slideUp(200)
+    setTimeout(()=>{
+        $(".noti-timeline .sessions li").last().remove();
+    },300)
+    $(`
+        <li>
+            <div class="time">${formatDateTime(data.date)}</div>
+            <p><b>${data.authorId.name}</b> đã đăng thông báo tại <b>${data.categoryId.name}</b><br><i><a href="/notification/detail/${data._id}">${data.title}</a></i></p>
+        </li>
+    `).prependTo(".noti-timeline .sessions").hide().slideDown(200)
+
+
+
+    $(".noti-inform").slideDown(200)
+    setTimeout(()=>{
+        $(".noti-inform").slideUp(200)
+    }, 3000)
+})
+
+socket.on("delete-comment", (data) => {
+    $(`.comment-${data.commentId}`).slideUp(200)
+    $(`.post-${data.statusId} .no-comment`).text(data.no_comment + " comments")
+})
 
 var typingTimer;
 var doneTypingInterval = 1000;
@@ -40,8 +68,6 @@ const typingCatch = (e) => {
 const typingStopCatch = (e) => {
     clearTimeout(typingTimer);
 }
-
-
 
 tinymce.init({
     selector: 'textarea',
@@ -67,6 +93,17 @@ $(document).on('focusin', function(e) {
         e.stopImmediatePropagation();
     }
 });
+
+const formatDateTime = (date) => {
+    date = new Date(date)
+    var day = date.getDate()/10>=1?date.getDate():"0"+date.getDate()
+    var month = (date.getMonth()+1)/10>=1?(date.getMonth()+1):"0"+(date.getMonth()+1)
+    var year = date.getFullYear()
+    var minute = date.getMinutes()/10>=1?date.getMinutes():"0"+date.getMinutes()
+    var hour = date.getHours()/10>=1?date.getHours():"0"+date.getHours()
+    return `${day}/${month}/${year} ${hour}:${minute}`
+  }
+
 
 const newComment = (value) => `
     <!-- user comment -->
@@ -119,8 +156,6 @@ const confirmRemoveComment = (e) => {
     .then(data=>data.json())
     .then(data=>{
         if (data.code === 0){
-            $(`.comment-${data.data.commentId}`).slideUp(200)
-            $(`.post-${data.data.statusId} .no-comment`).text(data.data.no_comment+ "comments")
             showToast("Xoá comment", "Xoá comment thành công", "success")
         }else if (data.code === -2){
             showToast("Xoá comment", "Không tìm thấy comment", "error")
@@ -178,12 +213,13 @@ const newPost = (value) => {
                                 <button onclick=vote(this) data-id="${ value._id}" class="post-meta-like ${value.vote ? " voted " : " "}">
                                         <div style="background-image: url('/images/icons/${ value.vote ? "heart" : "unheart"}.png')" class="pic icon-heart"></div>
                                         <span>${ value.meta.votes.length}</span>
-                                    </button></div>
+                                </button>
+                            </div>
                             <div class="d-flex flex-row muted-color"> <p class="no-comment">${ value.meta.comments.length} comments</p></div>
                         </div>
                         <hr>
                         <div class="comment-input-section"> 
-                            <input placeholder="Nói gì đi" type="text" data-id="${ value._id}" onkeyup=typingCatch(this) onkeydown=typingStopCatch(this) class="form-control comments-input">
+                            <input placeholder="Nói gì đi" type="text" data-id="${ value._id}" onkeyup="catchEnter(event); typingCatch(this)" onkeydown=typingStopCatch(this) class="form-control comments-input">
                             <div class="fonts" onclick=comment(this) data-id="${ value._id}">
                                 <i class="fa fa-paper-plane" aria-hidden="true">
                                 </i> 
@@ -217,7 +253,7 @@ const postStatus = () => {
     data.append('content', content)
     if (content || file) {
         $.ajax({
-            url: 'http://localhost:8080/status',
+            url: '/status',
             data,
             cache: false,
             contentType: false,
@@ -246,7 +282,7 @@ const postStatus = () => {
 const removeStatus = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
-    fetch("http://localhost:8080/status", {
+    fetch("/status", {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json'
@@ -288,7 +324,7 @@ const editStatus = (target) => {
     data.append('content', content)
     if (content || file) {
         $.ajax({
-            url: 'http://localhost:8080/status',
+            url: '/status',
             data,
             cache: false,
             contentType: false,
@@ -365,7 +401,17 @@ const b64toBlob = (b64Data, contentType, sliceSize) => {
 const vote = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
-    fetch("http://localhost:8080/status/vote", {
+
+    var likeElement = $(`.post-${statusId} .post-meta-like`)
+    if  (!likeElement.hasClass("voted")){
+        likeElement.addClass("voted")
+        $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/heart.png)")
+    }else{
+        likeElement.removeClass("voted")
+        $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/unheart.png)")
+    }
+
+    fetch("/status/vote", {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
@@ -376,15 +422,14 @@ const vote = (target) => {
         .then(result => result.json())
         .then(data => {
             if (data.code === 0) {
-                var likeElement = $("[data-id=" + statusId + "]")
                 likeElement.find($("span")).html(data.data.no_vote)
                 if (data.data.actionVote) {
                     likeElement.addClass("voted")
-                    $("[data-id=" + statusId + "] .icon-heart").css("background-image", "url(/images/icons/heart.png)")
+                    $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/heart.png)")
                     showToast("Vote status", "Đã vote status", "success")
                 } else {
                     likeElement.removeClass("voted")
-                    $("[data-id=" + statusId + "] .icon-heart").css("background-image", "url(/images/icons/unheart.png)")
+                    $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/unheart.png)")
                     showToast("Vote status", "Đã unvote status", "success")
                 }
             } else {
@@ -394,13 +439,24 @@ const vote = (target) => {
 
 }
 
+
+const catchEnter = (e) =>{
+    var keycode = e.which || e.keyCode;
+    if (keycode === 13){
+        var message = e.target.value
+        if (message){
+            comment(e.target)
+        }
+    }
+}
+
 const comment = (target) => {
     var statusId = target.dataset.id
     var commentSection = $(`.post-${statusId} .comments`)
     var content = $(`.post-${statusId} .comments-input`).val()
     var data = { statusId, content }
     if (content) {
-        fetch("http://localhost:8080/status/comment", {
+        fetch("/status/comment", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -426,13 +482,13 @@ const comment = (target) => {
 }
 
 const loadMorePost = (skip, id) => {
-    return fetch(`http://localhost:8080/status?skip=${skip}${id ? `&id=${id}` : ''}`)
+    return fetch(`/status?skip=${skip}${id ? `&id=${id}` : ''}`)
         .then(result => result.json())
         .then(data => data)
 }
 
 const loadMoreComment = (skip, statusId) => {
-    return fetch(`http://localhost:8080/status/comment?skip=${skip}&statusId=${statusId}`)
+    return fetch(`/status/comment?skip=${skip}&statusId=${statusId}`)
         .then(result => result.json())
         .then(data => data)
 }
@@ -491,7 +547,6 @@ if ($(".post-section")[0]) {
                             tag = newPost(value)
                             $(".post-section").append(tag)
                         })
-                        $('.body-loading').css("display", "none")
                         showToast("Tải status", "Tải status thành công", "success")
                     } else {
                         showToast("Tải status", "Không có status nào để tải", "success")
@@ -499,6 +554,7 @@ if ($(".post-section")[0]) {
                 } else {
                     showToast("Tải status", data.message, "error")
                 }
+                $('.body-loading').css("display", "none")
             })
 
         }
@@ -527,7 +583,7 @@ $(document).delegate('.comments-input', 'click', (e) => {
     var commentSection = $(`.post-${statusId} .comments-container`)
     if (!commentSection.hasClass("showed")) {
         $(`.post-${statusId} .comment-loading`).show()
-        fetch(`http://localhost:8080/status/comment?statusId=${statusId}`)
+        fetch(`/status/comment?statusId=${statusId}`)
             .then(result => result.json())
             .then(data => {
                 if (data.code === 0) {
@@ -626,7 +682,7 @@ $(".department-insert-container .submit").click((e) => {
     form.append('file', file)
 
     $.ajax({
-        url: 'http://localhost:8080/department/insert',
+        url: '/department/insert',
         data: form,
         cache: false,
         contentType: false,
@@ -726,7 +782,7 @@ $(".profile-save-button").click((e) => {
     form.append('file', file)
 
     $.ajax({
-        url: 'http://localhost:8080/profile',
+        url: '/profile',
         data: form,
         cache: false,
         contentType: false,
@@ -773,7 +829,6 @@ $(".save-change-btn").click(()=>{
             var fields = ["oldPassword", "newPassword", "reNewPassword"]
             fields.forEach(value => {
                 var inputField = $(`.change-password .${value}`)
-                console.log(inputField)
                 if (data.errors[value]) {
                     inputField.find("small").remove()
                     inputField.find("label").removeClass("text-success")
@@ -799,7 +854,7 @@ $(".notifications-create .create-btn").click((e)=>{
     $(".create-noti-modal").modal("show")
 })
 
-$(".noti-modal-save").click((e) => {
+$(".noti-modal-create").click((e) => {
     var title = $(".create-noti-modal #noti-title").val()
     var subTitle = $(".create-noti-modal #noti-sub-title").val()
     var categoryId = $(".create-noti-modal #noti-categories-picker").val()
@@ -814,10 +869,11 @@ $(".noti-modal-save").click((e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-    }).then(data => data.json()).then(data=> {
+    }).then(data => data.json())
+    .then(data=> {
         if (data.code === 0 ){
             showToast("Tạo thông báo", "Tạo thông báo thành công", "success")
-            window.location.href = window.location.origin + "/notification/detail/"+data.data
+            window.location.href = window.location.origin + "/notification/detail/"+data.data._id
         } else if(data.code === -3){
             showToast("Tạo thông báo", "Thông tin không hợp lệ, vui lòng kiểm tra lại", "warning")
         } else{
@@ -837,9 +893,127 @@ $(document).ready(function () {
 
 });
 
+const removeNotiModal = (e) =>{
+    var notiId = e.dataset.id
+    var title = e.dataset.title
+    var author = e.dataset.author
+    var category = e.dataset.category
+    var date = e.dataset.date
+    $(".remove-noti-confirm .noti-detail-title p").text(title)
+    $(".remove-noti-confirm .noti-detail-author a").text(author)
+    $(".remove-noti-confirm .noti-detail-category a").text(category)
+    $(".remove-noti-confirm .noti-detail-date ").text(date)
+    $(".remove-noti-confirm .confirm-noti-remove").attr("data-id", notiId)
+    $(".remove-noti-confirm").modal("show")
+}
+
+const removeDetailNotiModal = (e) =>{
+    var notiId = e.dataset.id
+    $(".remove-noti-confirm .confirm-noti-remove").attr("data-id", notiId)
+    $(".remove-noti-confirm").modal("show")
+}
+
+const editNotiModal = (e) =>{
+    var notiId = e.dataset.id
+    fetch(`/notification/${notiId}`)
+    .then(data => data.json())
+    .then(data => {
+        if (data.code === 0){
+            var noti = data.data
+            $(".update-noti-modal #noti-title").val(noti.title)
+            $(".update-noti-modal #noti-sub-title").val(noti.subTitle)
+            $(".update-noti-modal #noti-is-importance").prop("checked",noti.isImportance)
+            $(".update-noti-modal #noti-categories-picker").val(noti.categoryId._id).niceSelect('update')
+            $(".update-noti-modal .noti-modal-save").attr("data-id",notiId)
+            tinymce.activeEditor.setContent(noti.content);
+        }else{
+            showToast("Lấy thông báo", "Lấy thông báo thất bại", "error")
+        }
+    })
+    $(".update-noti-modal").modal("show")
+}
+
+$(".update-noti-modal").on('hidden.bs.modal', function(){
+    setTimeout(() => {
+        $(".update-noti-modal #noti-title").val("")
+        $(".update-noti-modal #noti-sub-title").val("")
+        $(".update-noti-modal #noti-is-importance").prop("checked",false)
+        tinymce.get("noti-content").setContent("");
+    }, 300)
+});
 
 
+$(".create-noti-modal").on('hidden.bs.modal', function(){
+    setTimeout(() => {
+        $(".create-noti-modal #noti-title").val("")
+        $(".create-noti-modal #noti-sub-title").val("")
+        $(".create-noti-modal #noti-is-importance").prop("checked",false)
+        tinymce.get("noti-content").setContent("");
+    }, 300)
+});
 
+
+const editNoti = (e) => {
+    var notiId = e.dataset.id
+
+    var title = $(".update-noti-modal #noti-title").val()
+    var subTitle = $(".update-noti-modal #noti-sub-title").val()
+    var categoryId = $(".update-noti-modal #noti-categories-picker").val()
+    var content = tinyMCE.activeEditor.getContent()
+    var isImportance = $(".update-noti-modal #noti-is-importance").prop("checked")
+    var formData = {title , subTitle, content, categoryId, isImportance}
+
+    fetch(`/notification/${notiId}`, 
+    {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    }).then(data => data.json())
+    .then(data=> {
+        if (data.code === 0 ){
+            showToast("Sửa thông báo", "Sửa thông báo thành công", "success")
+            window.location.href = window.location.origin + "/notification/detail/"+data.data._id
+        } else if(data.code === -3){
+            showToast("Sửa thông báo", "Thông tin không hợp lệ, vui lòng kiểm tra lại", "warning")
+        } else{
+            showToast("Sửa thông báo", data.message, "warning")
+        }
+    }).catch()
+    $(".update-noti-modal").modal("hide")
+}
+
+const removeNoti = (e) =>{
+    var notiId = e.dataset.id
+    var formData = {notiId}
+    fetch("/notification", 
+    {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(data=> data.json())
+    .then(data => {
+        if (data.code === 0){
+            showToast("Xoá thông báo", "Thành công", "success")
+            window.location.href = "/notification"
+        }else if (data.code === -1){
+            showToast("Xoá thông báo", "Xoá thông báo thất bại", "error")
+        }else{
+            showToast("Xoá thông báo", "Lỗi khi xoá thông báo", "error")
+        }
+    })
+    $(".remove-noti-confirm").modal("hide")
+}
+
+$(".about-profile").click((e)=>{
+    e.preventDefault()
+    $(".about-profile-modal").modal("show")
+
+})
 
 var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     var toastNum = $(".toast").length

@@ -110,7 +110,12 @@ router.delete('/comment', (req, res, next) => {
     if (statusId) {
         status.removeComment(statusId, commentId, userId)
             .then(result => JSON.parse(result))
-            .then(data => res.json(data))
+            .then(data => {
+                if (data.code === 0){
+                    io.io.emit("delete-comment", data.data)
+                }
+                res.json(data)
+            })
     } else {
         return res.json({ code: -1, message: "Invalid id" })
     }
@@ -123,7 +128,7 @@ router.get('/comment', (req, res, next) => {
     if (statusId) {
         status.findComment(statusId, { skip, limit: 5 }, req.user._id)
             .then(result => JSON.parse(result))
-            .then(data => res.json(data))
+            .then(data => {res.json(data)})
     } else {
         return res.json({ code: -1, message: "Invalid id" })
     }

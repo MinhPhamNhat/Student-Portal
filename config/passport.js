@@ -15,8 +15,12 @@ passport.use(new GoogleStrategy({
     clientSecret: "74JjkldA-dOSXlsaURDUgIim",
     callbackURL: "http://localhost:8080/login/google/callback",
 }, async(accessToken, refreshToken, profile, done) => {
-    var user = JSON.parse(await account.saveNewStudent(profile._json))
-    done(null, user.data)
+    if (profile._json.email.includes("@student.tdtu.edu.vn")){
+        var user = JSON.parse(await account.saveNewStudent(profile._json))
+        done(null, user.data)
+    }else{
+        done(null, false, { message: "Vui lòng sử dụng mail sinh viên" })
+    }
 
 }))
 
@@ -31,9 +35,11 @@ passport.use(new LocalStrategy({
         if (data.code === 0) {
             done(null, data.data)
         } else {
-            done(null, false, { message: data.message })
+            req.flash("error", "Sai tên đăng nhập hoặc mật khẩu")
+            done(null, false)
         }
     } else {
-        done(null, false, { message: "Please enter username or password" })
+        req.flash("error", "Please enter username or password")
+        done(null, false)
     }
 }));
