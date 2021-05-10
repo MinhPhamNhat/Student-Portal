@@ -105,10 +105,10 @@ router.post('/comment', (req, res, next) => {
 // delete comment
 router.delete('/comment', (req, res, next) => {
     var body = JSON.parse(JSON.stringify(req.body))
-    var { statusId } = body
+    var { statusId, commentId } = body
     var userId = req.user._id
     if (statusId) {
-        status.removeComment(statusId, userId)
+        status.removeComment(statusId, commentId, userId)
             .then(result => JSON.parse(result))
             .then(data => res.json(data))
     } else {
@@ -121,7 +121,7 @@ router.get('/comment', (req, res, next) => {
     var skip = Number(req.query.skip)
     var statusId = req.query.statusId
     if (statusId) {
-        status.findComment(statusId, { skip, limit: 5 })
+        status.findComment(statusId, { skip, limit: 5 }, req.user._id)
             .then(result => JSON.parse(result))
             .then(data => res.json(data))
     } else {

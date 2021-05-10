@@ -1,7 +1,6 @@
 const socket = io()
 socket.on('connect', () => {
     socket.send("Hello")
-
 })
 
 socket.on("typing", (data) => {
@@ -71,28 +70,74 @@ $(document).on('focusin', function(e) {
 
 const newComment = (value) => `
     <!-- user comment -->
-    <div class="user-comment">
+    <div class="user-comment comment-${value._id}">
         <div class="user-img-comment">	
             <a href="/profile/${value.author.authorId}">
                 <img src="${value.author.picture}" alt="" class="user-ava-comment">
             </a>
         </div>
         <div class="user-comment-content">
-                <span class="user-comment-name">
-                    <a href="/profile/${value.author.authorId}"><strong>${value.author.name}</strong></a>
-                    </span>
-                <span class="user-comment-time">
-                    <i class="fa fa-clock-o"></i>
-                    ${value.date}
-                </span>
-
+            <span class="user-comment-name">
+                <a href="/profile/${value.author.authorId}"><strong>${value.author.name}</strong></a>
+            </span>
+            <span class="user-comment-time">
+                <i class="fa fa-clock-o"></i>
+                ${value.date}
+            </span>
+            ${value.myComment?`
+            <div class="remove-comment">
+                <span id="remove-comment-btn" title="Xoá comment" onclick=removeComment(this) data-id="${value._id}" ><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                <span id="confirm-remove-comment" title="Xác nhận xoá comment" onclick=confirmRemoveComment(this) data-id="${value._id}" data-status="${value.statusId}"><i class="fa fa-check" aria-hidden="true"></i></span>
+                <span id="decline-remove-comment" title="Huỷ" onclick=declineRemoveComment(this) data-id="${value._id}" ><i class="fa fa-ban" aria-hidden="true"></i></span>
+            </div>
+            `:``}
             <p class="user-comment-text"> ${value.content} </p>
         </div>
     </div>
     <!-- end user comment -->
     `
 
+const removeComment = (e) => {
+    var commentId = e.dataset.id
+    $(`.comment-${commentId} #remove-comment-btn`).hide(200)
+    $(`.comment-${commentId} #confirm-remove-comment`).show(200)
+    $(`.comment-${commentId} #decline-remove-comment`).show(200)
 
+}
+
+const confirmRemoveComment = (e) => {
+    var commentId = e.dataset.id
+    var statusId = e.dataset.status
+    var formData = {commentId, statusId}
+    fetch("/status/comment", {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(data=>data.json())
+    .then(data=>{
+        if (data.code === 0){
+            $(`.comment-${data.data.commentId}`).slideUp(200)
+            $(`.post-${data.data.statusId} .no-comment`).text(data.data.no_comment+ "comments")
+            showToast("Xoá comment", "Xoá comment thành công", "success")
+        }else if (data.code === -2){
+            showToast("Xoá comment", "Không tìm thấy comment", "error")
+        }else if (data.code === -3){
+            showToast("Xoá comment", "Không tìm thấy status", "error")
+        }else{
+            showToast("Xoá comment", "Xoá thất bại", "error")
+        }
+    })
+}
+
+const declineRemoveComment = (e) => {
+    var commentId = e.dataset.id
+    $(`.comment-${commentId} #remove-comment-btn`).show(200)
+    $(`.comment-${commentId} #confirm-remove-comment`).hide(200)
+    $(`.comment-${commentId} #decline-remove-comment`).hide(200)
+}
 const newPost = (value) => {
         var tag = ''
         if (value.attach.picture) {
@@ -188,7 +233,7 @@ const postStatus = () => {
                     $(".picture-attach-upload").val(null)
                     $('.image-upload-preview').hide();
                 } else {
-                    showToast("Đăng status", data.message, "Error")
+                    showToast("Đăng status", data.message, "error")
                 }
             }
         })
@@ -259,7 +304,7 @@ const editStatus = (target) => {
                     $(".picture-attach-upload").val(null)
                     $('.image-upload-preview').hide();
                 } else {
-                    showToast("Chỉnh sửa status", data.message, "Error")
+                    showToast("Chỉnh sửa status", data.message, "error")
                 }
             }
         })
@@ -750,39 +795,6 @@ $(".save-change-btn").click(()=>{
     })
 })
 
-var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
-    var toastNum = $(".toast").length
-    var typeVal = {
-        "warning": `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>`,
-        "error": `<i class="fa fa-exclamation" aria-hidden="true"></i>`,
-        "noti": `<i class="fa fa-bell" aria-hidden="true"></i>`,
-        "success": `<i class="fa fa-check" aria-hidden="true"></i>`
-    }
-    var tag =
-        `<div class="toast toast-${toastNum + 1}"  id="myToast" style="position: fixed; bottom: ${y}px;
-                left: ${x}px; z-index: 999;">
-                <div class="toast-header">
-                    <div style="margin-right: 20px">${typeVal[type]}</div><strong class="mr-auto">${title}</strong>
-                    <small class="time"></small>
-                    <button type="button" class="ml-2 mb-1 close"
-                        data-dismiss="toast">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body" style="margin: 10px;">
-                    <div>${mess}</div>
-                </div>
-            </div>`
-
-    $("body").append(tag)
-    $(`.toast-${toastNum + 1}`).toast({ delay: 8080 });
-    $(`.toast-${toastNum + 1}`).toast("show")
-    setTimeout(() => {
-        $(`.toast-${toastNum + 1}`).remove()
-    }, 4000)
-}
-
-
 $(".notifications-create .create-btn").click((e)=>{
     $(".create-noti-modal").modal("show")
 })
@@ -827,6 +839,39 @@ $(document).ready(function () {
 
 
 
+
+
+var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
+    var toastNum = $(".toast").length
+    var typeVal = {
+        "warning": `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>`,
+        "error": `<i class="fa fa-exclamation" aria-hidden="true"></i>`,
+        "noti": `<i class="fa fa-bell" aria-hidden="true"></i>`,
+        "success": `<i class="fa fa-check" aria-hidden="true"></i>`
+    }
+    var tag =
+        `<div class="toast toast-${toastNum + 1}"  id="myToast" style="position: fixed; bottom: ${y}px;
+                left: ${x}px; z-index: 999;">
+                <div class="toast-header">
+                    <div style="margin-right: 20px">${typeVal[type]}</div><strong class="mr-auto">${title}</strong>
+                    <small class="time"></small>
+                    <button type="button" class="ml-2 mb-1 close"
+                        data-dismiss="toast">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body" style="margin: 10px;">
+                    <div>${mess}</div>
+                </div>
+            </div>`
+
+    $("body").append(tag)
+    $(`.toast-${toastNum + 1}`).toast({ delay: 8080 });
+    $(`.toast-${toastNum + 1}`).toast("show")
+    setTimeout(() => {
+        $(`.toast-${toastNum + 1}`).remove()
+    }, 4000)
+}
 
 
 

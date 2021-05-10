@@ -11701,3 +11701,24 @@ hr {
     color: white;
     border-radius: 15px;;
 }
+
+.user-comment{
+    position: relative;
+}
+
+.user-comment .remove-comment{
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.user-comment .remove-comment span{
+    margin: 5px;
+    cursor: pointer;
+}
+
+.user-comment .remove-comment #confirm-remove-comment,
+.user-comment .remove-comment #decline-remove-comment{
+    display: none;
+}

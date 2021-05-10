@@ -26,7 +26,7 @@ const parsePost = async(postVal, userid) => {
     } : {}
 }
 
-const parseComment = async(commentVal) => {
+const parseComment = async(commentVal, userId) => {
     var user = await User.findOne({ _id: commentVal.authorId }).exec()
         .then(userRes => userRes)
     return user ? {
@@ -39,6 +39,7 @@ const parseComment = async(commentVal) => {
             authorId: user._id,
             role: user.role.admin ? "ADMIN" : (user.role.department ? "Department" : "Student")
         },
+        myComment: userId===user._id,
         date: func.getPassedTime(commentVal.date, new Date()),
     } : {}
 }
@@ -196,28 +197,31 @@ module.exports = {
             })
     },
 
-    removeComment: async(statusId, commentId, userId) => {
+    removeComment: async(statusId, commentId, authorId) => {
         return Post.findOne({ _id: statusId }).exec()
             .then(postRes => {
                 if (postRes) {
-                    return Comment.findOneAndDelete({ _id: commentId, authorId: userId }).exec()
+                    return Comment.findOneAndDelete({ _id: commentId, authorId }).exec()
                         .then(commentRes => {
                             if (commentRes) {
                                 var indexOfUser = postRes.meta.comments.indexOf(commentId)
                                 postRes.meta.comments.splice(indexOfUser, 1)
                                 postRes.save()
-                                return JSON.stringify({ code: 0, message: "Success remove comment", data: { no_comment: (postRes.meta.comments.length) } })
+                                return JSON.stringify({ code: 0, message: "Success remove comment", data: { commentId, statusId, no_comment: (postRes.meta.comments.length) } })
                             } else {
                                 return JSON.stringify({ code: -2, message: "Comment not found" })
                             }
                         })
                 } else {
-                    return JSON.stringify({ code: -1, message: "Post not found" })
+                    return JSON.stringify({ code: -3, message: "Post not found" })
                 }
+            })
+            .catch(err => {
+                return JSON.stringify({ code: -5, message: "Delete failed", json: err })
             })
     },
 
-    findComment: async(statusId, { skip, limit }) => {
+    findComment: async(statusId, { skip, limit }, userId) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(async result => {
@@ -228,7 +232,7 @@ module.exports = {
                         .exec()
                         .then(async commentRes => {
                             var data = commentRes.map(value => {
-                                return parseComment(value)
+                                return parseComment(value, userId)
                             })
                             data = await Promise.all(data)
                             return JSON.stringify({ code: 0, message: "Success", data })
@@ -236,7 +240,5 @@ module.exports = {
                 }
             })
     },
-
-
 
 }
