@@ -4,7 +4,7 @@ const Post = require('../models/post')
 const Comment = require('../models/comment')
 const func = require('../function/function')
 const post = require('../models/post')
-const parsePost = async (postVal, userid) => {
+const parsePost = async(postVal, userid) => {
     var user = await User.findOne({ _id: postVal.authorId }).exec()
         .then(userRes => userRes)
     var vote = postVal.meta.votes.find(id => id === userid) ? true : false
@@ -26,7 +26,7 @@ const parsePost = async (postVal, userid) => {
     } : {}
 }
 
-const parseComment = async (commentVal) => {
+const parseComment = async(commentVal) => {
     var user = await User.findOne({ _id: commentVal.authorId }).exec()
         .then(userRes => userRes)
     return user ? {
@@ -44,7 +44,7 @@ const parseComment = async (commentVal) => {
 }
 
 module.exports = {
-    findAllStatus: async () => {
+    findAllStatus: async() => {
         return Post.find()
             .sort({ date: 'desc' })
             .exec()
@@ -61,7 +61,7 @@ module.exports = {
             })
     },
 
-    findStatus: async (req, { skip, limit }, userid) => {
+    findStatus: async(req, { skip, limit }, userid) => {
         return Post.find(userid ? { authorId: userid } : undefined)
             .sort({ date: -1 })
             .skip(skip).limit(limit)
@@ -75,27 +75,27 @@ module.exports = {
             })
     },
 
-    postStatus: async (content, userId) => {
+    postStatus: async(content, userId) => {
         return User.findOne({ _id: userId })
             .exec()
             .then(async userRes => {
                 if (userRes) {
                     return new Post({
-                        _id: mongoose.Types.ObjectId(),
-                        content: content.content,
-                        date: new Date(),
-                        authorId: userRes._id,
-                        attach: {
-                            picture: content.image ? content.image : '',
-                            video: '',
-                        },
-                        meta: {
-                            votes: [],
-                            comments: [],
-                        }
-                    })
+                            _id: mongoose.Types.ObjectId(),
+                            content: content.content,
+                            date: new Date(),
+                            authorId: userRes._id,
+                            attach: {
+                                picture: content.image ? content.image : '',
+                                video: '',
+                            },
+                            meta: {
+                                votes: [],
+                                comments: [],
+                            }
+                        })
                         .save()
-                        .then(async (postRes) => {
+                        .then(async(postRes) => {
                             var data = await parsePost(postRes, userId)
                             return JSON.stringify({ code: 0, message: "success", data })
                         })
@@ -105,7 +105,7 @@ module.exports = {
             })
     },
 
-    removeStatus: async (statusId, userId) => {
+    removeStatus: async(statusId, userId) => {
         return Post.findOneAndDelete({ _id: statusId, authorId: userId }).exec()
             .then(postRes => {
                 if (postRes) {
@@ -116,7 +116,7 @@ module.exports = {
             })
     },
 
-    editStatus: async (content, statusId, userId) => {
+    editStatus: async(content, statusId, userId) => {
         return Post.findOne({ _id: statusId, authorId: userId }).exec()
             .then(async postRes => {
                 if (postRes) {
@@ -132,7 +132,7 @@ module.exports = {
 
     },
 
-    voteStatus: async (statusId, userVoteId) => {
+    voteStatus: async(statusId, userVoteId) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(async result => {
@@ -162,7 +162,7 @@ module.exports = {
             })
     },
 
-    insertComment: async (statusId, userid, content) => {
+    insertComment: async(statusId, userid, content) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(postRes => {
@@ -172,12 +172,12 @@ module.exports = {
                         .then(stdResult => {
                             if (stdResult) {
                                 return new Comment({
-                                    _id: mongoose.Types.ObjectId(),
-                                    statusId,
-                                    content,
-                                    authorId: stdResult._id,
-                                    date: new Date()
-                                }).save()
+                                        _id: mongoose.Types.ObjectId(),
+                                        statusId,
+                                        content,
+                                        authorId: stdResult._id,
+                                        date: new Date()
+                                    }).save()
                                     .then(async commentRes => {
                                         var comments = await parseComment(commentRes)
                                         postRes.meta.comments.splice(0, 0, commentRes._id)
@@ -196,7 +196,7 @@ module.exports = {
             })
     },
 
-    removeComment: async (statusId, commentId, userId) => {
+    removeComment: async(statusId, commentId, userId) => {
         return Post.findOne({ _id: statusId }).exec()
             .then(postRes => {
                 if (postRes) {
@@ -217,7 +217,7 @@ module.exports = {
             })
     },
 
-    findComment: async (statusId, { skip, limit }) => {
+    findComment: async(statusId, { skip, limit }) => {
         return Post.findOne({ _id: statusId })
             .exec()
             .then(async result => {

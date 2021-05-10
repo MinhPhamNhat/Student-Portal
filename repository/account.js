@@ -41,7 +41,7 @@ module.exports = {
         return Account.findOne({ username, password }).exec()
             .then(result => {
                 if (result) {
-                    return User.findOne({ _id: result._id })
+                    return User.findOne({ _id: result._id }).populate('permission')
                         .exec()
                         .then(data => {
                             return JSON.stringify({ code: 0, message: "Welcome", data })
@@ -97,6 +97,21 @@ module.exports = {
             }).save().then(saveUser=>{
                 return JSON.stringify({code: 0, message:"success", data: saveUser})
             })
+        })
+    },
+
+    updatePassword: async (userId, oldPassword, newPassword) =>{
+        console.log(userId, oldPassword, newPassword)
+        return await Account.findOneAndUpdate({ _id: userId , password: oldPassword }, {password: newPassword}).exec()
+        .then(result => {
+            console.log(result)
+            if (result){
+                return JSON.stringify({code: 0})
+            }else{
+                return JSON.stringify({code: -1})
+            }
+        }).catch(err => {
+            return JSON.stringify({code:-2, err: err.msg})
         })
     }
 

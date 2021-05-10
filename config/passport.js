@@ -1,7 +1,7 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const LocalStrategy = require('passport-local').Strategy
-const account = require('./repository/account')
+const account = require('../repository/account')
 passport.serializeUser((user, done) => {
     done(null, user)
 })

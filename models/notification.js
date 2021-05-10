@@ -1,13 +1,13 @@
 const mongoose = require("mongoose")
 
 const notificationShema = mongoose.Schema({
-    authorId: String,
-    departmentId: String,
+    authorId: {type: String, ref: "users"},
+    categoryId: {type: String, ref: "categories"},
     title: String,
-    subTitile: String,
+    subTitle: String,
     content: String,
-    attach: String,
-    topic: String,
+    isImportance: Boolean,
     date: Date,
+    
 });
 module.exports = mongoose.model('notification', notificationShema)

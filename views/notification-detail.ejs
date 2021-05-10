@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<%- include('./partition/header'); -%>
+<%- include('./partition/navbar', {user: user}); -%>
+    <body>
+        <div class="container-fluid">
+            <div class="noti-detail">
+                <div class="notifications-top-bar">
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/notification">Thông báo</a></li>
+                        <li>Chi tiết thông báo</a></li>
+                    </ul>
+                </div>
+                <div class="noti-detail-body">
+                    <div class="noti-detail-header">
+                        <div class="noti-detail-title">
+                            <p><%=data.title%></p>
+                        </div>
+                        <div class="noti-detail-information">
+                            <p><a href="/notification?department=<%=data.authorId.departmentID%>"><%=data.authorId.name%></a> đã đăng:</p>
+                            <p>Chuyên mục: <a href="/notification?category=<%=data.categoryId._id%>"><%=data.categoryId.name%></a></p>
+                            <p>Ngày đăng: <span  class="noti-detail-date"><%=locals.formatDate(data.date)%></span></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="noti-detail-content">
+                        <%-data.content-%>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </body>
+    <div class="modal fade create-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tạo thông báo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="noti-title" class="col-form-label">Tựa đề:</label>
+                    <input type="text" class="form-control" id="noti-title">
+                </div>
+                <div class="form-group">
+                    <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
+                    <input type="text" class="form-control" id="noti-sub-title">
+                </div>
+                <div class="form-group">
+                    <select class="form-select" id="noti-categories-picker">
+                        <option selected>Chọn Phòng/Khoa</option>
+                        <% user.permission.forEach(value => { %>
+                            <option value="<%=value._id%>"><%=value.name%></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
+                    <input type="checkbox" value="true" id="noti-is-importance">
+                </div>
+                <div class="form-group">
+                    <label for="noti-content" class="col-form-label">Nội dung:</label>
+                    <textarea class="form-control" id="noti-content"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
+              <button type="butotn" class="noti-modal-save">Tạo thông báo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+<%- include('./partition/footer'); -%>
+</html>

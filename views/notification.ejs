@@ -1,11 +1,119 @@
 <!DOCTYPE html>
 <html>
 <%- include('./partition/header'); -%>
-    <%- include('./partition/navbar', {user: user}); -%>
-
-        <body>
-            <%- include('./partition/noti'); -%>
-                <%- include('./partition/footer'); -%>
-        </body>
-
+<%- include('./partition/navbar', {user: user}); -%>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="notifications-right-section">
+                        <div class="notifications-top-bar">
+                            <ul>
+                                <li><a href="/">Trang chủ</a></li>
+                                <li>Thông báo</li>
+                            </ul>
+                        </div>
+                        <div class="notifications-content">
+                            <div class="notifications-filter">
+                                <form action="/notification?<%=searchUrl.category%>">
+                                    <select class="selectpicker" data-dropup-auto="false" data-size="5" name="category" >
+                                        <option value="" selected>Chọn Phòng/Khoa</option>
+                                        <% categories.forEach(value => { %>
+                                            <option value="<%=value._id%>"><%=value.name%></option>
+                                        <% }) %>
+                                    </select>
+                                    <input type="submit" class="notifications-search" value="Tìm kiếm">
+                                </form>
+                                <div class="notifications-create">
+                                    <button class="create-btn">
+                                        Tạo thông báo
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="notifications-noti">
+                                <% noties.forEach(value=>{ %>
+                                    <div class="noti noti-<%=value._id%>">
+                                        <div class="noti-author">
+                                            <a href="/notification?<%=searchUrl.department%>&department=<%=value.authorId.departmentID%>"><%=value.authorId.name%></a>
+                                        </div>
+                                        <div class="noti-title">
+                                            <a href="/notification/detail/<%=value._id%>"><p><%=value.title%></p></a>
+                                            <% if (value.isImportance) { %>
+                                            <span class="noti-important"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                            <% } %>
+                                            <span class="noti-new">Mới</span>
+                                        </div>
+                                        <div class="noti-body">
+                                            <p><%=value.subTitle%></p>
+                                        </div>
+                                        <div class="noti-bottom">
+                                            <a href="/notification/detail/<%=value._id%>">Chi tiết thông báo</a>
+                                            <div class="noti-infor">
+                                                <span><a href="/notification?<%=searchUrl.category%>&category=<%=value.categoryId._id%>"><%=value.categoryId.name%></a></span>|<span>Ngày đăng <%=locals.formatDate(value.date)%></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <%})%>
+                                
+                            </div>
+                            <ul class="pagination justify-content-center">
+                              <li class="page-item">
+                                <a class="page-link" href="/notification?<%=searchUrl.page%>&page=<%=pageRange[0]%>" tabindex="-1"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                              </li>
+                              <% pageRange.forEach(value=>{ %>
+                                <li class="page-item <%=value===page?"active":""%>"><a class="page-link" href="/notification?<%=searchUrl.page%>&page=<%=value%>"><%=value%></a></li>
+                              <%})%>
+                              <li class="page-item">
+                                <a class="page-link" href="/notification?<%=searchUrl.page%>&page=<%=pageRange[pageRange.length-1]%>"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                              </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <div class="modal fade create-noti-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tạo thông báo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="noti-title" class="col-form-label">Tựa đề:</label>
+                    <input type="text" class="form-control" id="noti-title">
+                </div>
+                <div class="form-group">
+                    <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
+                    <input type="text" class="form-control" id="noti-sub-title">
+                </div>
+                <div class="form-group">
+                    <select class="form-select" id="noti-categories-picker">
+                        <option selected>Chọn Phòng/Khoa</option>
+                        <% user.permission.forEach(value => { %>
+                            <option value="<%=value._id%>"><%=value.name%></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
+                    <input type="checkbox" value="true" id="noti-is-importance">
+                </div>
+                <div class="form-group">
+                    <label for="noti-content" class="col-form-label">Nội dung:</label>
+                    <textarea class="form-control" id="noti-content"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="noti-modal-cancel" data-dismiss="modal">Hủy</button>
+              <button type="butotn" class="noti-modal-save">Tạo thông báo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+<%- include('./partition/footer'); -%>
 </html>

@@ -6,10 +6,13 @@ const userSchema = mongoose.Schema({
     avatar: String,
     role: { admin: Boolean, department: Boolean, student: Boolean },
     sub: String,
-    birthDay: Date,
+    class: String,
+    faculty: String,
+    quote: String,
+    desc: String,
     initialTime: Date,
     departmentID: String,
-    permission: Array,
+    permission: [{type: String, ref:"categories"}],
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('users', userSchema)

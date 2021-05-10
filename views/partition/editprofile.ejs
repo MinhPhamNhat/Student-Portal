@@ -12,13 +12,16 @@
                         <div class="col-md-3 border-right">
                             <div class="p-3 py-5">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="text-right"><strong>Profile Picture</strong></h4>
+                                    <h4 class="text-right"><strong>Ảnh đại diện</strong></h4>
                                 </div>
-                                <div class="d-flex flex-column align-items-center text-center pb-5">
-                                    <img class="rounded-circle mt-5 modal-profile-picture" src="<%= userProfile.avatar %>">
+                                <div class="d-flex flex-column align-items-center text-center pb-5 profile-picture-container">
+                                    <img class="rounded-circle mt-5 modal-profile-picture" src="">
+                                    <img class="rounded-circle mt-5 modal-profile-picture-preview">
+                                    <p class="modal-profile-picture-edit"><a href="">Thay đổi ảnh đại diện <i class="fa fa-pencil" aria-hidden="true"></i></a></p>
+                                    <input type="file" class="profile-picture-upload" style="display: none" name="picture" accept="image/*">
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right"><strong>Profile Banner</strong></h4>
+                                    <h4 class="text-right"><strong>Ảnh bìa</strong></h4>
                                 </div>
                                 <div class="d-flex flex-column align-items-center text-center">
                                     <img src="/images/banner.png">
@@ -28,37 +31,32 @@
                         <div class="col-md-5 border-right">
                             <div class="p-3 py-5">
                                 <div class="d-flex justify-content-between align-items-center mb-5">
-                                    <h4 class="text-right"><strong>Profile Settings</strong></h4>
+                                    <h4 class="text-right"><strong>Hồ sơ</strong></h4>
                                 </div>
                                 <div class="mt-2">
-                                    <label for="fullname" class="labels">Full Name</label>
-                                    <input type="text" id="fullname" name="fullname"class="form-control" readonly value="<%= userProfile.name %>">
+                                    <label for="profile-fullname" class="labels">Tên hiển thị</label>
+                                    <input type="text" name="fullname" id="profile-fullname" name="fullname"class="form-control" value="">
                                 </div>
                                 <div class="mt-2">
-                                    <label class="labels">Email</label>
-                                    <input type="text" class="form-control" readonly value="<%= userProfile.email %>">
+                                    <label class="labels" for="profile-email">Email</label>
+                                    <input type="email" id="profile-email" class="form-control" readonly value="">
                                 </div>
                                 <div class="mt-2">
-                                    <label class="labels">Role</label>
-                                    <input type="text" class="form-control"  readonly value="<%= userProfile.role.admin?"Admin":userProfile.role.department?"Department":"Student" %>">
+                                    <label class="labels" for="profile-role">Vai trò</label>
+                                    <input type="text" id="profile-role" class="form-control"  readonly value="">
                                 </div>
-                                <div class="mt-2">
-                                    <label class="labels">Birthday</label>
-                                    <input type="date" class="form-control" value="" placeholder="Input your birthday">
-                                </div>
-            
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <label class="labels">Country</label>
-                                        <input type="text" class="form-control" placeholder="Country" value="">
+                                        <label class="labels" for="profile-class">Lớp</label>
+                                        <input type="text" name="class" id="profile-class" class="form-control" placeholder="Lớp" value="">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="labels">City</label>
-                                        <input type="text" class="form-control" value="" placeholder="City">
+                                        <label class="labels" for="profile-faculty">Khoa</label>
+                                        <input type="text" name="faculty" id="profile-faculty" class="form-control" value="" placeholder="Khoa">
                                     </div>
                                 </div>
                                 <div class="mt-5 text-center" >
-                                    <button style="padding:10px 20px 10px 20px" class="btn profile-button" type="button">Save Profile</button>
+                                    <button style="padding:10px 20px 10px 20px" class="btn profile-save-button" type="button">Lưu hồ sơ</button>
                                 </div>
                             </div>
                         </div>
@@ -69,15 +67,15 @@
                                 </div>
                                 <div class="mb-5 d-flex align-items-center">
                                     <p><i class="fa fa-quote-left" aria-hidden="true"></i></p>
-                                    <input type="text" class="form-control no-border " placeholder="What is your best regards quote">
+                                    <input type="text" name="quote" class="form-control no-border " id="profile-quote" placeholder="Câu nói tâm đắc nhất của bạn là gì ?">
                                     <p><i class="fa fa-quote-right" aria-hidden="true"></i></p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right"><strong>Hobbies</strong></h4>
+                                    <h4 class="text-right"><strong>Mô tả bản thân</strong></h4>
                                 </div>
                                 <div class=" mt-2">
-                                    <label class="labels">Hobbies</label>
-                                    <input type="text" class="form-control" placeholder="What is your best regards quote">
+                                    <label class="labels">Mô tả</label>
+                                    <input type="text" name="desc"  id="profile-desc" class="form-control" placeholder="Mô tả về bản thân của bạn">
                                 </div>
                             </div>
                         </div>

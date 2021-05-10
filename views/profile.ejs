@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="profile-menu-area bg-white">
                     <div class="row align-items-center">
                         <div class="col-lg-3 col-md-3">
@@ -56,15 +56,14 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row ">
 
                     <div class="col-lg-3 order-2 order-lg-1">
-                        <%- include('./partition/left-widget', {user}); -%>
+                        <%- include('./partition/left-widget', {user: userProfile}); -%>
                     </div>
                     <div class="col-lg-6 order-1 order-lg-2">
                         <!-- share box start -->
-
                         
                         <%- isCurrentUser?include('./partition/share'):'' -%>
                             <!-- share box end -->

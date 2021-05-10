@@ -1,91 +1,22 @@
 <aside class="widget-area">
     <!-- widget single item start -->
-    <div class="card widget-item">
-        <h4 class="widget-title">Recent Notifications</h4>
-        <div class="widget-body">
-            <ul class="like-page-list-wrapper">
-                <li class="unorder-list">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb">
-                        <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                            <figure class="profile-thumb-small">
-                                <img src="/images/profile-small-9.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                    </div>
-                    <!-- profile picture end -->
-
-                    <div class="unorder-list-info">
-                        <h3 class="list-title"><a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">Any one can join with us if you want</a></h3>
-                        <p class="list-subtitle">5 min ago</p>
-                    </div>
+    <div class="card widget-item noti-timeline">
+        <h4 class="widget-title">Thông báo gần đây
+            <div class="view-all-noti">
+                <a href="/notification">Xem tất cả</a>
+            </div>
+        </h4>
+        <div class="wrapper">
+            <ul class="sessions">
+                <%noties.forEach(value=>{%>
+                <li>
+                    <div class="time"><%=locals.formatDateTime(value.date)%></div>
+                    <p><b><%=value.authorId.name%></b> đã đăng thông báo tại <b><%=value.categoryId.name%></b><br><i><a href="/notification/detail/<%=value._id%>"><%=value.title%></a></i></p>
                 </li>
-                <li class="unorder-list">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb">
-                        <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                            <figure class="profile-thumb-small">
-                                <img src="/images/profile-small-35.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                    </div>
-                    <!-- profile picture end -->
-
-                    <div class="unorder-list-info">
-                        <h3 class="list-title"><a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">Any one can join with us if you want</a></h3>
-                        <p class="list-subtitle">10 min ago</p>
-                    </div>
-                </li>
-                <li class="unorder-list">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb">
-                        <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                            <figure class="profile-thumb-small">
-                                <img src="/images/profile-small-15.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                    </div>
-                    <!-- profile picture end -->
-
-                    <div class="unorder-list-info">
-                        <h3 class="list-title"><a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">Any one can join with us if you want</a></h3>
-                        <p class="list-subtitle">18 min ago</p>
-                    </div>
-                </li>
-                <li class="unorder-list">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb">
-                        <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                            <figure class="profile-thumb-small">
-                                <img src="/images/profile-small-6.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                    </div>
-                    <!-- profile picture end -->
-
-                    <div class="unorder-list-info">
-                        <h3 class="list-title"><a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">Any one can join with us if you want</a></h3>
-                        <p class="list-subtitle">25 min ago</p>
-                    </div>
-                </li>
-                <li class="unorder-list">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb">
-                        <a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">
-                            <figure class="profile-thumb-small">
-                                <img src="/images/profile-small-34.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                    </div>
-                    <!-- profile picture end -->
-
-                    <div class="unorder-list-info">
-                        <h3 class="list-title"><a href="https://demo.hasthemes.com/adda-preview/adda/index.html#">Any one can join with us if you want</a></h3>
-                        <p class="list-subtitle">39 min ago</p>
-                    </div>
-                </li>
+            <%})%>
             </ul>
-        </div>
+        </div> 
+        
     </div>
     <!-- widget single item end -->
     

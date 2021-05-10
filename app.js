@@ -7,18 +7,13 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken')
 const session = require('express-session')
 const authen = require('./middleware/authenticateUser')
-const mongoose = require('mongoose')
-    // const socketio = require("socket.io")
+const socketio = require("socket.io")
 const http = require('http')
-const fs = require('fs')
+const socketIO = require('./config/socketIO')
 
-require('./authenticate')
 require('dotenv').config()
-
-mongoose.connect(process.env.MONGODB_CONFIG, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+require('./config/passport')
+require('./config/database')
 
 
 const indexRouter = require('./routes/index');
@@ -30,9 +25,9 @@ const notiRouter = require('./routes/notification')
 const departmentRouter = require('./routes/department')
 
 const app = express();
-// const server = http.createServer(app);
-// const io = socketio(server)
-const PORT = process.env.PORT || 8080
+const server = http.createServer(app);
+const io = socketio(server)
+const PORT = 8080 || process.env.PORT 
 
 
 // view engine setup
@@ -55,7 +50,23 @@ app.use('/status', authen.authen, statusRouter);
 app.use('/notification', authen.authen, notiRouter)
 app.use('/department', authen.authen, departmentRouter)
 
-
+app.locals.formatDate = (date) => {
+    date = new Date(date)
+    var day = date.getDate()/10>=1?date.getDate():"0"+date.getDate()
+    var month = (date.getMonth()+1)/10>=1?(date.getMonth()+1):"0"+(date.getMonth()+1)
+    var year = date.getFullYear()
+    
+    return `${day}/${month}/${year}`
+  }
+  app.locals.formatDateTime = (date) => {
+    date = new Date(date)
+    var day = date.getDate()/10>=1?date.getDate():"0"+date.getDate()
+    var month = (date.getMonth()+1)/10>=1?(date.getMonth()+1):"0"+(date.getMonth()+1)
+    var year = date.getFullYear()
+    var minute = date.getMinutes()/10>=1?date.getMinutes():"0"+date.getMinutes()
+    var hour = date.getHours()/10>=1?date.getHours():"0"+date.getHours()
+    return `${day}/${month}/${year} ${hour}:${minute}`
+  }
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
@@ -72,6 +83,7 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-// server.listen(PORT, () => console.log(`Listen on: http://localhost:${PORT}`))
+server.listen(PORT, () => console.log(`Listen on: http://localhost:${PORT}`))
 
+socketIO.io.attach(server)
 module.exports = app;

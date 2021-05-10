@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
-<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
 
 <%- include('./partition/header'); -%>
     <%- include('./partition/navbar', {user: user}); -%>
@@ -140,7 +138,7 @@
                                     <div class="box">
                                         <!-- fileuploader view component -->
                                         <div class="margin-bottom-20">
-                                            <img class="department-thumbnail-preview box-center margin-top-20" style="width:200px" alt="No image" src="/images/tdt_logo.png">
+                                            <img class="department-thumbnail-preview box-center margin-top-20" style="width:200px" alt="No image" src="/images/tdtu_logo.png">
                                             <i style="margin-left:10px" data-toggle="tooltip" data-placement="right" title="Đây sẽ là ảnh mặc định của phòng khoa" class="fa fa-question" aria-hidden="true"></i>
                                         </div>
                                         <p>
@@ -164,9 +162,9 @@
                                 <div id="nav-tab-permission" class="tab-pane fade">
                                     <div class="form-row">
                                         <div class="col-sm-10">
-                                            <select name="permission" id="choices-multiple-remove-button" placeholder="Vui lòng chọn các phòng khoa" multiple>
+                                            <select name="permission" id="choices-multiple-remove-button" placeholder="Vui lòng chọn các chuyên mục" multiple>
                                                 <% data.forEach(value=>{%>
-                                                    <option value="<%=value.departmentID%>"><%=value.name%></option>
+                                                    <option value="<%=value._id%>"><%=value.name%></option>
                                                 <% })%>
                                             </select>
                                         </div>

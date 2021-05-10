@@ -1,19 +1,25 @@
 module.exports = {
     authen: (req, res, next) => {
         if (req.user) {
-            if (req.user.role.admin || req.user.role.department) {
-                next()
-            } else if (req.user.role.student) {
-                if (req._parsedUrl.path === '/department/insert') {
-                    res.end("Access denied")
-                } else {
-                    next()
-                }
-            } else {
-                res.redirect('/login')
-            }
+            next()
         } else {
             res.redirect('/login')
+        }
+    },
+
+    adminAuthen: (req, res, next) => {
+        if (req.user.role.admin){
+            next()
+        }else{
+            res.end("Access denied")
+        }
+    },
+
+    studentAuthen: (req, res, next) => {
+        if(req.user.role.student){
+            res.end("Access denied")
+        }else{
+            next()
         }
     }
 }

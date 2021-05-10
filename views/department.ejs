@@ -26,18 +26,17 @@
                                 <%}%>
 
                                     <% data.forEach(value => {%>
-                                        <a href="/notification/<%= value.departmentID %>">
+                                        <a href="/notification?category=<%= value._id %>">
                                 <div class="card" data-id="<%=value._id%>" style="width: 18rem;">
-                                    <% if(value.avatar) {%>
-                                        
-                                        <img src="<%=value.avatar%>" class="card-img-top">
+                                    <% if(value.thumbnail) {%>
+                                        <img src="<%=value.thumbnail%>" class="card-img-top">
                                     <% }%>
                                 <div class="card-body">
                                     <h5><strong class="card-title"><%=value.name%></strong></h5>
                                 </div>
                             </div>
                             </a>
-                                        <%})%>
+                            <%})%>
                         </div>
                     </div>
 
