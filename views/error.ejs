@@ -1,3 +1,59 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <%- include('./partition/header', {user}); -%>
+    <link href="/stylesheets/style.css" rel="stylesheet">
+</head>
+<header>
+        <div class="header-top sticky bg-white d-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                    </div>
+
+                    <div class="col-md-2 ">
+                        <!-- brand logo start -->
+                        <div class="brand-logo text-center ">
+                            <a href="/">
+                                <img id="tdtu_logo" src="/images/tdtu.png" alt="brand logo ">
+                            </a>
+                        </div>
+                        <!-- brand logo end -->
+                    </div>
+
+                    <div class="col-md-5 ">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header area end -->
+    <!-- header area start -->
+    <header>
+        <div class="error-mobile sticky">
+                <div class="mobile-logo ">
+                    <a href="/">
+                        <img src="/images/tdtu.png " alt="logo ">
+                    </a>
+                </div>
+         </div>
+    </header>
+<section id="error">
+    <div class="container">
+        <row>
+        <div class="col-md-12">
+            <div class="error-area">
+                <h2>404</h2>
+                <p><span class="fa fa-warning"></span>Oops! Trang bạn đang tìm kiếm bị mất tiêu rồi!</p>
+                <a href="/">Trang chủ</a>
+            </div>
+        </div>
+        </row>
+    </div>
+</section>
+    </body>
+
+</html>

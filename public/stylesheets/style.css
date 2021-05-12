@@ -10641,6 +10641,13 @@ hr {
         margin-right: 10px;
     }
 
+    #error .error-area h2 {
+        
+        position: absolute;
+        top: 19px;
+        left: -20px;
+        width: 171px;
+    }
   }
 
 .font-weight-bold{
@@ -10673,4 +10680,81 @@ hr {
 
 .like-page-list-wrapper .unorder-list .unorder-list-info .list-title a:hover{
     color: #00B7FF;
+}
+
+
+
+#error {
+    background-color: #f1f1f1;
+    display: inline;
+    float: left;
+    width: 100%;
+}
+
+#error .error-area {
+    display: inline;
+    float: left;
+    margin-top: 50px;
+    padding: 100px 100px 130px;
+    text-align: center;
+    width: 100%;
+}
+
+#error .error-area h2 {
+    display: inline-block;
+    font-size: 100px;
+    line-height: 150px;
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+    color: #00B7FF;
+    text-shadow: 0 2px 2px #ddd;
+    position: relative;
+}
+
+#error .error-area h2:before {
+    content: "";
+    height: 128px;
+    position: absolute;
+    right: 21%;
+    top: 19px;
+    width: 171px;
+}
+
+#error .error-area p {
+    font-size: 18px;
+}
+
+#error .error-area p span {
+    color: #f60000;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#error .error-area a {
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-top: 30px;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+
+.error-mobile{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.error-mobile .mobile-logo{
+    display: flex;
+    justify-content: center;
 }
