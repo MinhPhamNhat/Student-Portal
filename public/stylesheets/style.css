@@ -9705,11 +9705,12 @@ hr {
 .profile-picture {
     width: 150px;
     height: 150px;
+    align-items: center;
 }
 
 .profile-picture img {
-    width:  100%;
-    height: auto;
+    height: 100%;
+    width: auto;
     max-width: 140px;
     max-height: 140px;
 }
