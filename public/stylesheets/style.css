@@ -9708,6 +9708,8 @@ hr {
 }
 
 .profile-picture img {
+    height: 100%;
+    width: auto;
     max-width: 140px;
     max-height: 140px;
 }
