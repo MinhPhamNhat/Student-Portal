@@ -571,7 +571,7 @@ const editModal = (target) => {
     }
     $(".post-share-btn").attr("onclick", "editStatus(this)")
     $(".post-share-btn").attr("data-id", statusId)
-    $(".post-share-btn").html("save")
+    $(".post-share-btn").html("Lưu")
     $(".share-modal").modal("show")
 }
 // TRIGGER IMAGE INPUT
@@ -594,7 +594,7 @@ $(document).delegate(".picture-attach-upload",'change', (e) => {
 $(".share-modal").on('hidden.bs.modal', function(){
     setTimeout(() => {
         $(".post-share-btn").attr("onclick", "postStatus(this)")
-        $(".post-share-btn").html("post")
+        $(".post-share-btn").html("Đăng")
         $("#output").attr("src", null)
         tinymce.get("richtexteditor").setContent("");
         $(".picture-attach-upload").val(null)
