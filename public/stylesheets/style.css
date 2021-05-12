@@ -880,7 +880,7 @@ only screen and (max-width: 767.98px) {
     content: '';
     position: absolute;
     pointer-events: none;
-    border: 10px solid rgba(198, 107, 178, 0.3);
+    border: 10px solid rgba(84, 215, 255, 0.3);
 }
 
 .profile-thumb-2 {
@@ -10650,5 +10650,27 @@ hr {
 }
 
 .font-weight-bold:hover{
+    color: #00B7FF;
+}
+
+.like-page-list-wrapper .unorder-list{
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0px 10px 0px;
+}
+
+.like-page-list-wrapper .unorder-list .unorder-list-info .list-title{
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+
+.like-page-list-wrapper .unorder-list .unorder-list-info .list-title a{
+    color: black;
+}
+
+
+.like-page-list-wrapper .unorder-list .unorder-list-info .list-title a:hover{
     color: #00B7FF;
 }
