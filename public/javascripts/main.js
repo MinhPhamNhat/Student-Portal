@@ -639,13 +639,10 @@ if ($(".post-section")[0]) {
     if (window.location.pathname.includes("/profile/"))
         userId = window.location.pathname.replace("/profile/", "")
         window.onscroll = async (e) => {
-            console.log( (window.innerHeight + window.pageYOffset)+ " - " + document.body.scrollHeight - 2)
-            $(".mobile-header-wrapper .profile-head .name a").text($(window).scrollTop() + $(window).height() + " - " + $(document).height())
             if ((window.innerHeight + window.pageYOffset) >= document.body.scrollHeight - 2) {
                 if (allowLoadPost){
                     allowLoadPost = false
                     const noPost = countElement($(".post-card"))
-
                     $('.body-loading').css("display", "block")
                     loadMorePost(noPost, userId).then(ressult => {
                         if (ressult.code === 0) {
