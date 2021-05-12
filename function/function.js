@@ -10,15 +10,15 @@ module.exports = {
     getPassedTime: (startTime, endTime) => {
         let passTime = Math.floor((endTime - startTime) / 1000)
         if (passTime < 60)
-            return passTime + " seconds ago"
+            return passTime + " giây trước"
         else if (passTime < (60 * 60))
-            return Math.floor(passTime / 60) + " mins ago"
+            return Math.floor(passTime / 60) + " phút trước"
         else if (passTime < (60 * 60 * 24))
-            return Math.floor(passTime / (60 * 60)) + " hrs ago"
+            return Math.floor(passTime / (60 * 60)) + " tiếng trước"
         else if (passTime < (60 * 60 * 24 * 30))
-            return Math.floor(passTime / (60 * 60 * 24)) + " days ago"
+            return Math.floor(passTime / (60 * 60 * 24)) + " ngày trước"
         else if (passTime < (60 * 60 * 24 * 30 * 365))
-            return Math.floor(passTime / (60 * 60 * 24 * 30)) + " months ago"
+            return Math.floor(passTime / (60 * 60 * 24 * 30)) + " tháng trước"
         return ""
     },
 

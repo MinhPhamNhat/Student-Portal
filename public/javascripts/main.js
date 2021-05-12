@@ -1,58 +1,11 @@
+var allowLoadPost = true
+
+// SOCKET IO
+
 const socket = io()
+
 socket.on('connect', () => {
     socket.send("Hello")
-})
-
-socket.on("typing", (data) => {
-    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
-        $(`.post-${data.statusId} .comment-loading`).show()
-})
-
-socket.on("typing-done", (data) => {
-    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
-        $(`.post-${data.statusId} .comment-loading`).hide()
-})
-
-socket.on("comment-send", (data) => {
-    if (data.userId !== $("._user-id")[0].dataset.id) {
-        var commentSection = $(`.post-${data.statusId} .comments-container`)
-        if (data.data.code === 0) {
-            var tag = newComment(data.data.data.comments)
-            commentSection.find(".comments").prepend(tag)
-            $(`.post-${data.statusId} .no-comment`).text(`${data.data.data.no_comment} comments`)
-            commentSection.find(".none-comment").remove()
-        }
-    }
-
-})
-
-socket.on("new-noti", (data) => {
-    $(".noti-inform .department").text(data.authorId.name)
-    $(".noti-inform .category").text(data.categoryId.name)
-    $(".noti-inform span").attr("onclick",`window.location.href = '/notification/detail/${data._id}'`)
-
-    $(".noti-timeline .sessions li").last().slideUp(200)
-    setTimeout(()=>{
-        $(".noti-timeline .sessions li").last().remove();
-    },300)
-    $(`
-        <li>
-            <div class="time">${formatDateTime(data.date)}</div>
-            <p><b>${data.authorId.name}</b> đã đăng thông báo tại <b>${data.categoryId.name}</b><br><i><a href="/notification/detail/${data._id}">${data.title}</a></i></p>
-        </li>
-    `).prependTo(".noti-timeline .sessions").hide().slideDown(200)
-
-
-
-    $(".noti-inform").slideDown(200)
-    setTimeout(()=>{
-        $(".noti-inform").slideUp(200)
-    }, 3000)
-})
-
-socket.on("delete-comment", (data) => {
-    $(`.comment-${data.commentId}`).slideUp(200)
-    $(`.post-${data.statusId} .no-comment`).text(data.no_comment + " comments")
 })
 
 var typingTimer;
@@ -69,6 +22,68 @@ const typingStopCatch = (e) => {
     clearTimeout(typingTimer);
 }
 
+// CATCH TYPING ON COMMENT
+socket.on("typing", (data) => {
+    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
+        $(`.post-${data.statusId} .comment-loading`).show()
+})
+// END TYPING
+
+// CATCH STOP TYPING COMMENT ON POST
+socket.on("typing-done", (data) => {
+    if ($(`.post-${data.statusId} .comments-container`).hasClass("showed"))
+        $(`.post-${data.statusId} .comment-loading`).hide()
+})
+
+// CATCH COMMENT POST
+socket.on("comment-send", (data) => {
+    if (data.userId !== $("._user-id")[0].dataset.id) {
+        var commentSection = $(`.post-${data.statusId} .comments-container`)
+        if (data.data.code === 0) {
+            var tag = newComment(data.data.data.comments)
+            commentSection.find(".comments").prepend(tag)
+            $(`.post-${data.statusId} .no-comment`).text(`${data.data.data.no_comment} bình luận`)
+            commentSection.find(".none-comment").remove()
+        }
+    }
+})
+
+// CATCH COMMENT REMOVED
+socket.on("delete-comment", (data) => {
+    $(`.comment-${data.commentId}`).slideUp(200)
+    $(`.post-${data.statusId} .no-comment`).text(data.no_comment + " comments")
+})
+
+// SHOW NEW NOTIFICATION NOTI
+socket.on("new-noti", (data) => {
+    $(".noti-inform .department").text(data.authorId.name)
+    $(".noti-inform .category").text(data.categoryId.name)
+    $(".noti-inform span").attr("onclick",`window.location.href = '/notification/detail/${data._id}'`)
+
+    $(".noti-timeline .sessions li").last().slideUp(200)
+    setTimeout(()=>{
+        $(".noti-timeline .sessions li").last().remove();
+    },300)
+    $(`
+        <li>
+            <div class="time">${formatDateTime(data.date)}</div>
+            <p><b>${data.authorId.name}</b> đã đăng thông báo tại <b>${data.categoryId.name}</b><br><i><a href="/notification/detail/${data._id}">${data.title}</a></i></p>
+        </li>
+    `).prependTo(".noti-timeline .sessions").hide().slideDown(200)
+    $(".noti-inform").slideDown(200)
+    setTimeout(()=>{
+        $(".noti-inform").slideUp(200)
+    }, 3000)
+})
+
+// END SOCKET
+
+
+
+
+
+
+// TINY MCE INIT
 tinymce.init({
     selector: 'textarea',
     plugins: 'lists code emoticons media paste',
@@ -81,19 +96,27 @@ tinymce.init({
             char: '🤯'
         }
     },
-    height: "300",
+    extended_valid_elements : "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
+    height: "500",
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
     visual: false
 });
-
 
 $(document).on('focusin', function(e) {
     if ($(e.target).closest(".tox-dialog").length) {
         e.stopImmediatePropagation();
     }
 });
+// END
 
+
+
+
+
+
+// BACKOFF FUNCTION
+// FORMAT TIME
 const formatDateTime = (date) => {
     date = new Date(date)
     var day = date.getDate()/10>=1?date.getDate():"0"+date.getDate()
@@ -102,9 +125,61 @@ const formatDateTime = (date) => {
     var minute = date.getMinutes()/10>=1?date.getMinutes():"0"+date.getMinutes()
     var hour = date.getHours()/10>=1?date.getHours():"0"+date.getHours()
     return `${day}/${month}/${year} ${hour}:${minute}`
-  }
+}
+// GET YOUTUBE VIDEO ID
+const getId = (url) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return (match && match[2].length === 11)
+    ? match[2]
+    : null;
+}
+// COUNT ELEMENT
+const countElement = (element) => {
+    a = [];
+    for(i of element){
+        if (a.indexOf(i.getAttribute('class'))===-1){
+            a.push(i.getAttribute('class'))
+        }
+    }
+    return a.length;
+}
+// BASE64 TO BLOB FUNCTION
+const b64toBlob = (b64Data, contentType, sliceSize) => {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
+// END FUNCTION
 
 
+
+
+
+
+
+
+// COMMENT SECTION
+// NEW COMMENT ELEMENT
 const newComment = (value) => `
     <!-- user comment -->
     <div class="user-comment comment-${value._id}">
@@ -133,7 +208,48 @@ const newComment = (value) => `
     </div>
     <!-- end user comment -->
     `
-
+// CATCH USER HIT ENTER ON COMMENT
+const catchEnter = (e) =>{
+    var keycode = e.which || e.keyCode;
+    if (keycode === 13){
+        var message = e.target.value
+        if (message){
+            comment(e.target)
+        }
+    }
+}
+// COMMENT ON POST, SEND TO SERVER
+const comment = (target) => {
+    var statusId = target.dataset.id
+    var commentSection = $(`.post-${statusId} .comments`)
+    var content = $(`.post-${statusId} .comments-input`).val()
+    var data = { statusId, content }
+    if (content) {
+        fetch("/status/comment", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(result => result.json())
+            .then(data => {
+                if (data.code === 0) {
+                    var tag = newComment(data.data.comments)
+                    commentSection.prepend(tag)
+                    $(`.post-${statusId} .no-comment`).text(`${data.data.no_comment} comments`)
+                    $(`.post-${statusId} .comments-input`).val('')
+                    commentSection.find(".none-comment").remove()
+                    showToast("Comment status", "Đã comment thành công", "success")
+                } else {
+                    showToast("Comment status", data.message, "error")
+                }
+            })
+    } else {
+        showToast("Comment status", "Vui lòng nhập nội dung", "warning")
+    }
+}
+// REMOVE COMMENT BUTTON
 const removeComment = (e) => {
     var commentId = e.dataset.id
     $(`.comment-${commentId} #remove-comment-btn`).hide(200)
@@ -141,7 +257,7 @@ const removeComment = (e) => {
     $(`.comment-${commentId} #decline-remove-comment`).show(200)
 
 }
-
+// CONFIRM REMOVE COMMENT, SEND REQUEST TO SERVER
 const confirmRemoveComment = (e) => {
     var commentId = e.dataset.id
     var statusId = e.dataset.status
@@ -166,13 +282,96 @@ const confirmRemoveComment = (e) => {
         }
     })
 }
-
+// REFUSE REMOVE COMMENT
 const declineRemoveComment = (e) => {
     var commentId = e.dataset.id
     $(`.comment-${commentId} #remove-comment-btn`).show(200)
     $(`.comment-${commentId} #confirm-remove-comment`).hide(200)
     $(`.comment-${commentId} #decline-remove-comment`).hide(200)
 }
+// Hide comment
+$(document).delegate('.hide-comment-section', 'click', (e) => {
+    var statusId = e.target.dataset.id
+    var commentSection = $(`.post-${statusId} .comments-container`)
+
+    commentSection.slideUp(300, 'swing')
+    setTimeout(() => {
+        commentSection.removeClass("showed")
+        commentSection.find(".user-comment").remove()
+        commentSection.find(".none-comment").remove()
+
+    }, 300)
+})
+// Show comment
+$(document).delegate('.comments-input', 'click', (e) => {
+    var statusId = e.target.dataset.id
+    var commentSection = $(`.post-${statusId} .comments-container`)
+    if (!commentSection.hasClass("showed")) {
+        $(`.post-${statusId} .comment-loading`).show()
+        fetch(`/status/comment?statusId=${statusId}`)
+            .then(result => result.json())
+            .then(data => {
+                if (data.code === 0) {
+                    var tag;
+                    if (data.data.length) {
+                        data.data.forEach(value => {
+                            tag = newComment(value)
+                            commentSection.find(".comments").prepend(tag)
+                        })
+                    } else {
+                        tag = `<p class="none-comment">Không có ai bình luận cả</p>`
+                        commentSection.find(".comments").prepend(tag)
+                    }
+                    showToast("Tải comment", "Tải comment thành công", "success")
+                    $(`.post-${statusId} .comment-loading`).hide()
+                    commentSection.slideDown(300, 'swing')
+                    commentSection.addClass("showed")
+                } else {
+                    showToast("Tải comment", "Tải comment thất bại", "error")
+                }
+            })
+    }
+})
+// LOAD COMMENT
+const loadMoreComment = (skip, statusId) => {
+    return fetch(`/status/comment?skip=${skip}&statusId=${statusId}`)
+        .then(result => result.json())
+        .then(data => data)
+}
+// LOAD MORE COMMENT
+$(document).delegate(".comments-container .load-more", 'click', (e) => {
+    var statusId = e.target.dataset.id
+    var commentSection = $(`.post-${statusId} .comments-container`)
+    const countComment = countElement(commentSection.find(".user-comment"))
+    $(`.post-${statusId} .comment-loading`).show()
+    loadMoreComment(countComment, statusId).then(result => {
+        var tag;
+        if (result.code === 0) {
+            if (result.data) {
+                result.data.forEach(value => {
+                    tag = newComment(value)
+                    commentSection.find(".comments").prepend(tag)
+                })
+                $(`.post-${statusId} .comment-loading`).hide()
+                showToast("Tải comment", "Tải comment thành công", "success")
+            } else {
+                showToast("Tải comment", "Không có comment nào để tải", "success")
+            }
+        } else {
+            showToast("Tải comment", "Tải comment thất bại", "error")
+        }
+    })
+})
+// END COMMENT SECTION
+
+
+
+
+
+
+
+// STATUS POST SECTION
+// CREATE NEW POST ELEMENT
 const newPost = (value) => {
         var tag = ''
         if (value.attach.picture) {
@@ -215,7 +414,7 @@ const newPost = (value) => {
                                         <span>${ value.meta.votes.length}</span>
                                 </button>
                             </div>
-                            <div class="d-flex flex-row muted-color"> <p class="no-comment">${ value.meta.comments.length} comments</p></div>
+                            <div class="d-flex flex-row muted-color"> <p class="no-comment">${ value.meta.comments.length} bình luận</p></div>
                         </div>
                         <hr>
                         <div class="comment-input-section"> 
@@ -240,8 +439,7 @@ const newPost = (value) => {
         </div>
         <!-- post status end -->`
 }
-
-// POST STATUS 
+// POST STATUS, SEND REQUEST TO SERVER
 const postStatus = () => {
 
     $(".share-modal").modal("hide")
@@ -277,8 +475,7 @@ const postStatus = () => {
         showToast("Đăng status", "Vui lòng nhập nội dung", "warning")
     }
 }
-
-// Remove status
+// REMOVE STATUS, SEND REQUEST TO SERVER
 const removeStatus = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
@@ -305,6 +502,10 @@ const removeStatus = (target) => {
     $(".remove-confirm").modal("hide")
 }
 
+$(".remove-confirm").on('hidden.bs.modal', function(){
+    $(".remove-confirm").modal("hide")
+});
+// UPDATE STATUS, SEND REQUEST TO SERVER
 const editStatus = (target) => {
     $(".share-modal").modal("hide")
     var statusId = target.dataset.id
@@ -349,12 +550,12 @@ const editStatus = (target) => {
     }
     $(".post-share-btn").attr("onclick", "postStatus(this)")
 }
-
+// RESET REMOVE STATUS MODAL
 const removeModal = (target) => {
     $(".remove-confirm").modal("show")
     $(".ok-remove").attr("data-id", target.dataset.id)
 }
-
+// EDIT STATUS MODAL
 const editModal = (target) => {
     var statusId = target.dataset.id
     var content = $(`.post-${statusId} .text-justify`)[0]
@@ -373,31 +574,111 @@ const editModal = (target) => {
     $(".post-share-btn").html("save")
     $(".share-modal").modal("show")
 }
+// TRIGGER IMAGE INPUT
+$(document).delegate(".attach .picture", 'click', () => {
+    $(".picture-attach-upload").trigger('click')
+})
+// SHOW IMAGE PREVIEW ON POST STATUS
+$(document).delegate(".picture-attach-upload",'change', (e) => {
+    var file = e.target.files[0]
 
-const b64toBlob = (b64Data, contentType, sliceSize) => {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
-
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-        var byteNumbers = new Array(slice.length);
-        for (var i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        var byteArray = new Uint8Array(byteNumbers);
-
-        byteArrays.push(byteArray);
+    var reader = new FileReader();
+    reader.onload = function () {
+        var output = document.getElementById('output');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+    $(".image-upload-preview").css("display", "block")
+})
+// RESET POST STATUS MODAL DATA
+$(".share-modal").on('hidden.bs.modal', function(){
+    setTimeout(() => {
+        $(".post-share-btn").attr("onclick", "postStatus(this)")
+        $(".post-share-btn").html("post")
+        $("#output").attr("src", null)
+        tinymce.get("richtexteditor").setContent("");
+        $(".picture-attach-upload").val(null)
+        $('.image-upload-preview').hide();
+    }, 300)
+});
+// REMOVE IMAGE PREVIEW
+$(document).delegate('.image-upload-preview .close-icon', 'click', function () {
+    $('.image-upload-preview').slideToggle(300, 'swing');
+    $(".picture-attach-upload").val(null)
+    setTimeout(() => {
+        $("#output").attr("src", null)
+    }, 300);
+})
+// ADD YOUTUE IFRAME
+const setYoutubeIframe = ()=>{
+    if ($(".youtube-url-txt").val()){
+        videoId = getId($(".youtube-url-txt").val())
+        const iframeMarkup = `
+        <span class="mce-preview-object mce-object-iframe" contenteditable="false" data-mce-p-allowfullscreen="allowfullscreen" data-mce-p-src="https://www.youtube.com/embed/${videoId}">
+            <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" width="560" height="314">
+            </iframe>
+            <span class="mce-shim">
+        </span></span>`;
+        tinymce.activeEditor.setContent(iframeMarkup)
     }
 
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
+    $("#youtube-url").modal("hide")
 }
+// LOAD POST
+const loadMorePost = (skip, id) => {
+    allowLoadPost = false
+    return fetch(`/status?skip=${skip}${id ? `&id=${id}` : ''}`)
+        .then(result => result.json())
+        .then(data => {
+            return data
+        })
+}
+// LOAD STATUS WHEN SCROLL BOTTOM
+if ($(".post-section")[0]) {
+    var userId = ''
+    if (window.location.pathname.includes("/profile/"))
+        userId = window.location.pathname.replace("/profile/", "")
+        window.onscroll = async (e) => {
+            if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
+                if (allowLoadPost){
+                    allowLoadPost = false
+                    const noPost = countElement($(".post-card"))
 
+                    $('.body-loading').css("display", "block")
+                    loadMorePost(noPost, userId).then(ressult => {
+                        if (ressult.code === 0) {
+                            if (ressult.data.length) {
+                                ressult.data.forEach(value => {
+                                    tag = newPost(value)
+                                    $(".post-section").append(tag)
+                                })
+                                
+                                allowLoadPost = true
+                                showToast("Tải status", "Tải status thành công", "success")
+                            } else {
+                                showToast("Tải status", "Không còn status", "success")
+                            }
+                        } else {
+                            showToast("Tải status", data.message, "error")
+                        }
+                        $('.body-loading').css("display", "none")
+                    })
+                }
+            }
+    };
+}
+// END STATUS SECTION
+
+
+
+
+
+
+
+
+
+// VOTE STATUS SECTION
+// VOTE STATUS, SEND REQUEST TO SERVER
 const vote = (target) => {
     var statusId = target.dataset.id
     var data = { statusId }
@@ -410,7 +691,6 @@ const vote = (target) => {
         likeElement.removeClass("voted")
         $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/unheart.png)")
     }
-
     fetch("/status/vote", {
         method: "PUT",
         headers: {
@@ -419,223 +699,34 @@ const vote = (target) => {
         body: JSON.stringify(data)
 
     })
-        .then(result => result.json())
-        .then(data => {
-            if (data.code === 0) {
-                likeElement.find($("span")).html(data.data.no_vote)
-                if (data.data.actionVote) {
-                    likeElement.addClass("voted")
-                    $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/heart.png)")
-                    showToast("Vote status", "Đã vote status", "success")
-                } else {
-                    likeElement.removeClass("voted")
-                    $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/unheart.png)")
-                    showToast("Vote status", "Đã unvote status", "success")
-                }
+    .then(result => result.json())
+    .then(data => {
+        if (data.code === 0) {
+            likeElement.find($("span")).html(data.data.no_vote)
+            if (data.data.actionVote) {
+                likeElement.addClass("voted")
+                $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/heart.png)")
+                showToast("Vote status", "Đã vote status", "success")
             } else {
-                showToast("Vote status", data.message, "error")
-            }
-        })
-
-}
-
-
-const catchEnter = (e) =>{
-    var keycode = e.which || e.keyCode;
-    if (keycode === 13){
-        var message = e.target.value
-        if (message){
-            comment(e.target)
-        }
-    }
-}
-
-const comment = (target) => {
-    var statusId = target.dataset.id
-    var commentSection = $(`.post-${statusId} .comments`)
-    var content = $(`.post-${statusId} .comments-input`).val()
-    var data = { statusId, content }
-    if (content) {
-        fetch("/status/comment", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(result => result.json())
-            .then(data => {
-                if (data.code === 0) {
-                    var tag = newComment(data.data.comments)
-                    commentSection.prepend(tag)
-                    $(`.post-${statusId} .no-comment`).text(`${data.data.no_comment} comments`)
-                    $(`.post-${statusId} .comments-input`).val('')
-                    commentSection.find(".none-comment").remove()
-                    showToast("Comment status", "Đã comment thành công", "success")
-                } else {
-                    showToast("Comment status", data.message, "error")
-                }
-            })
-    } else {
-        showToast("Comment status", "Vui lòng nhập nội dung", "warning")
-    }
-}
-
-const loadMorePost = (skip, id) => {
-    return fetch(`/status?skip=${skip}${id ? `&id=${id}` : ''}`)
-        .then(result => result.json())
-        .then(data => data)
-}
-
-const loadMoreComment = (skip, statusId) => {
-    return fetch(`/status/comment?skip=${skip}&statusId=${statusId}`)
-        .then(result => result.json())
-        .then(data => data)
-}
-
-$(document).delegate(".attach .picture", 'click', () => {
-    $(".picture-attach-upload").trigger('click')
-})
-
-$(".share-modal").on('hidden.bs.modal', function(){
-    setTimeout(() => {
-        $(".post-share-btn").attr("onclick", "postStatus(this)")
-        $(".post-share-btn").html("post")
-        $("#output").attr("src", null)
-        tinymce.get("richtexteditor").setContent("");
-        $(".picture-attach-upload").val(null)
-        $('.image-upload-preview').hide();
-    }, 300)
-});
-
-
-$(".picture-attach-upload").change((e) => {
-    var file = e.target.files[0]
-
-    var reader = new FileReader();
-    reader.onload = function () {
-        var output = document.getElementById('output');
-        output.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-    $(".image-upload-preview").css("display", "block")
-})
-
-$(document).delegate('.image-upload-preview .close-icon', 'click', function () {
-    $('.image-upload-preview').slideToggle(300, 'swing');
-    $(".picture-attach-upload").val(null)
-    setTimeout(() => {
-        $("#output").attr("src", null)
-    }, 300);
-})
-
-
-// LOAD STATUS WHEN SCROLL BOTTOM
-if ($(".post-section")[0]) {
-    var userId = ''
-    if (window.location.pathname.includes("/profile/"))
-        userId = window.location.pathname.replace("/profile/", "")
-    window.onscroll = async (e) => {
-        if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
-            const countPost = $(".post-card").length
-
-            $('.body-loading').css("display", "block")
-            loadMorePost(countPost, userId).then(ressult => {
-                if (ressult.code === 0) {
-                    if (ressult.data.length) {
-                        ressult.data.forEach(value => {
-                            tag = newPost(value)
-                            $(".post-section").append(tag)
-                        })
-                        showToast("Tải status", "Tải status thành công", "success")
-                    } else {
-                        showToast("Tải status", "Không có status nào để tải", "success")
-                    }
-                } else {
-                    showToast("Tải status", data.message, "error")
-                }
-                $('.body-loading').css("display", "none")
-            })
-
-        }
-    };
-}
-
-
-
-// Hide comment
-$(document).delegate('.hide-comment-section', 'click', (e) => {
-    var statusId = e.target.dataset.id
-    var commentSection = $(`.post-${statusId} .comments-container`)
-
-    commentSection.slideUp(300, 'swing')
-    setTimeout(() => {
-        commentSection.removeClass("showed")
-        commentSection.find(".user-comment").remove()
-        commentSection.find(".none-comment").remove()
-
-    }, 300)
-})
-
-// Show comment
-$(document).delegate('.comments-input', 'click', (e) => {
-    var statusId = e.target.dataset.id
-    var commentSection = $(`.post-${statusId} .comments-container`)
-    if (!commentSection.hasClass("showed")) {
-        $(`.post-${statusId} .comment-loading`).show()
-        fetch(`/status/comment?statusId=${statusId}`)
-            .then(result => result.json())
-            .then(data => {
-                if (data.code === 0) {
-                    var tag;
-                    if (data.data.length) {
-                        data.data.forEach(value => {
-                            tag = newComment(value)
-                            commentSection.find(".comments").append(tag)
-                        })
-                    } else {
-                        tag = `<p class="none-comment">Không có ai bình luận cả</p>`
-                        commentSection.find(".comments").prepend(tag)
-                    }
-                    showToast("Tải comment", "Tải comment thành công", "success")
-                    $(`.post-${statusId} .comment-loading`).hide()
-                    commentSection.slideDown(300, 'swing')
-                    commentSection.addClass("showed")
-                } else {
-                    showToast("Tải comment", "Tải comment thất bại", "error")
-                }
-            })
-    }
-})
-
-// LOAD MORE COMMENT
-$(document).delegate(".comments-container .load-more", 'click', (e) => {
-
-    var statusId = e.target.dataset.id
-    var commentSection = $(`.post-${statusId} .comments-container`)
-    const countComment = commentSection.find(".user-comment").length
-    $(`.post-${statusId} .comment-loading`).show()
-    loadMoreComment(countComment, statusId).then(result => {
-        var tag;
-        if (result.code === 0) {
-            if (result.data) {
-                result.data.forEach(value => {
-                    tag = newComment(value)
-                    commentSection.find(".comments").append(tag)
-                })
-                $(`.post-${statusId} .comment-loading`).hide()
-                showToast("Tải comment", "Tải comment thành công", "success")
-            } else {
-                showToast("Tải comment", "Không có comment nào để tải", "success")
+                likeElement.removeClass("voted")
+                $(`.post-${statusId} .icon-heart`).css("background-image", "url(/images/icons/unheart.png)")
+                showToast("Vote status", "Đã unvote status", "success")
             }
         } else {
-            showToast("Tải comment", "Tải comment thất bại", "error")
+            showToast("Vote status", data.message, "error")
         }
     })
-})
+}
+// END VOTE STATUS
 
 
 
+
+
+
+
+// CREATE DEPARTMENT ACCOUNT SECION
+// DEPARTMENT IMAGE PREVIEW
 $(".department-thumbnail-upload").change((e) => {
 
     var file = e.target.files[0]
@@ -647,18 +738,17 @@ $(".department-thumbnail-upload").change((e) => {
     };
     reader.readAsDataURL(file);
 })
-
+// REMOVE PREVIEW IMAGE
 $(".department-insert-container .remove").on('click', (e) => {
     e.preventDefault()
     $('.department-thumbnail-preview').attr("src", "/images/tdtu_logo.png")
     $(".department-thumbnail-upload").val(null)
 })
 
-
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
-
+// CREATE DEPARTMENT ACCOUNT, SEND REQUEST TO SERVER
 $(".department-insert-container .submit").click((e) => {
     var name = $("#department-name").val()
     var email = $("#department-email").val()
@@ -717,8 +807,16 @@ $(".department-insert-container .submit").click((e) => {
         }
     })
 })
+// END DEPARTMENT
 
 
+
+
+
+
+
+// PROFILE SECTION
+// UPDATE PROFILE MODAL
 $('.edit-btn').on('click', () => {
     fetch("/profile",{method:"GET"}).then(data => data.json()).then(data=> {
         if (data.code === 0){
@@ -736,12 +834,12 @@ $('.edit-btn').on('click', () => {
     })
     $(".profile-modal").modal("show")
 })
-
+// UPDATE PROFILE PICTURE BUTTON
 $(".modal-profile-picture-edit a").click((e)=>{
     e.preventDefault()
     $(".profile-picture-upload").trigger('click')
 })
-
+// PROFILE PICTURE PREVIEW IMAGE
 $(".profile-picture-upload").change((e) => {
     var file = e.target.files[0]
     var image = $('.modal-profile-picture-preview');
@@ -754,7 +852,7 @@ $(".profile-picture-upload").change((e) => {
     $('.modal-profile-picture').hide()
     image.show()
 })
-
+// RESET PROFILE MODAL DATA
 $(".profile-modal").on('hidden.bs.modal', function(){
     setTimeout(() => {
         $('.modal-profile-picture').show()
@@ -763,7 +861,7 @@ $(".profile-modal").on('hidden.bs.modal', function(){
         $('.profile-modal .profile-picture-upload').val(null)
     }, 300)
 });
-
+// UPDATE PROFILE, SEND REQUEST TO SERVER
 $(".profile-save-button").click((e) => {
     var name = $(".profile-modal #profile-fullname").val()
     var profileClass = $(".profile-modal #profile-class").val()
@@ -800,7 +898,13 @@ $(".profile-save-button").click((e) => {
     $(".profile-modal").modal("hide")
 
 })
+// TOGGLE PROFILE MODAL
+$(".about-profile").click((e)=>{
+    e.preventDefault()
+    $(".about-profile-modal").modal("show")
 
+})
+// CHANGE PASSWORD
 $(".save-change-btn").click(()=>{
     var oldPassword = $(".change-password #old-password").val()
     var newPassword = $(".change-password #new-password").val()
@@ -849,12 +953,23 @@ $(".save-change-btn").click(()=>{
         }
     })
 })
+// END PROFILE
 
+
+
+
+
+
+
+// NOTIFICATION SECTION
+
+// CREATE NOTIFICATION MODAL
 $(".notifications-create .create-btn").click((e)=>{
     $(".create-noti-modal").modal("show")
 })
 
-$(".noti-modal-create").click((e) => {
+// CREATE NOTIFICATION
+const createNoti = (e) => {
     var title = $(".create-noti-modal #noti-title").val()
     var subTitle = $(".create-noti-modal #noti-sub-title").val()
     var categoryId = $(".create-noti-modal #noti-categories-picker").val()
@@ -881,18 +996,8 @@ $(".noti-modal-create").click((e) => {
         }
     }).catch()
     
-})
-
-
-
-$(document).ready(function () {
-    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-        removeItemButton: true,
-        maxItemCount: null,
-    });
-
-});
-
+}
+// REMOVE NOTIFICATION MODAL
 const removeNotiModal = (e) =>{
     var notiId = e.dataset.id
     var title = e.dataset.title
@@ -906,13 +1011,13 @@ const removeNotiModal = (e) =>{
     $(".remove-noti-confirm .confirm-noti-remove").attr("data-id", notiId)
     $(".remove-noti-confirm").modal("show")
 }
-
+// REMOVE NOTIFICATION MODAL ON DETAIL PAGE
 const removeDetailNotiModal = (e) =>{
     var notiId = e.dataset.id
     $(".remove-noti-confirm .confirm-noti-remove").attr("data-id", notiId)
     $(".remove-noti-confirm").modal("show")
 }
-
+// UPDATE NOTIFICATION MODAL
 const editNotiModal = (e) =>{
     var notiId = e.dataset.id
     fetch(`/notification/${notiId}`)
@@ -920,29 +1025,28 @@ const editNotiModal = (e) =>{
     .then(data => {
         if (data.code === 0){
             var noti = data.data
-            $(".update-noti-modal #noti-title").val(noti.title)
-            $(".update-noti-modal #noti-sub-title").val(noti.subTitle)
-            $(".update-noti-modal #noti-is-importance").prop("checked",noti.isImportance)
-            $(".update-noti-modal #noti-categories-picker").val(noti.categoryId._id).niceSelect('update')
+            $(".update-noti-modal #update-noti-title").val(noti.title)
+            $(".update-noti-modal #update-noti-sub-title").val(noti.subTitle)
+            $(".update-noti-modal #update-noti-is-importance").prop("checked",noti.isImportance)
+            $(".update-noti-modal #update-noti-categories-picker").val(noti.categoryId._id).niceSelect('update')
             $(".update-noti-modal .noti-modal-save").attr("data-id",notiId)
-            tinymce.activeEditor.setContent(noti.content);
+            tinymce.get("update-noti-content").setContent(noti.content);
         }else{
             showToast("Lấy thông báo", "Lấy thông báo thất bại", "error")
         }
     })
     $(".update-noti-modal").modal("show")
 }
-
+// RESET NOTIFICATION MODAL
 $(".update-noti-modal").on('hidden.bs.modal', function(){
     setTimeout(() => {
-        $(".update-noti-modal #noti-title").val("")
-        $(".update-noti-modal #noti-sub-title").val("")
-        $(".update-noti-modal #noti-is-importance").prop("checked",false)
-        tinymce.get("noti-content").setContent("");
+        $(".update-noti-modal #update-noti-title").val("")
+        $(".update-noti-modal #update-noti-sub-title").val("")
+        $(".update-noti-modal #update-noti-is-importance").prop("checked",false)
+        tinymce.get("update-noti-content").setContent("");
     }, 300)
 });
-
-
+// RESET NOTIFICATION MODAL
 $(".create-noti-modal").on('hidden.bs.modal', function(){
     setTimeout(() => {
         $(".create-noti-modal #noti-title").val("")
@@ -951,16 +1055,15 @@ $(".create-noti-modal").on('hidden.bs.modal', function(){
         tinymce.get("noti-content").setContent("");
     }, 300)
 });
-
-
+// UPDATE NOTIFICATION
 const editNoti = (e) => {
     var notiId = e.dataset.id
 
-    var title = $(".update-noti-modal #noti-title").val()
-    var subTitle = $(".update-noti-modal #noti-sub-title").val()
-    var categoryId = $(".update-noti-modal #noti-categories-picker").val()
+    var title = $(".update-noti-modal #update-noti-title").val()
+    var subTitle = $(".update-noti-modal #update-noti-sub-title").val()
+    var categoryId = $(".update-noti-modal #update-noti-categories-picker").val()
     var content = tinyMCE.activeEditor.getContent()
-    var isImportance = $(".update-noti-modal #noti-is-importance").prop("checked")
+    var isImportance = $(".update-noti-modal #update-noti-is-importance").prop("checked")
     var formData = {title , subTitle, content, categoryId, isImportance}
 
     fetch(`/notification/${notiId}`, 
@@ -983,7 +1086,7 @@ const editNoti = (e) => {
     }).catch()
     $(".update-noti-modal").modal("hide")
 }
-
+// REMOVE NOTIFICATION
 const removeNoti = (e) =>{
     var notiId = e.dataset.id
     var formData = {notiId}
@@ -1008,12 +1111,25 @@ const removeNoti = (e) =>{
     })
     $(".remove-noti-confirm").modal("hide")
 }
+// END NOTIFICATION
 
-$(".about-profile").click((e)=>{
-    e.preventDefault()
-    $(".about-profile-modal").modal("show")
 
+
+
+
+
+
+$(document).delegate(".aside-tab-btn", 'click', () => {
+    $(".left-aside-tab").animate({width:'toggle'},300);
 })
+
+$(document).ready(function () {
+    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+        removeItemButton: true,
+        maxItemCount: null,
+    });
+
+});
 
 var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     var toastNum = $(".toast").length
@@ -1047,195 +1163,11 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
     }, 4000)
 }
 
-
-
-
-
-
-// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT// NOT MY SCRIPT
-
 (function($) {
-    "use strict";
-
-    $(".msg-trigger-btn").on("click", function(event) {
-        event.stopPropagation();
-        event.preventDefault();
-        var $this = $(this);
-        var $prevTartget = $(this).parent().siblings().children(".msg-trigger-btn").attr('href');
-        var target = $this.attr('href');
-        $(target).slideToggle();
-        $($prevTartget).slideUp();
-
-    });
-
-    //Close When Click Outside
-    $('body').on('click', function(e) {
-        var $target = e.target;
-        if (!$($target).is('.message-dropdown') && !$($target).parents().is('.message-dropdown')) {
-            $(".message-dropdown").slideUp("slow");
-        }
-    });
-
-    //Background Image JS start
-    var bgSelector = $(".bg-img");
-    bgSelector.each(function(index, elem) {
-        var element = $(elem),
-            bgSource = element.data('bg');
-        element.css('background-image', 'url(' + bgSource + ')');
-    });
-
-    // active profile carousel js
-    $('.active-profile-carousel').slick({
-        speed: 800,
-        slidesToShow: 10,
-        prevArrow: '<button type="button" class="slick-prev"><i class="bi bi-arrow-left-rounded"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="bi bi-arrow-right-rounded"></i></button>',
-        responsive: [{
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 5,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 8,
-                }
-            }
-        ]
-    });
-
-    // active profile carousel js
-    $('.active-profile-mobile').slick({
-        speed: 800,
-        slidesToShow: 6,
-        arrows: false,
-        responsive: [{
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 4,
-            }
-        }]
-    });
-
-    // active profile carousel js
-    $('.favorite-item-carousel').slick({
-        autoplay: true,
-        speed: 800,
-        slidesToShow: 5,
-        arrows: false,
-        responsive: [{
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 2,
-                }
-            }
-        ]
-    });
-
-    // live chat box and friend search box active js
-    $(".profile-active").on('click', function() {
-        $(".chat-output-box").addClass('show');
-    })
-    $(".search-field").on('click', function() {
-        $(".friend-search-list").addClass('show');
-    })
-    $(".close-btn").on('click', function() {
-        var $this = $(this),
-            $target = $this.data('close');
-        $('.' + $target).removeClass('show');
-    })
-
-    // mobile header seach box active
-    $(".search-trigger").on('click', function() {
-        $('.search-trigger, .mob-search-box').toggleClass('show');
-    })
-
-    $(".chat-trigger, .close-btn").on('click', function() {
-        $('.mobile-chat-box').toggleClass('show');
-    })
-    $(".request-trigger1").on('click', function() {
-        $('.portal-request-list').removeClass('show');
-        $('.frnd-request-list').toggleClass('show');
-    })
-
-    $(".request-trigger2").on('click', function(event) {
-        $('.frnd-request-list').removeClass('show');
-        $('.portal-request-list').toggleClass('show');
-    })
-
-    // mobile friend search active js
-    $(".search-toggle-btn").on('click', function() {
-        $('.mob-frnd-search-inner').toggleClass('show');
-    })
-
-    // profile dropdown triger js
-    $('.profile-triger').on('click', function(event) {
-        event.stopPropagation();
-        $(".profile-dropdown").slideToggle();
-    })
-
-    //Close When Click Outside
-    $('body').on('click', function(e) {
-        var $target = e.target;
-        if (!$($target).is('.profile-dropdown') && !$($target).parents().is('.profile-dropdown')) {
-            $(".profile-dropdown").slideUp("slow");
-        }
-    });
 
     // perfect scroll bar js
     $('.custom-scroll').each(function() {
         var ps = new PerfectScrollbar($(this)[0]);
-    });
-
-
-    // light gallery active js
-    $(document).ready(function() {
-        $(".img-popup").lightGallery();
-
-        // light gallery images
-        $(".img-gallery").lightGallery({
-            selector: ".gallery-selector",
-            hash: false
-        });
-    });
-
-    $('.gallery-toggle').on('click', function() {
-
-        var productThumb = $(this).find(".product-thumb-large-view img"),
-            imageSrcLength = productThumb.length,
-            images = [];
-        for (var i = 0; i < imageSrcLength; i++) {
-            images[i] = { "src": productThumb[i].src, "thumb": productThumb[i].src };
-        }
-
-        $(this).lightGallery({
-            dynamic: true,
-            actualSize: false,
-            hash: false,
-            index: 0,
-            dynamicEl: images
-        });
-
-    });
-
-    // photo filter active js
-    $('.photo-filter').imagesLoaded(function() {
-        var $grid = $('.photo-filter, .friends-list').isotope({});
-        // filter items on button click
-        $('.filter-menu').on('click', 'button', function() {
-            var filterValue = $(this).attr('data-filter');
-            $grid.isotope({ filter: filterValue });
-            $(this).siblings('.active').removeClass('active');
-            $(this).addClass('active');
-        });
-
     });
 
     // nice select active js
@@ -1254,11 +1186,15 @@ var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
             scrollTop: 0
         }, 1000);
     });
-
-
-    $('#email').bind("cut copy paste", function(e) {
-        e.preventDefault();
-    });
-
+    
+    // profile dropdown triger js
+    $('.profile-triger').on('click', function(event) {
+        event.stopPropagation();
+        $(".profile-dropdown").slideToggle();
+    })
 
 })(jQuery);
+
+
+
+

@@ -97,7 +97,6 @@ router.delete("/",authen.studentAuthen, async (req, res, next) => {
     var notiId = req.body.notiId
     if (notiId){
         var noti = JSON.parse(await Noti.removeNoti(req.user._id, notiId))
-        console.log(noti)
         res.json(noti)
     }else{
         res.json({code: -3, message:"Invalid params"})

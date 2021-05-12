@@ -41,7 +41,7 @@
                                     </button></div>
                                         <div class="d-flex flex-row muted-color">
                                             <p class="no-comment">
-                                                <%=  value.meta.comments.length %> comments</p>
+                                                <%=  value.meta.comments.length %> bình luận</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -67,18 +67,18 @@
     </div>
 
     <!-- Confirm modal -->
-    <div class="modal hide fade remove-confirm" tabindex="-1">
-        <div class="modal-dialog post-modal">
+    <div id="remove-status-modal" class="modal hide fade remove-confirm" tabindex="-1">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Do you really want to remove thí status ?</h5>
+                    <h5 class="modal-title">Bạn có muốn xoá post này không ?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="no-remove">No</button>
-                    <button type="button" class="ok-remove" onclick=removeStatus(this)>Remove</button>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="no-remove">Huỷ</button>
+                    <button type="button" class="ok-remove" onclick=removeStatus(this)>Xoá</button>
                 </div>
             </div>
         </div>

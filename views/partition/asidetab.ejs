@@ -1,0 +1,110 @@
+
+<!-- widget single item start -->
+<div class="card card-profile widget-item p-0">
+    <div class="profile-banner">
+        <figure class="profile-banner-small">
+            <a href="/profile/<%=user._id%>">
+                <img src="/images/tdtu_logo.png" alt="">
+            </a>
+            <a href="/profile/<%=user._id%>" class="profile-thumb-2">
+                            <img src="<%= user.avatar %>" alt="">
+                        </a>
+        </figure>
+        <div class="profile-desc text-center">
+            <h6 class="author"><a href="/profile/<%=user._id%>"><%= user.name %></a></h6>
+            <p><%-user.quote-%></p>
+        </div>
+    </div>
+</div>
+<!-- widget single item end -->
+
+<!-- widget single item start -->
+<div class="card widget-item noti-timeline">
+    <h4 class="widget-title">Thông báo gần đây
+        <div class="view-all-noti">
+            <a href="/notification">Xem tất cả</a>
+        </div>
+    </h4>
+    <div class="wrapper">
+        <ul class="sessions">
+            <%noties.forEach(value=>{%>
+            <li>
+                <div class="time"><%=locals.formatDateTime(value.date)%></div>
+                <p><b><%=value.authorId.name%></b> đã đăng thông báo tại <b><%=value.categoryId.name%></b><br><i><a href="/notification/detail/<%=value._id%>"><%=value.title%></a></i></p>
+            </li>
+        <%})%>
+        </ul>
+    </div> 
+    
+</div>
+<!-- widget single item end -->
+
+<!-- widget single item start -->
+<div class="card widget-item importance-department">
+    <h4 class="widget-title">Phòng/Khoa quan trọng</h4>
+    <div class="widget-body">
+        <ul class="like-page-list-wrapper">
+            <li class="unorder-list">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="/notification?category=PDH">
+                        <figure class="profile-thumb-small">
+                            <img src="/images/tdtu_logo.png" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
+
+                <div class="unorder-list-info">
+                    <h3 class="list-title"><a href="/notification?category=PDH">Phòng Đại Học</a></h3>
+                </div>
+            </li>
+            <li class="unorder-list">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="/notification?category=PDH">
+                        <figure class="profile-thumb-small">
+                            <img src="/images/tdtu_logo.png" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
+
+                <div class="unorder-list-info">
+                    <h3 class="list-title"><a href="/notification?category=PDH">Phòng CTHSSV</a></h3>
+                </div>
+            </li>
+            <li class="unorder-list">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="/notification?category=PDH">
+                        <figure class="profile-thumb-small">
+                            <img src="/images/tdtu_logo.png" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
+
+                <div class="unorder-list-info">
+                    <h3 class="list-title"><a href="/notification?category=PDH">Phòng Tài Chính</a></h3>
+                </div>
+            </li>
+            <li class="unorder-list">
+                <!-- profile picture end -->
+                <div class="profile-thumb">
+                    <a href="/notification?category=PDH">
+                        <figure class="profile-thumb-small">
+                            <img src="/images/tdtu_logo.png" alt="profile picture">
+                        </figure>
+                    </a>
+                </div>
+                <!-- profile picture end -->
+
+                <div class="unorder-list-info">
+                    <h3 class="list-title"><a href="/notification?category=PDH">Phòng Sau Đại học</a></h3>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- widget single item end -->

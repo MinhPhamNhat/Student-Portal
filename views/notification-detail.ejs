@@ -87,15 +87,15 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="noti-title" class="col-form-label">Tựa đề:</label>
-                    <input type="text" class="form-control" id="noti-title">
+                    <label for="update-noti-title" class="col-form-label">Tựa đề:</label>
+                    <input type="text" class="form-control" id="update-noti-title">
                 </div>
                 <div class="form-group">
-                    <label for="noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
-                    <input type="text" class="form-control" id="noti-sub-title">
+                    <label for="update-noti-sub-title" class="col-form-label">Tựa nhỏ:</label>
+                    <input type="text" class="form-control" id="update-noti-sub-title">
                 </div>
                 <div class="form-group">
-                    <select class="form-select" id="noti-categories-picker">
+                    <select class="form-select" id="update-noti-categories-picker">
                         <option selected>Chọn Chuyên Mục</option>
                         <% user.permission.forEach(value => { %>
                             <option value="<%=value._id%>"><%=value.name%></option>
@@ -103,12 +103,12 @@
                     </select>
                 </div>
                 <div class="form-check">
-                    <label class="form-check-label" for="noti-is-importance">Thông báo quan trọng:</label>
-                    <input type="checkbox" value="true" id="noti-is-importance">
+                    <label class="form-check-label" for="update-noti-is-importance">Thông báo quan trọng:</label>
+                    <input type="checkbox" value="true" id="update-noti-is-importance">
                 </div>
                 <div class="form-group">
-                    <label for="noti-content" class="col-form-label">Nội dung:</label>
-                    <textarea class="form-control" id="noti-content"></textarea>
+                    <label for="update-noti-content" class="col-form-label">Nội dung:</label>
+                    <textarea class="form-control" id="update-noti-content"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

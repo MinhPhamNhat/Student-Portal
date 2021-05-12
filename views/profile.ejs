@@ -10,7 +10,7 @@
                 <img class="profile-banner-large bg-img" src="/images/banner.png">
                 <div class="picture-and-name d-flex ">
                     <div class="profile-picture-box">
-                        <figure class="d-flex justify-content-center align-items-center profile-picture ">
+                        <figure class="profile-picture">
                             <a href="/profile/<%= userProfile._id %>">
                                 <img src="<%= userProfile.avatar %>" alt="profile picture">
                             </a>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
+            <div class="desktop-container container-fluid">
                 <div class="row ">
 
                     <div class="col-lg-3 order-2 order-lg-1">
@@ -73,15 +73,83 @@
                     </div>
                 </div>
             </div>
+            <div class="mobile-container container-fluid">
+                <div class="tablet-container container-fluid">
+                    <%- include('./partition/tabletscreen', {data, user: userProfile}); -%>
+                </div>
+            </div>
         </div>
 
     </main>
+            
+    <div class="aside-tab-btn">
+        <i class="fa fa-chevron-circle-down asdadsa" aria-hidden="true"></i>
+    </div>
+    <div class="left-aside-tab">
+        <%- include('./partition/asidetab', {data, user}); -%>
+    </div>
+
 
     <!-- Scroll to top start -->
     <div class="scroll-top not-visible">
             <i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i>
     </div>
     <!-- Scroll to Top End -->
+
+    <!-- Modal start -->
+    <div class="modal hide fade share-modal" id="textbox" aria-labelledby="textbox" tabindex="-1">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><strong>Nêu suy nghĩ của bạn</strong></h5>
+                    <button type="button" class="close close-share" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body custom-scroll ps">
+                    <textarea id="richtexteditor" style="height: 500px;" class="share-your-mood"></textarea>
+                </div>
+                
+                <div class="card card-outline-danger text-center image-upload-preview" style="display: none">
+                    <span class="pull-right clickable close-icon close-preview-image" data-effect="fadeOut"><i class="fa fa-times"></i></span>
+                    <div class="card-block">
+                        <img id="output" width="200px">
+                    </div>
+                </div>
+                <div class="attach">
+                    <input type="file" class="picture-attach-upload" accept="image/gif, image/jpeg, image/png" name="file" style="display:none">
+                    <div class="picture"><img class="picture-attach" src="/images/icons/picture.png">Ảnh</div>
+                    <div class="video" data-toggle="modal" data-target="#youtube-url"><img class="video-attach" src="/images/icons/video.png">Video</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-share-btn" data-dismiss="modal">huỷ</button>
+                    <button type="button" onclick=postStatus() class="post-share-btn">đăng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end -->
+
+    <!-- Another modal -->
+    <div id="youtube-url" class="modal hide fade youtube-url" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-dialog post-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Youtube URL</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="url" class="youtube-url-txt">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="youtube-ok-btn" onclick=setYoutubeIframe()>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end -->
     <%- include('./partition/aboutprofile', {userProfile}); -%>
     <%- include('./partition/editprofile', {userProfile}); -%>
     <%- include('./partition/footer') -%>

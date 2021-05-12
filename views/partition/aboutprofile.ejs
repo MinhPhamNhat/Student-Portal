@@ -34,24 +34,24 @@
                                     </div>
                                     <div class="mt-2">
                                         <label for="profile-fullname" class="labels">Tên hiển thị</label>
-                                        <input type="text" name="fullname" id="profile-fullname" name="fullname"class="form-control" readonly value="<%=userProfile.name%>">
+                                        <input type="text" name="fullname" name="fullname"class="form-control" readonly value="<%=userProfile.name%>">
                                     </div>
                                     <div class="mt-2">
                                         <label class="labels" for="profile-email">Email</label>
-                                        <input type="email" id="profile-email" class="form-control" readonly value="<%=userProfile.email%>">
+                                        <input type="email" class="form-control" readonly value="<%=userProfile.email%>">
                                     </div>
                                     <div class="mt-2">
                                         <label class="labels" for="profile-role">Vai trò</label>
-                                        <input type="text" id="profile-role" class="form-control" readonly value="<%=userProfile.role.admin?"Admin":userProfile.role.department?"Phòng/Khoa":"Sinh viên"%>">
+                                        <input type="text" class="form-control" readonly value="<%=userProfile.role.admin?"Admin":userProfile.role.department?"Phòng/Khoa":"Sinh viên"%>">
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-md-6">
                                             <label class="labels" for="profile-class">Lớp</label>
-                                            <input type="text" name="class" id="profile-class" class="form-control" placeholder="Lớp" readonly  value="<%=userProfile.class%>">
+                                            <input type="text" name="class" class="form-control" placeholder="Lớp" readonly  value="<%=userProfile.class%>">
                                         </div>
                                         <div class="col-md-6">
                                             <label class="labels" for="profile-faculty">Khoa</label>
-                                            <input type="text" name="faculty" id="profile-faculty" class="form-control" value="<%=userProfile.falcuty%>" readonly placeholder="Khoa">
+                                            <input type="text" name="faculty" class="form-control" value="<%=userProfile.falcuty%>" readonly placeholder="Khoa">
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class=" mt-2">
                                         <label class="labels">Mô tả</label>
-                                        <span id="profile-desc"><%-userProfile.desc-%></span>
+                                        <span><%-userProfile.desc-%></span>
                                     </div>
                                 </div>
                             </div>

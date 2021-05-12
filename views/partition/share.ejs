@@ -13,77 +13,9 @@
         <!-- share content box start -->
         <div class="share-content-box w-100">
             <form class="share-text-box">
-                <input name="share" class="share-text-field" aria-disabled="true" readonly placeholder="Say Something" data-toggle="modal" data-target="#textbox" id="email">
+                <input name="share" class="share-text-field" aria-disabled="true" readonly placeholder="Nêu suy nghĩ của bạn" data-toggle="modal" data-target="#textbox">
             </form>
         </div>
         <!-- share content box end -->
-
-        <!-- Modal start -->
-        <div class="modal hide fade share-modal" id="textbox" aria-labelledby="textbox" tabindex="-1">
-            <div class="modal-dialog  modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Say some thing</h5>
-                        <button type="button" class="close close-share" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body custom-scroll ps">
-                        <textarea id="richtexteditor" style="height: 500px;" class="share-your-mood"></textarea>
-                    </div>
-                  
-                    <div class="card card-outline-danger text-center image-upload-preview" style="display: none">
-                        <span class="pull-right clickable close-icon close-preview-image" data-effect="fadeOut"><i class="fa fa-times"></i></span>
-                        <div class="card-block">
-                            <img id="output" width="200px">
-                        </div>
-                    </div>
-                    <div class="attach">
-                        <input type="file" class="picture-attach-upload" accept="image/gif, image/jpeg, image/png" name="file" style="display:none">
-                        <div class="picture"><img class="picture-attach" src="/images/icons/picture.png">Picture</div>
-                        <div class="video" data-toggle="modal" data-target="#youtube-url"><img class="video-attach" src="/images/icons/video.png">Video</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="cancel-share-btn" data-dismiss="modal">cancel</button>
-                        <button type="button" onclick=postStatus() class="post-share-btn">post</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal end -->
-
-        <!-- Another modal -->
-        <div id="youtube-url" class="modal hide fade youtube-url" tabindex="-1" data-focus-on="input:first">
-            <div class="modal-dialog post-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Youtube URL</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="url" class="youtube-url-txt">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="post-share-btn">Ok</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div id="youtube-url" class="modal hide fade youtube-url" tabindex="-1" data-focus-on="input:first">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3>Input your video url</h3>
-            </div>
-            <div class="modal-body">
-                <input type="text">
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Close</button>
-                <button type="button" class="btn btn-primary">Ok</button>
-            </div>
-        </div> -->
-        <!-- Modal end -->
     </div>
 </div>

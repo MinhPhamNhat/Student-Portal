@@ -227,7 +227,7 @@ module.exports = {
             .then(async result => {
                 if (result) {
                     return Comment.find({ statusId })
-                        .sort({ date: 'asc' })
+                        .sort({ date: -1 })
                         .skip(skip).limit(limit)
                         .exec()
                         .then(async commentRes => {

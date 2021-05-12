@@ -5,12 +5,6 @@ const socketIO = {
 
 io.on('connection', socket => {
 
-    console.log(socket.id + " Just join server")
-
-    socket.on('disconnect', () => {
-        console.log(socket.id + " Just disconnect from server")
-    })
-
     socket.on("typing", (data) => {
         socket.broadcast.emit("typing", data)
     })

@@ -85,7 +85,8 @@ router.put('/vote', (req, res, next) => {
             return res.json({ code: -1, message: "Invalid id" })
         }
     })
-    // Comment status
+
+// Comment status
 router.post('/comment', (req, res, next) => {
     var { statusId, content } = req.body
     var userId = req.user._id
@@ -134,15 +135,5 @@ router.get('/comment', (req, res, next) => {
     }
 })
 
-// // Get file upload
-// router.post('/uploadfile', upload.single('image'), (req, res, next) => {
-//     const file = req.file
-//     if (!file) {
-//         const error = new Error('Please upload a file')
-//         error.httpStatusCode = 400
-//         return next(error)
-//     }
-//     res.send(file)
-// })
 
 module.exports = router
