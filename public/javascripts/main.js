@@ -640,6 +640,7 @@ if ($(".post-section")[0]) {
         userId = window.location.pathname.replace("/profile/", "")
         window.onscroll = async (e) => {
             if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
+                $(".profile-head  .name").text($(window).scrollTop() + $(window).height() + " - " + $(document).height())
                 if (allowLoadPost){
                     allowLoadPost = false
                     const noPost = countElement($(".post-card"))
