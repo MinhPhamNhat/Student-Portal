@@ -639,8 +639,9 @@ if ($(".post-section")[0]) {
     if (window.location.pathname.includes("/profile/"))
         userId = window.location.pathname.replace("/profile/", "")
         window.onscroll = async (e) => {
+            console.log($(window).scrollTop() + $(window).height() + " - " + $(document).height())
+            $(".mobile-header-wrapper .profile-head .name a").text($(window).scrollTop() + $(window).height() + " - " + $(document).height())
             if (Math.ceil($(window).scrollTop() + $(window).height()) >= $(document).height()) {
-                $(".profile-head  .name").text($(window).scrollTop() + $(window).height() + " - " + $(document).height())
                 if (allowLoadPost){
                     allowLoadPost = false
                     const noPost = countElement($(".post-card"))
