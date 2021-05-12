@@ -9,12 +9,13 @@ const {validationResult} = require('express-validator')
 const upload = require('../middleware/file')
 const func = require("../function/function")
 const { validate } = require('../models/user')
+const authen = require('../middleware/authenticateUser')
 
-router.get('/change-password', async (req, res, next) => {
+router.get('/change-password',authen.studentAuthen , async (req, res, next) => {
     res.render('change-pass', {user: req.user})
 })
 
-router.post('/change-password',validator.updatePassword(),async (req, res, next)=>{
+router.post('/change-password',authen.studentAuthen ,validator.updatePassword(), async (req, res, next)=>{
     var validate = validationResult(req);
     if (validate.errors.length) {
         let errors = validate.mapped()
