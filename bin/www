@@ -7,6 +7,7 @@
 var debug = require('debug')('studentportal:server');
 var http = require('http');
 const app = require('../app');
+const socketIO = require('../config/socketIO')
     /**
      * Get port from environment and store in Express.
      */
@@ -19,7 +20,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-// socketIO.io.attach(server)
+socketIO.io.attach(server)
     /**
      * Listen on provided port, on all network interfaces.
      */
