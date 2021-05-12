@@ -52,13 +52,13 @@ router.get('/:id', async(req, res, next) => {
                 var noties = JSON.parse(await Noti.getNotification({},0,5))
                 res.render('profile', { user: req.user, data: data.data, userProfile: userProfile.data, isCurrentUser: id===req.user._id?true:false, noties: noties.data })
             }else{
-                return res.json({ code: 2, message: data.message })
+                res.render("error")
             }
         }else{
-            return res.json({ code: 3, message: userProfile.message })
+            res.render("error")
         }
     } else {
-        return res.json({ code: 1, message: "Invalid user id" })
+        res.render("error")
     }
 })
 
@@ -80,7 +80,6 @@ router.post('/', upload.single('file') ,validator.updateProfile(), async (req, r
         if (req.file) {
             data.avatar = func.convertImageToURL(req.file)
         }
-        
         var userProfile = JSON.parse(await User.updateUser(req.user._id, data))
         res.json(userProfile)
     }
