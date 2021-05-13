@@ -30,7 +30,7 @@ router.post('/insert',authen.adminAuthen, upload.single('file'), validator.inser
     let validate = validationResult(req)
     if (validate.errors.length) {
         let errors = validate.mapped()
-        res.json({ code: -1, errors })
+        res.json({ code: -3, errors })
     } else {
         if (!req.file) {
             var defaultImage = {
@@ -38,19 +38,14 @@ router.post('/insert',authen.adminAuthen, upload.single('file'), validator.inser
                 mimetype: 'image/png'
             }
         }
-        var permission = [req.body.id]
-        if (req.body.permission) {
-            permission.push(...req.body.permission)
-        }
         var data = req.body
         data.image = req.file ? func.convertImageToURL(req.file) : func.convertImageToURL(defaultImage)
-        data.permission = permission
         var result = await account.checkInforDepartment(req.body)
         if (Object.keys(result).length) {
-            res.json({ code: -1, errors: result })
+            res.json({ code: -3, errors: result })
         } else {
             var newDepartment = JSON.parse(await account.saveNewDepartment(data))
-            res.json({ code: 0, data: newDepartment })
+            res.json(newDepartment)
         }
     }
 

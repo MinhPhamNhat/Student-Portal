@@ -778,7 +778,7 @@ $(".department-insert-container .submit").click((e) => {
         processData: false,
         method: 'POST',
         success: function (data, status) {
-            if (data.code === -1) {
+            if (data.code === -3) {
                 var field = ["name", "username", "password", "passwordConfirm", "email", "id"]
                 $('.nav a[href="#nav-tab-info"]').tab('show');
                 field.forEach(value => {
@@ -798,10 +798,12 @@ $(".department-insert-container .submit").click((e) => {
                         inputField.find("input").addClass("is-valid")
                     }
                 })
-                showToast("Thêm phòng khoa", "Thêm thất bại, vui lòng kiểm tra lại thông tin", "warning")
-            } else if (data.code == 0) {
-                window.location.href = "/department"
-                showToast("Thêm phòng khoa", "Thêm thành công", "success")
+                showToast("Tạo phòng khoa", "Tạo thất bại, vui lòng kiểm tra lại thông tin", "warning")
+            } else if (data.code === 0) {
+                window.location.href = `/profile/${data.data}`
+                showToast("Tạo phòng khoa", "Tạo thành công", "success")
+            } else if (data.code === -1){
+                showToast("Tạo phòng khoa", "Tạo thất bại", "error")
             }
         }
     })
@@ -947,7 +949,7 @@ $(".save-change-btn").click(()=>{
                     inputField.find("input").addClass("is-valid")
                 }
             })
-        }else if (data.code === -2){
+        }else if (data.code === -1){
             showToast("Thay đổi mật khẩu", "Đã xảy ra lỗi ", "error")
         }
     })
@@ -1030,8 +1032,12 @@ const editNotiModal = (e) =>{
             $(".update-noti-modal #update-noti-categories-picker").val(noti.categoryId._id).niceSelect('update')
             $(".update-noti-modal .noti-modal-save").attr("data-id",notiId)
             tinymce.get("update-noti-content").setContent(noti.content);
-        }else{
+        }else if (data.code===-1){
             showToast("Lấy thông báo", "Lấy thông báo thất bại", "error")
+        }else if (data.code===-2){
+            showToast("Lấy thông báo", "Không tìm thấy thông báo", "error")
+        }else if (data.code===-3){
+            showToast("Lấy thông báo", "Đường dẫn không hợp lệ", "error")
         }
     })
     $(".update-noti-modal").modal("show")
@@ -1077,10 +1083,12 @@ const editNoti = (e) => {
         if (data.code === 0 ){
             showToast("Sửa thông báo", "Sửa thông báo thành công", "success")
             window.location.href = window.location.origin + "/notification/detail/"+data.data._id
+        } else if(data.code === -1){
+            showToast("Sửa thông báo", "Lỗi", "error")
         } else if(data.code === -3){
             showToast("Sửa thông báo", "Thông tin không hợp lệ, vui lòng kiểm tra lại", "warning")
-        } else{
-            showToast("Sửa thông báo", data.message, "warning")
+        } else if(data.code === -4){
+            showToast("Sửa thông báo", "Bạn không có quyền truy cập", "warning")
         }
     }).catch()
     $(".update-noti-modal").modal("hide")
@@ -1103,9 +1111,11 @@ const removeNoti = (e) =>{
             showToast("Xoá thông báo", "Thành công", "success")
             window.location.href = "/notification"
         }else if (data.code === -1){
-            showToast("Xoá thông báo", "Xoá thông báo thất bại", "error")
-        }else{
             showToast("Xoá thông báo", "Lỗi khi xoá thông báo", "error")
+        }else if (data.code === -2){
+            showToast("Xoá thông báo", "Không tìm thấy thông báo", "error")
+        }else if (data.code === -3){
+            showToast("Xoá thông báo", "Đường dẫn không hợp lệ", "warning")
         }
     })
     $(".remove-noti-confirm").modal("hide")

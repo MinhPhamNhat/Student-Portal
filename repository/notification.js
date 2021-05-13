@@ -55,13 +55,13 @@ module.exports = {
                 if (notiRes) {
                     return JSON.stringify({ code: 0, message: "Success", data: parseSingleNoti(notiRes, userId) })
                 } else {
-                    return JSON.stringify({ code: -1, message: "Failed" })
+                    return JSON.stringify({ code: -2, message: "Noti not found" })
                 }
             })
             .catch(err=> {
                 return JSON.stringify({
-                code: -5, 
-                message: "Access denined"
+                code: -1, 
+                message: "Failed"
             })})
             
     },
@@ -74,7 +74,7 @@ module.exports = {
                     if (indexOfCategoryId === -1) {
                         if (!userRes.role.admin)
                         return JSON.stringify({ 
-                            code: -2, 
+                            code: -4, 
                             message: "Bạn không có quyền đăng thông báo trong chuyên mục này" })
                     }
                     var newNoti = await new Noti({
@@ -96,13 +96,13 @@ module.exports = {
                             })
                 } else {
                     return JSON.stringify({ 
-                        code: -1, 
+                        code: -4, 
                         message: "Access denined" })
                 }
             }).catch(err=>{
                 return JSON.stringify({ 
                     code: -1, 
-                    message: "Access denined" })
+                    message: "Failed" })
             })
     },
 
@@ -114,7 +114,7 @@ module.exports = {
                     if (indexOfCategoryId === -1) {
                         if (!userRes.role.admin)
                         return JSON.stringify({ 
-                            code: -2, 
+                            code: -4, 
                             message: "Bạn không có quyền đăng thông báo trong chuyên mục này" 
                         })
                     }
@@ -128,24 +128,24 @@ module.exports = {
                             })
                         }else{
                             return JSON.stringify({ 
-                                code: -1, 
+                                code: -4, 
                                 message: "Access denined" })
                         }
                     }).catch(err => {
                         return JSON.stringify({
-                            code: -5, 
+                            code: -1, 
                             message: "Error" 
                         })
                     })
                 } else {
                     return JSON.stringify({ 
-                        code: -1, 
+                        code: -4, 
                         message: "Access denined" 
                     })
                 }
             }).catch(err=>{
                 return JSON.stringify({ 
-                    code: -5, 
+                    code: -1, 
                     message: "Error" 
                 })
             })
@@ -161,14 +161,14 @@ module.exports = {
                 })
             }else{
                 return JSON.stringify({
-                    code: -1,
-                    message: "Xoá thất bại"
+                    code: -2,
+                    message: "Không tìm thấy thông báo"
                 })
             }
         })
         .catch(err => {
             return JSON.stringify({
-                code: -5,
+                code: -1,
                 message: "Lỗi khi xoá thông báo"
             })
         })

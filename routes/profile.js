@@ -24,7 +24,7 @@ router.post('/change-password',authen.studentAuthen ,validator.updatePassword(),
         var result = JSON.parse(await Account.updatePassword(req.user._id, req.body.oldPassword, req.body.newPassword))
         if (result.code===0){
             res.json({code: 0})
-        }else if(result.code === -1){
+        }else if(result.code === -3){
             var errors = {
                 oldPassword: {
                 msg: 'Mật khẩu cũ không đúng',
@@ -33,7 +33,7 @@ router.post('/change-password',authen.studentAuthen ,validator.updatePassword(),
             }
             res.json({ code: -3, errors })
         }else{
-            res.json({ code: -2})
+            res.json({ code: -1})
         }
     }
 })

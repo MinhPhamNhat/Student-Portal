@@ -36,11 +36,10 @@ module.exports = {
                 if (result){
                     return JSON.stringify({code: 0})
                 }else{
-                    
-                    return JSON.stringify({code: -1})
+                    return JSON.stringify({code: -4})
                 }
             }).catch(err => {
-                return JSON.stringify({code:-2, err: err.msg})
+                return JSON.stringify({code:-1, err: err.msg})
             })
     },
 }

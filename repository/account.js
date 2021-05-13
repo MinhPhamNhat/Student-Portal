@@ -64,40 +64,56 @@ module.exports = {
             .then(userRes => {
                 if (userRes.length){
                     userRes.forEach(value=>{
+                        console.log(userRes)
                         if (value.departmentID === data.id){
                             errors.id = { msg: "Đã có mã phòng khoa" }
+                            console.log(errors.id)
                         }
                         if (value.email === data.email){
                             errors.email = { msg: "Đã có email phòng khoa" }
                         }
                     })
                 }
-                
             })
+            console.log(errors)
             return errors
         })
         
     },
 
     saveNewDepartment: async (data) => {
-        return new Account({
-            _id: mongoose.Types.ObjectId(),
-            username: data.username,
-            password: data.password,
-            role: {department: true}
-        }).save().then(async saveAcc => {
-            return new User({
-                _id: saveAcc._id,
-                name: data.name,
-                email: data.email,
-                avatar: data.image,
-                role: { department: true },
-                departmentID: data.id,
-                permission: data.permission
-            }).save().then(saveUser=>{
-                return JSON.stringify({code: 0, message:"success", data: saveUser})
-            })
+        var _id = mongoose.Types.ObjectId()
+        return new User({
+            _id,
+            name: data.name,
+            email: data.email,
+            avatar: data.image,
+            role: { department: true },
+            departmentID: data.id,
+            permission: data.permission
+        }).save()
+        .then(saveUser=>{
+            if (saveUser){
+                return new Account({
+                    _id,
+                    username: data.username,
+                    password: data.password,
+                    role: {department: true}
+                }).save()
+                .then(async saveAcc => {
+                    return JSON.stringify({code: 0, message:"success", data: _id})
+                })
+                .catch(err => {
+                    return JSON.stringify({code: -1, message:"failed"})
+                })
+            }else{
+                return JSON.stringify({code: -1, message:"failed"})
+            }
         })
+        .catch(err => {
+            return JSON.stringify({code: -1, message:"failed"})
+        })
+        
     },
 
     updatePassword: async (userId, oldPassword, newPassword) =>{
@@ -106,10 +122,10 @@ module.exports = {
             if (result){
                 return JSON.stringify({code: 0})
             }else{
-                return JSON.stringify({code: -1})
+                return JSON.stringify({code: -3})
             }
         }).catch(err => {
-            return JSON.stringify({code:-2, err: err.msg})
+            return JSON.stringify({code:-1, err: err.msg})
         })
     }
 

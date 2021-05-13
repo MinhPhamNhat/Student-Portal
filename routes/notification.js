@@ -117,7 +117,7 @@ router.post("/:notiId",authen.studentAuthen, validator.insertNotification(), asy
             res.json(updatedNoti)
         }
     }else{
-        res.json({code: -4, message:"Invalid params"})
+        res.json({code: -3, message:"Invalid params"})
     }
 })
 module.exports = router;

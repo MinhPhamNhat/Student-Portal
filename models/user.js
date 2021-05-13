@@ -1,17 +1,35 @@
 const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
     _id: String,
-    name: {type: String, require: true},
-    email: {type: String, require: true},
-    avatar: {type: String, require: true},
-    role: { admin: Boolean, department: Boolean, student: Boolean },
-    sub: {type: String, require: true},
+    name: {
+      type: String, 
+      require: true
+    },
+    email: {
+      type: String, 
+      require: true,
+      unique: true
+    },
+    avatar: {
+      type: String, 
+    },
+    role: { 
+      admin: Boolean, 
+      department: Boolean, 
+      student: Boolean 
+    },
+    sub: {
+      type: String
+    },
     class: String,
     faculty: String,
     quote: String,
     desc: String,
     initialTime: Date,
-    departmentID: String,
+    departmentID: {
+      type: String,
+      unique: true
+    },
     permission: [{type: String, enum: [
         'PDH',        'PSDH',    'PDTVMT',
         'PKTVKDCL',   'PTC',     'TTTH',
