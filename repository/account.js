@@ -64,10 +64,8 @@ module.exports = {
             .then(userRes => {
                 if (userRes.length){
                     userRes.forEach(value=>{
-                        console.log(userRes)
                         if (value.departmentID === data.id){
                             errors.id = { msg: "Đã có mã phòng khoa" }
-                            console.log(errors.id)
                         }
                         if (value.email === data.email){
                             errors.email = { msg: "Đã có email phòng khoa" }
@@ -75,7 +73,6 @@ module.exports = {
                     })
                 }
             })
-            console.log(errors)
             return errors
         })
         

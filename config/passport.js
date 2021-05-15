@@ -13,7 +13,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
     clientID: "1084168771108-g34ei1gr4cbpnmjplmv9e3e442hg9t5n.apps.googleusercontent.com",
     clientSecret: "74JjkldA-dOSXlsaURDUgIim",
-    callbackURL: "https://tdt-student-portal.herokuapp.com/login/google/callback",
+    callbackURL: "http://localhost:8080/login/google/callback",
 }, async(accessToken, refreshToken, profile, done) => {
     if (profile._json.email.includes("@student.tdtu.edu.vn")){
         var user = JSON.parse(await account.saveNewStudent(profile._json))

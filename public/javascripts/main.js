@@ -1,5 +1,9 @@
 var allowLoadPost = true
+var hiddenUserId;
 
+$(document).ready(()=>{
+    hiddenUserId = $(".hidden-userId").val()
+})
 // SOCKET IO
 
 const socket = io()
@@ -40,6 +44,9 @@ socket.on("comment-send", (data) => {
     if (data.userId !== $("._user-id")[0].dataset.id) {
         var commentSection = $(`.post-${data.statusId} .comments-container`)
         if (data.data.code === 0) {
+            if (data.data.data.comments.author.authorId !== hiddenUserId){
+                data.data.data.comments.myComment = false
+            }
             var tag = newComment(data.data.data.comments)
             commentSection.find(".comments").prepend(tag)
             $(`.post-${data.statusId} .no-comment`).text(`${data.data.data.no_comment} bình luận`)
@@ -238,7 +245,6 @@ const comment = (target) => {
                     var tag = newComment(data.data.comments)
                     commentSection.prepend(tag)
                     $(`.post-${statusId} .no-comment`).text(`${data.data.no_comment} comments`)
-                    $(`.post-${statusId} .comments-input`).val('')
                     commentSection.find(".none-comment").remove()
                     showToast("Comment status", "Đã comment thành công", "success")
                 } else {
@@ -248,6 +254,7 @@ const comment = (target) => {
     } else {
         showToast("Comment status", "Vui lòng nhập nội dung", "warning")
     }
+    $(`.post-${statusId} .comments-input`).val('')
 }
 // REMOVE COMMENT BUTTON
 const removeComment = (e) => {
@@ -591,7 +598,7 @@ $(document).delegate(".picture-attach-upload",'change', (e) => {
     $(".image-upload-preview").css("display", "block")
 })
 // RESET POST STATUS MODAL DATA
-$(".share-modal").on('hidden.bs.modal', function(){
+$(document).delegate(".share-modal",'hidden.bs.modal', function(){
     setTimeout(() => {
         $(".post-share-btn").attr("onclick", "postStatus(this)")
         $(".post-share-btn").html("Đăng")
@@ -1133,11 +1140,12 @@ $(document).delegate(".aside-tab-btn", 'click', () => {
 })
 
 $(document).ready(function () {
+    if ($('#choices-multiple-remove-button')[0]){
     var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
         removeItemButton: true,
         maxItemCount: null,
     });
-
+}
 });
 
 var showToast = (title, mess, type = "noti", x = 20, y = 20) => {
