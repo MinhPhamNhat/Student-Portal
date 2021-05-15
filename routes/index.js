@@ -5,7 +5,7 @@ const Noti = require('../repository/notification')
 // GET/ go to newfeed page
 router.get('/', async(req, res, next) => {
     if (req.user) {
-        Status.findStatus(req, { skip:0, limit: 5 })
+        Status.findStatus(req, { skip:0, limit: 10 })
         .then(result => JSON.parse(result))
         .then(async data => {
             var noties = JSON.parse(await Noti.getNotification({},0,5))

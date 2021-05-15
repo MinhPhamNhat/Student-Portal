@@ -45,7 +45,7 @@ router.get('/:id', async(req, res, next) => {
         .then(result => JSON.parse(result))
         .then(data => data)
         if (userProfile.code === 0){
-            var data = await Status.findStatus(req, { skip:0, limit: 5 }, id)
+            var data = await Status.findStatus(req, { skip:0, limit: 10 }, id)
             .then(result => JSON.parse(result))
             .then(data => data)
             if (data.code === 0){
