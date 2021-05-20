@@ -1424,11 +1424,13 @@ ul#myTab {
 .department-container {
     margin-top: 20px;
     display: block;
+    margin-bottom: 30px;
 }
 
 .department-item {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .department-item .card {
@@ -1446,7 +1448,17 @@ ul#myTab {
 
 .department-item .card img {
     max-width: 300px;
-    max-height: 300px;
+}
+
+.department-item .card::after{
+    content: "";
+    top: 0px;
+    right: 0px;
+    padding-right: 5px;
+    margin-left: -5px;
+    height: 100%;;
+    position: absolute;
+    background-color: #0059a1;
 }
 
 .department-item .card:hover {

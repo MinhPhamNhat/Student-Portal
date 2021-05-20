@@ -27,4 +27,6 @@
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
+<%if(locals.user){%>
 <input type="hidden" value="<%=user._id%>" class="hidden-userId">
+<%}%>
